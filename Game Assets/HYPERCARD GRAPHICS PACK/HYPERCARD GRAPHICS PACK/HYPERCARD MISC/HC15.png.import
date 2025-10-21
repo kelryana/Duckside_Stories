@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://bgvboyrncvg1d"
+path="res://.godot/imported/HC15.png-465638fbc86af13d44f3f3de1e0d0b94.ctex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://Game Assets/HYPERCARD GRAPHICS PACK/HYPERCARD GRAPHICS PACK/HYPERCARD MISC/HC15.png"
+dest_files=["res://.godot/imported/HC15.png-465638fbc86af13d44f3f3de1e0d0b94.ctex"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=1

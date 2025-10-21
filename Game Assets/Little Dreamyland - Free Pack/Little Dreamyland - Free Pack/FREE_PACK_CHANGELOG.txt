@@ -1,0 +1,31 @@
+CHANGELOG - Free Pack
+
+=======================================================================================================================================================
+
+Date: April 5, 2025
+
+1. Minor improvements to several exterior objects
+
+2. Adjustments to the Bunny character sprite
+
+3. File names have been revised for better consistency and clarity
+
+Date: April 11, 2025
+
+1. Adding farming and gardening animations (Hoe, Scythe, and Watering Can), each consisting of 9 frames. All characters in the paid asset pack will receive the update, while in the free asset pack, only the Bunny character will get it.
+
+2. Added 4 crop tilesets, each with 5 growth stages, from seed to harvest.
+
+3. Added withered versions of the plants for each of the last four growth stages.
+
+4. Added harvested crop icons, including versions with and without a star to represent harvest quality.
+
+5. Added soil tiles for dry and watered states, wooden crop signs displaying the planted crop type, and a small pond.
+
+Date: June 8, 2025
+
+1. Adding animals such as Adult Chicken and Adult Cow (IDLE).
+
+2. Small adjustment to the fence tileset.
+
+3. Standardizing file names to maintain a consistent naming convention across all files.
