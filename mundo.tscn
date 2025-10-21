@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://7a7der0fracv" path="res://Game Assets/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Exterior_Tileset.png" id="6_pfhxm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lgngo"]
-size = Vector2(12.9401, 20.4761)
+size = Vector2(9.01185, 15.4068)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pij3u"]
 texture = ExtResource("3_5ckkb")
@@ -123,7 +123,6 @@ texture = ExtResource("3_5ckkb")
 4:8/0 = 0
 5:8/0 = 0
 6:8/0 = 0
-7:8/0 = 0
 8:8/0 = 0
 9:8/0 = 0
 10:8/0 = 0
@@ -131,7 +130,6 @@ texture = ExtResource("3_5ckkb")
 12:8/0 = 0
 14:8/0 = 0
 15:8/0 = 0
-16:8/0 = 0
 17:8/0 = 0
 18:8/0 = 0
 19:8/0 = 0
@@ -153,6 +151,7 @@ texture = ExtResource("3_5ckkb")
 17:9/0 = 0
 18:9/0 = 0
 19:9/0 = 0
+7:8/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0oi55"]
 texture = ExtResource("4_2hh7m")
@@ -745,10 +744,15 @@ texture = ExtResource("6_pfhxm")
 10:9/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_5g5eo"]
-sources/0 = SubResource("TileSetAtlasSource_pij3u")
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "grama"
+terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
+terrain_set_0/terrain_1/name = "terra "
+terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
 sources/1 = SubResource("TileSetAtlasSource_0oi55")
 sources/2 = SubResource("TileSetAtlasSource_57gmc")
 sources/3 = SubResource("TileSetAtlasSource_0crsg")
+sources/0 = SubResource("TileSetAtlasSource_pij3u")
 
 [node name="Node2D" type="Node2D"]
 
@@ -758,12 +762,12 @@ scale = Vector2(1.30517, 1.05324)
 script = ExtResource("1_lgngo")
 
 [node name="Sprite2D" type="Sprite2D" parent="Patogonista"]
-position = Vector2(1.53235, 3.7978)
-scale = Vector2(0.193833, 0.185088)
+position = Vector2(-11.5871, -7.47006)
+scale = Vector2(0.141355, 0.140017)
 texture = ExtResource("2_fw4w5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Patogonista"]
-position = Vector2(0.766171, 1.89891)
+position = Vector2(-12.2589, -10.2065)
 scale = Vector2(6.63153, 4.77597)
 shape = SubResource("RectangleShape2D_lgngo")
 
