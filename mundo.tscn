@@ -1,0 +1,109 @@
+[gd_scene load_steps=5 format=3 uid="uid://431wun21v2wb"]
+
+[ext_resource type="Script" uid="uid://cbf54kebr5eq8" path="res://patogonista.gd" id="1_lgngo"]
+[ext_resource type="Texture2D" uid="uid://bxoqqb5o5ncrr" path="res://pato_teste.png" id="2_fw4w5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fw4w5"]
+size = Vector2(188.164, 272.213)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lgngo"]
+size = Vector2(12.9401, 20.4761)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="chao" type="StaticBody2D" parent="."]
+position = Vector2(465.653, 334.74)
+scale = Vector2(8.56553, 5.07378)
+
+[node name="ColorRect" type="ColorRect" parent="chao"]
+offset_left = 48.2571
+offset_top = 47.5504
+offset_right = 156.257
+offset_bottom = 148.55
+scale = Vector2(-0.830723, -0.960054)
+color = Color(0.19775, 0.325219, 0.255089, 1)
+
+[node name="parede1" type="StaticBody2D" parent="."]
+position = Vector2(85, 339)
+scale = Vector2(-0.0330553, 1.51085)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="parede1"]
+position = Vector2(-3.45099, -5.96907)
+scale = Vector2(2.59432, 1.36019)
+shape = SubResource("RectangleShape2D_fw4w5")
+
+[node name="ColorRect" type="ColorRect" parent="parede1"]
+offset_left = -248.0
+offset_top = 180.0
+offset_right = -208.0
+offset_bottom = 220.0
+scale = Vector2(12.4198, -9.33112)
+color = Color(0.799636, 0.825974, 0.89352, 1)
+
+[node name="parede2" type="StaticBody2D" parent="."]
+position = Vector2(506, 603)
+rotation = 1.5708
+scale = Vector2(-0.0294978, -2.18767)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="parede2"]
+position = Vector2(-3.45099, -5.96907)
+scale = Vector2(2.59432, 1.36019)
+shape = SubResource("RectangleShape2D_fw4w5")
+
+[node name="ColorRect" type="ColorRect" parent="parede2"]
+offset_left = -248.0
+offset_top = 180.0
+offset_right = -208.0
+offset_bottom = 220.0
+scale = Vector2(12.4198, -9.33112)
+color = Color(0.799636, 0.825974, 0.89352, 1)
+
+[node name="parede3" type="StaticBody2D" parent="."]
+position = Vector2(513, 59)
+rotation = 1.5708
+scale = Vector2(0.0492902, -2.20066)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="parede3"]
+position = Vector2(-3.45099, -5.96907)
+scale = Vector2(2.59432, 1.36019)
+shape = SubResource("RectangleShape2D_fw4w5")
+
+[node name="ColorRect" type="ColorRect" parent="parede3"]
+offset_left = -248.0
+offset_top = 180.0
+offset_right = -208.0
+offset_bottom = 220.0
+scale = Vector2(12.4198, -9.33112)
+color = Color(0.799636, 0.825974, 0.89352, 1)
+
+[node name="parede4" type="StaticBody2D" parent="."]
+position = Vector2(906, 349)
+scale = Vector2(-0.0509665, 1.50987)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="parede4"]
+position = Vector2(-3.45099, -5.96907)
+scale = Vector2(2.59432, 1.36019)
+shape = SubResource("RectangleShape2D_fw4w5")
+
+[node name="ColorRect" type="ColorRect" parent="parede4"]
+offset_left = -248.0
+offset_top = 180.0
+offset_right = -208.0
+offset_bottom = 220.0
+scale = Vector2(12.4198, -9.33112)
+color = Color(0.799636, 0.825974, 0.89352, 1)
+
+[node name="Patogonista" type="CharacterBody2D" parent="."]
+position = Vector2(520, 310)
+scale = Vector2(1.30517, 1.05324)
+script = ExtResource("1_lgngo")
+
+[node name="Sprite2D" type="Sprite2D" parent="Patogonista"]
+position = Vector2(1.53235, 3.7978)
+scale = Vector2(0.193833, 0.185088)
+texture = ExtResource("2_fw4w5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Patogonista"]
+position = Vector2(-1.29342e-05, 4.74721)
+scale = Vector2(6.63153, 4.77597)
+shape = SubResource("RectangleShape2D_lgngo")
