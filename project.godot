@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Duckside_Stories"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1980
+window/size/viewport_height=1080
 
 [input]
 
