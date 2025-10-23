@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Duckside_Stories"
+run/main_scene="uid://431wun21v2wb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -18,7 +19,6 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/size/mode=1
 
 [input]
 

@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 
 
-func _physics_process(delta: float):
+func _physics_process(_delta):
 	velocity = direction * speed
 	move_and_slide()
 	
