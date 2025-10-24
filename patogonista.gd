@@ -15,3 +15,4 @@ func _physics_process(_delta):
 		sprite.flip_h = false
 	elif velocity.x > 0:
 		sprite.flip_h = true
+	
