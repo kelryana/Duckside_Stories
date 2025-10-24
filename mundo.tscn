@@ -1274,6 +1274,6 @@ region_enabled = true
 region_rect = Rect2(8.023735, 57.05793, 43.464485, 31.610542)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vaco"]
-position = Vector2(-1.304354, -3.4166594)
-scale = Vector2(1.3052001, -0.8901334)
+position = Vector2(-1.3043699, -0.26280522)
+scale = Vector2(1.4427663, -0.70843)
 shape = SubResource("CapsuleShape2D_pij3u")
