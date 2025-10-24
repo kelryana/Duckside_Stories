@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://431wun21v2wb"]
+[gd_scene load_steps=16 format=3 uid="uid://431wun21v2wb"]
 
 [ext_resource type="Script" uid="uid://cbf54kebr5eq8" path="res://patogonista.gd" id="1_lgngo"]
 [ext_resource type="Texture2D" uid="uid://cq72ww274rpqw" path="res://Game Assets/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Autotile_Grass_and_Dirt_Path_Tileset.png" id="3_5ckkb"]
@@ -1228,14 +1228,21 @@ sources/2 = SubResource("TileSetAtlasSource_57gmc")
 sources/3 = SubResource("TileSetAtlasSource_0crsg")
 sources/4 = SubResource("TileSetAtlasSource_5ckkb")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_t8jxu"]
+radius = 8.393021
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pij3u"]
 height = 28.34497
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(636, 233)
+limit_enabled = false
+
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2(-93, 144)
-scale = Vector2(1.091928, 0.9868314)
+position = Vector2(-144, -19)
+scale = Vector2(1.274761, 1.1860882)
 tile_set = SubResource("TileSet_5g5eo")
 collision_animatable = true
 format = 2
@@ -1252,9 +1259,9 @@ scale = Vector2(0.13218391, 0.14634146)
 texture = ExtResource("6_5ckkb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Patogonista"]
-position = Vector2(18.388428, 4.747265)
-scale = Vector2(3.5763216, -2.528139)
-shape = SubResource("CapsuleShape2D_pij3u")
+position = Vector2(16.85606, 4.747265)
+scale = Vector2(3.7443964, -3.8949857)
+shape = SubResource("CircleShape2D_t8jxu")
 
 [node name="Vaco" type="CharacterBody2D" parent="."]
 position = Vector2(534.00006, 358.99994)
@@ -1270,7 +1277,3 @@ region_rect = Rect2(8.023735, 57.05793, 43.464485, 31.610542)
 position = Vector2(-1.304354, -3.4166594)
 scale = Vector2(1.3052001, -0.8901334)
 shape = SubResource("CapsuleShape2D_pij3u")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(636, 352)
-scale = Vector2(0.72845036, 0.7321734)
