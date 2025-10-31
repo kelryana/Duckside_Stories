@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6d8oxb881jp7"
-path="res://.godot/imported/tiles and items.png-3cb2a9c97194da84c58cb14640231be7.ctex"
+uid="uid://jev2nbfidhqu"
+path="res://.godot/imported/InteriorTilesLITE.png-c3bd3ac11fafa68a9457c6666244ba02.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game Assets/Pixel_16_interiors_v2_free/Pixel_16_interiors_v2_free/tiles and items.png"
-dest_files=["res://.godot/imported/tiles and items.png-3cb2a9c97194da84c58cb14640231be7.ctex"]
+source_file="res://Game Assets/InteriorTilesLITE.png"
+dest_files=["res://.godot/imported/InteriorTilesLITE.png-c3bd3ac11fafa68a9457c6666244ba02.ctex"]
 
 [params]
 
