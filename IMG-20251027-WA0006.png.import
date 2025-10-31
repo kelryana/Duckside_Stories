@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bau7xr8g7dv7n"
-path="res://.godot/imported/Atlas.png-15668849a337063f3be47fdef7a62adc.ctex"
+uid="uid://da7jtyteptn6s"
+path="res://.godot/imported/IMG-20251027-WA0006.png-3c78643e762f5e925258a8ece7ae9102.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game Assets/vacaroxa--generic-old-west-graphics--v.1.0/vacaroxa--generic-old-west-graphics--v.1.0/Generic Old West Graphicis/Atlas.png"
-dest_files=["res://.godot/imported/Atlas.png-15668849a337063f3be47fdef7a62adc.ctex"]
+source_file="res://IMG-20251027-WA0006.png"
+dest_files=["res://.godot/imported/IMG-20251027-WA0006.png-3c78643e762f5e925258a8ece7ae9102.ctex"]
 
 [params]
 
