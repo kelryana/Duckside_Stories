@@ -7,6 +7,7 @@ extends CharacterBody2D
 var direction_vector: Vector2 = Vector2.RIGHT
 var start_position: Vector2
 
+
 @onready var sprite: Sprite2D = $Sprite2D
 
 func _ready():
