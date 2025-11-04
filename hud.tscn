@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2m7u4l15k06d"]
+
+[ext_resource type="Script" uid="uid://bm7vr2v2ageae" path="res://hud.gd" id="1_64ctp"]
+[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://Minecraft.ttf" id="2_8sq4i"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_64ctp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 7.0
+offset_right = 104.0
+offset_bottom = 47.0
+scale = Vector2(1.5824932, 1.013361)
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="RecDot" type="ColorRect" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+color = Color(1, 0.11372549, 0, 1)
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 16
+text = "AO VIVO"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
