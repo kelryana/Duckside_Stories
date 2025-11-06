@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://431wun21v2wb"]
+[gd_scene load_steps=30 format=3 uid="uid://431wun21v2wb"]
 
 [ext_resource type="Script" uid="uid://cbf54kebr5eq8" path="res://patogonista.gd" id="1_lgngo"]
 [ext_resource type="Texture2D" uid="uid://bffyt1186vbf8" path="res://Game Assets/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Object Animation/Boat.png" id="1_pfhxm"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://hud.tscn" id="12_57gmc"]
 [ext_resource type="Script" uid="uid://t36eowrriarq" path="res://pato_sonambulo.gd" id="12_lwdvv"]
 [ext_resource type="Texture2D" uid="uid://d2ducu232c4am" path="res://SapoRandomSprite.png" id="13_lwdvv"]
+[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://Minecraft.ttf" id="16_qobow"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_57gmc"]
 texture = ExtResource("1_pfhxm")
@@ -2283,6 +2284,21 @@ radius = 8.39302
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
 
+[sub_resource type="Animation" id="Animation_lwdvv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(872, 299)]
+}
+
 [sub_resource type="Animation" id="Animation_5g5eo"]
 resource_name = "idle_bob"
 loop_mode = 1
@@ -2297,21 +2313,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector2(872, 299), Vector2(872, 304), Vector2(872, 299)]
-}
-
-[sub_resource type="Animation" id="Animation_lwdvv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(872, 299)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qobow"]
@@ -2340,7 +2341,7 @@ layer_4/name = "objetos2"
 layer_4/tile_data = PackedInt32Array(393264, 65537, 1, 458800, 65537, 2, 524336, 65537, 3, 393265, 131073, 1, 458801, 131073, 2, 524337, 131073, 3, 393260, 65537, 1, 458796, 65537, 2, 524332, 65537, 3, 393261, 131073, 1, 458797, 131073, 2, 524333, 131073, 3, 393262, 196609, 9, 393263, 262145, 9, 917546, 917505, 1, 983082, 917505, 2, 917547, 983041, 1, 983083, 983041, 2, 851999, 65537, 4, 917535, 65537, 5, 852000, 131073, 4, 917536, 131073, 5, 852001, 65537, 9, 917537, 65537, 10, 1048620, 786433, 1, 1114156, 786433, 1, 1114163, 786433, 1, 1048627, 786433, 1, 524345, 786433, 1, 589881, 786433, 1, 589874, 786433, 1, 524338, 786433, 1, 524330, 786433, 1, 589866, 786433, 1, 589859, 786433, 1, 524323, 786433, 1)
 
 [node name="Patogonista" type="CharacterBody2D" parent="."]
-position = Vector2(175.99994, 155)
+position = Vector2(221.00024, 100)
 scale = Vector2(1.1654712, 0.81198263)
 script = ExtResource("1_lgngo")
 
@@ -2357,6 +2358,10 @@ shape = SubResource("CircleShape2D_t8jxu")
 [node name="Camera2D" type="Camera2D" parent="Patogonista"]
 position = Vector2(9.19421, 5.69671)
 zoom = Vector2(1.5, 1.5)
+limit_left = -205
+limit_top = -130
+limit_right = 2700
+limit_bottom = 10000002
 
 [node name="SrBicoMolhado" type="CharacterBody2D" parent="."]
 position = Vector2(-29, -28)
@@ -2409,3 +2414,15 @@ scale = Vector2(3.0154076, 2.8899262)
 shape = SubResource("CircleShape2D_0crsg")
 
 [node name="HUD" parent="." instance=ExtResource("12_57gmc")]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1179.0
+offset_top = -39.0
+offset_right = 1340.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("16_qobow")
+theme_override_font_sizes/font_size = 15
+text = "Casa do Dorminhoco"
