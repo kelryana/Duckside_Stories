@@ -1,0 +1,8 @@
+1º Minigame - Nuvem Raivosa 
+Ela vai te mandando raios nos quais você tem que desviar, quando acertado você é paralisado por 1s e tem chance de tomar "dano"
+
+2º Minigame - Peixe Dançarino
+Basicamente um jogo de ritmo
+
+3º Minigame (Opcional) - Sapo Maestro
+Você vai basicamente ir numa caça as moscas para que ele coma, seu mouse vai ter que seguir uma linha certa para capturá-las
