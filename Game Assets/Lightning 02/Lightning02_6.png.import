@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxoqqb5o5ncrr"
-path="res://.godot/imported/pato_teste.png-aacd52493ae2869f437cb09c5d59e152.ctex"
+uid="uid://c2php6ojoubpv"
+path="res://.godot/imported/Lightning02_6.png-a6b5049b82ea204302f84e9fde146084.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://pato_teste.png"
-dest_files=["res://.godot/imported/pato_teste.png-aacd52493ae2869f437cb09c5d59e152.ctex"]
+source_file="res://Game Assets/Lightning 02/Lightning02_6.png"
+dest_files=["res://.godot/imported/Lightning02_6.png-a6b5049b82ea204302f84e9fde146084.ctex"]
 
 [params]
 
