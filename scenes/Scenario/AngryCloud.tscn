@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://chk3eefj56ril"]
+
+[ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="1_jym6c"]
+[ext_resource type="PackedScene" uid="uid://c2c81rt0vuqqs" path="res://scenes/Character/Patogonista.tscn" id="2_umy4o"]
+[ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="2_xp7y6"]
+[ext_resource type="PackedScene" uid="uid://c6o63sseu3dgd" path="res://scenes/Objects/Lightning.tscn" id="4_xp7y6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cmfv"]
+size = Vector2(1285, 2)
+
+[sub_resource type="Curve2D" id="Curve2D_xp7y6"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -640, -360, -93.89274, 184.24236, 93.89274, -184.24236, -448, -192, 8.857811, -132.8671, -8.857811, 132.8671, -264, -320, -86.806496, -74.40557, 86.806496, 74.40557, 192, -320, -26.573418, 95.6643, 26.573418, -95.6643, 376, -192, 0, 0, 0, 0, 632, -352, 0, 0, 0, 0, -640, -360)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_bmwcb"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -536, -360, -147.03958, -86.806496, 147.03958, 86.806496, -320, 48, -90.34962, -72.63401, 90.34962, 72.63401, -128, -128, -58.461517, 74.40557, 58.461517, -74.40557, -64, -288, 0, 0, 0, 0, 208, -312, -37.202785, -115.151474, 37.202785, 115.151474, 56, -24, -161.21207, -60.233078, 161.21207, 60.233078, 320, -56, -97.43586, -54.918396, 97.43586, 54.918396, 384, -272, 0, 0, 0, 0, 600, -80, 0, 0, 0, 0, -536, -360)
+}
+point_count = 10
+
+[node name="NuvemMinigme" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-909, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(903.5, -17)
+shape = SubResource("RectangleShape2D_6cmfv")
+
+[node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
+position = Vector2(-4, 307)
+scale = Vector2(0.15, 0.15)
+
+[node name="NuvemRaivosa2" parent="." node_paths=PackedStringArray("paths") instance=ExtResource("2_xp7y6")]
+position = Vector2(-656.00006, -408)
+scale = Vector2(0.8, 0.8)
+paths = [NodePath("../CloudPath1"), NodePath("../CloudPath2")]
+lightning_scene = ExtResource("4_xp7y6")
+lightning_scale = Vector2(0.2, 0.2)
+
+[node name="Lightning" parent="." instance=ExtResource("4_xp7y6")]
+position = Vector2(-504.00003, -207)
+scale = Vector2(0.3, 0.3)
+
+[node name="HUD" parent="." instance=ExtResource("1_jym6c")]
+script = null
+
+[node name="CloudPath1" type="Path2D" parent="."]
+position = Vector2(-4, 64)
+curve = SubResource("Curve2D_xp7y6")
+
+[node name="CloudPath2" type="Path2D" parent="."]
+position = Vector2(-56, 8)
+curve = SubResource("Curve2D_bmwcb")

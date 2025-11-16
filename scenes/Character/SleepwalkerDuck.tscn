@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx3varfdkeahw"]
+
+[ext_resource type="Script" path="res://pato_sonambulo.gd" id="1_te8c2"]
+[ext_resource type="Texture2D" uid="uid://bt2jvdvmusswi" path="res://assets/sprites/Character/PatoSonambuloSprite.png" id="2_0ek3v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
+
+[sub_resource type="Animation" id="Animation_lwdvv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(872, 299)]
+}
+
+[sub_resource type="Animation" id="Animation_5g5eo"]
+resource_name = "idle_bob"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(872, 299), Vector2(872, 304), Vector2(872, 299)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qobow"]
+_data = {
+&"RESET": SubResource("Animation_lwdvv"),
+&"idle_bob": SubResource("Animation_5g5eo")
+}
+
+[node name="PatoSonambulo" type="CharacterBody2D"]
+position = Vector2(510, 112)
+rotation = 0.027692242
+scale = Vector2(0.91357553, 0.8401534)
+script = ExtResource("1_te8c2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(872, 299)
+rotation = 4.7350783
+scale = Vector2(0.3030407, 0.24733604)
+texture = ExtResource("2_0ek3v")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(878.80383, 305.78424)
+scale = Vector2(3.0154076, 2.8899262)
+shape = SubResource("CircleShape2D_0crsg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_qobow")
+}

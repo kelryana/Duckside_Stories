@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://chxx5mmcb0fqt"]
+
+[ext_resource type="Script" path="res://sr_bico_molhado.gd" id="1_ouau2"]
+[ext_resource type="Texture2D" uid="uid://d2ducu232c4am" path="res://assets/sprites/Character/SapoRandomSprite.png" id="2_7a4hl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
+
+[node name="SapoRandom" type="CharacterBody2D"]
+position = Vector2(1221, -43)
+script = ExtResource("1_ouau2")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(872, 299)
+scale = Vector2(0.3030407, 0.24733604)
+texture = ExtResource("2_7a4hl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(868, 306)
+scale = Vector2(3.0154076, 2.8899262)
+shape = SubResource("CircleShape2D_0crsg")
