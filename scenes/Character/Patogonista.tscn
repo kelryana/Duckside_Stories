@@ -1,21 +1,27 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2c81rt0vuqqs"]
 
 [ext_resource type="Script" uid="uid://vpgwt7evavk6" path="res://scripts/Character/patogonista.gd" id="1_4irq8"]
-[ext_resource type="Texture2D" uid="uid://da7jtyteptn6s" path="res://assets/sprites/Character/IMG-20251027-WA0006.png" id="1_vchxi"]
+[ext_resource type="Texture2D" uid="uid://cldbm5if5eiym" path="res://assets/sprites/Character/Patogonista_Sheet.png" id="2_l0h3y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l0h3y"]
 size = Vector2(640, 387)
 
 [node name="Patogonista" type="CharacterBody2D"]
+scale = Vector2(1.5590132, 1.2782736)
 script = ExtResource("1_4irq8")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_vchxi")
+position = Vector2(9, 6)
+scale = Vector2(23.4513, 16.65218)
+texture = ExtResource("2_l0h3y")
+region_enabled = true
+region_rect = Rect2(0, 0, 23.316013, 33.61291)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 16)
+position = Vector2(-8.338609, 4.6938305)
 rotation = 1.5707964
+scale = Vector2(0.866727, 1.3954445)
 shape = SubResource("RectangleShape2D_l0h3y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
