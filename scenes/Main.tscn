@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://431wun21v2wb"]
+[gd_scene load_steps=28 format=3 uid="uid://431wun21v2wb"]
 
 [ext_resource type="Texture2D" uid="uid://bffyt1186vbf8" path="res://assets/sprites/Scenario/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Object Animation/Boat.png" id="1_pfhxm"]
 [ext_resource type="Texture2D" uid="uid://c6vhb65sbt6f3" path="res://assets/sprites/Scenario/vacaroxa--generic-old-west-graphics--v.1.0/vacaroxa--generic-old-west-graphics--v.1.0/Generic Old West Graphicis/Buildings/buildings.png" id="2_2hh7m"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bnrcmno77hmkp" path="res://assets/sprites/Scenario/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Tileset_Floor_Detail.png" id="7_0oi55"]
 [ext_resource type="PackedScene" uid="uid://chxx5mmcb0fqt" path="res://scenes/Character/RandomFlog.tscn" id="11_cvmbd"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="12_57gmc"]
+[ext_resource type="Script" uid="uid://c71upxksoruo0" path="res://scripts/Control/porta_nuvem_trigger.gd" id="12_ft6cd"]
 [ext_resource type="PackedScene" uid="uid://cygro3n44lpgm" path="res://scenes/Character/SirWetbeak.tscn" id="14_ft6cd"]
 [ext_resource type="PackedScene" uid="uid://bx3varfdkeahw" path="res://scenes/Character/SleepwalkerDuck.tscn" id="15_bb450"]
 [ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="16_nfivy"]
@@ -2844,6 +2845,7 @@ text = "Casa do Pato Anfitriao"
 [node name="PortaNuvemTrigger" type="Area2D" parent="."]
 position = Vector2(1087.257, 436.39438)
 scale = Vector2(1.5560391, 2.9073327)
+script = ExtResource("12_ft6cd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PortaNuvemTrigger"]
 shape = SubResource("RectangleShape2D_0hui5")

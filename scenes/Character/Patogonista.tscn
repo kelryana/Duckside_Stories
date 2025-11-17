@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2c81rt0vuqqs"]
 
-[ext_resource type="Script" uid="uid://vpgwt7evavk6" path="res://scripts/patogonista.gd" id="1_4irq8"]
+[ext_resource type="Script" uid="uid://vpgwt7evavk6" path="res://scripts/Character/patogonista.gd" id="1_4irq8"]
 [ext_resource type="Texture2D" uid="uid://da7jtyteptn6s" path="res://assets/sprites/Character/IMG-20251027-WA0006.png" id="1_vchxi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l0h3y"]
@@ -12,7 +12,6 @@ metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_vchxi")
-flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 16)

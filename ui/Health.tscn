@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpg8m3qdl3umx"]
+
+[ext_resource type="Script" uid="uid://yq2vr0dubcla" path="res://scripts/UI/health.gd" id="1_cjn3f"]
+
+[node name="HealthUi" type="CanvasLayer"]
+script = ExtResource("1_cjn3f")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(200, 50)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 50.0
+grow_horizontal = 0

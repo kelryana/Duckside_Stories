@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://chk3eefj56ril"]
+[gd_scene load_steps=11 format=3 uid="uid://chk3eefj56ril"]
 
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="1_jym6c"]
 [ext_resource type="PackedScene" uid="uid://c2c81rt0vuqqs" path="res://scenes/Character/Patogonista.tscn" id="2_umy4o"]
 [ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="2_xp7y6"]
 [ext_resource type="PackedScene" uid="uid://c6o63sseu3dgd" path="res://scenes/Objects/Lightning.tscn" id="4_xp7y6"]
+[ext_resource type="PackedScene" uid="uid://c8bng2e5vajs0" path="res://ui/GameOver.tscn" id="5_h2at5"]
+[ext_resource type="PackedScene" uid="uid://cpg8m3qdl3umx" path="res://ui/Health.tscn" id="6_n3goa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6cmfv"]
 size = Vector2(1285, 2)
@@ -20,31 +22,39 @@ _data = {
 }
 point_count = 10
 
+[sub_resource type="Curve2D" id="Curve2D_h2at5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -640, -360, -109.12819, -261.12817, 109.12819, 261.12817, -384, -144, -146.15382, -128.61536, 146.15382, 128.61536, -200, -320, -44.820503, 19.487175, 44.820503, -19.487175, -64, 56, 134.46152, 48.71794, -134.46152, -48.71794, 128, -128, -181.23074, -120.82049, 181.23074, 120.82049, 344, -200, 0, 0, 0, 0, 512, 0, 0, 0, 0, 0, -640, -360)
+}
+point_count = 8
+
 [node name="NuvemMinigme" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(-909, 380)
+position = Vector2(-912, 376)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(903.5, -17)
 shape = SubResource("RectangleShape2D_6cmfv")
 
 [node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
-position = Vector2(-4, 307)
+position = Vector2(0, 307)
 scale = Vector2(0.15, 0.15)
+platform_on_leave = 1
 
 [node name="NuvemRaivosa2" parent="." node_paths=PackedStringArray("paths") instance=ExtResource("2_xp7y6")]
-position = Vector2(-656.00006, -408)
+position = Vector2(-536, -304)
 scale = Vector2(0.8, 0.8)
-paths = [NodePath("../CloudPath1"), NodePath("../CloudPath2")]
+paths = [NodePath("../CloudPath1"), NodePath("../CloudPath2"), NodePath("../CloudPath3")]
 lightning_scene = ExtResource("4_xp7y6")
 lightning_scale = Vector2(0.2, 0.2)
+max_lightning_count = 10
 
 [node name="Lightning" parent="." instance=ExtResource("4_xp7y6")]
-position = Vector2(-504.00003, -207)
-scale = Vector2(0.3, 0.3)
+position = Vector2(-544, -200)
+scale = Vector2(0.2, 0.2)
 
 [node name="HUD" parent="." instance=ExtResource("1_jym6c")]
 script = null
@@ -56,3 +66,12 @@ curve = SubResource("Curve2D_xp7y6")
 [node name="CloudPath2" type="Path2D" parent="."]
 position = Vector2(-56, 8)
 curve = SubResource("Curve2D_bmwcb")
+
+[node name="CloudPath3" type="Path2D" parent="."]
+position = Vector2(-8, 0)
+curve = SubResource("Curve2D_h2at5")
+
+[node name="GameOver" parent="." node_paths=PackedStringArray("player") instance=ExtResource("5_h2at5")]
+player = NodePath("../Patogonista")
+
+[node name="HealthUi" parent="." instance=ExtResource("6_n3goa")]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6o63sseu3dgd"]
 
-[ext_resource type="Script" uid="uid://de3evkt1qhpb" path="res://scripts/lightning.gd" id="1_elv1f"]
+[ext_resource type="Script" uid="uid://de3evkt1qhpb" path="res://scripts/Object/lightning.gd" id="1_elv1f"]
 [ext_resource type="Texture2D" uid="uid://b2f1bexqdimnx" path="res://assets/sprites/lightning-pixel-style-free-png.png" id="2_2n7xc"]
 
 [node name="Lightning" type="Area2D"]

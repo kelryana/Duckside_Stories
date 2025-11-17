@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c4awdjks2tdim"]
 
-[ext_resource type="Script" uid="uid://cfxyceakyu8dd" path="res://scripts/angry_cloud.gd" id="1_ea8wq"]
+[ext_resource type="Script" uid="uid://cfxyceakyu8dd" path="res://scripts/Character/angry_cloud.gd" id="1_ea8wq"]
 [ext_resource type="Texture2D" uid="uid://cdsrohfkp5apc" path="res://assets/sprites/Character/NuvemRaivosaSprite.png" id="1_jmk8q"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ea8wq"]
