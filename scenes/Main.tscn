@@ -2773,6 +2773,7 @@ sources/3 = SubResource("TileSetAtlasSource_744hw")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0hui5"]
 
 [node name="Node2D" type="Node2D"]
+texture_filter = 1
 position = Vector2(0, 125)
 scale = Vector2(2.371105, 2.0921443)
 

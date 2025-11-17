@@ -29,6 +29,7 @@ _data = {
 point_count = 8
 
 [node name="NuvemMinigme" type="Node2D"]
+texture_filter = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

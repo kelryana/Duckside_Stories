@@ -13,7 +13,7 @@ metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(9, 6)
-scale = Vector2(23.4513, 16.65218)
+scale = Vector2(15.5912075, 12.895786)
 texture = ExtResource("2_l0h3y")
 region_enabled = true
 region_rect = Rect2(0, 0, 23.316013, 33.61291)
