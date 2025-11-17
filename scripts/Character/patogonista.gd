@@ -7,7 +7,7 @@ extends CharacterBody2D
 
 # Dash
 @export_group("Dash")
-@export var dash_speed: float = 800.0
+@export var dash_speed: float = 900.0
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 0.5
 

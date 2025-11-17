@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bnrcmno77hmkp" path="res://assets/sprites/Scenario/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Tileset_Floor_Detail.png" id="7_0oi55"]
 [ext_resource type="PackedScene" uid="uid://chxx5mmcb0fqt" path="res://scenes/Character/RandomFlog.tscn" id="11_cvmbd"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="12_57gmc"]
-[ext_resource type="Script" uid="uid://c71upxksoruo0" path="res://scripts/Control/porta_nuvem_trigger.gd" id="12_ft6cd"]
+[ext_resource type="Script" uid="uid://dwr6k36kxf5xb" path="res://scripts/Control/porta_nuvem_trigger.gd" id="12_ft6cd"]
 [ext_resource type="PackedScene" uid="uid://cygro3n44lpgm" path="res://scenes/Character/SirWetbeak.tscn" id="14_ft6cd"]
 [ext_resource type="PackedScene" uid="uid://bx3varfdkeahw" path="res://scenes/Character/SleepwalkerDuck.tscn" id="15_bb450"]
 [ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="16_nfivy"]
@@ -2853,6 +2853,7 @@ shape = SubResource("RectangleShape2D_0hui5")
 [node name="Patogonista" parent="." instance=ExtResource("19_nfivy")]
 position = Vector2(847.70605, 439.74017)
 scale = Vector2(0.1, 0.1)
+SPEED = 400.0
 
 [node name="SrBicoMolhado" parent="." instance=ExtResource("14_ft6cd")]
 position = Vector2(1221, -43)
