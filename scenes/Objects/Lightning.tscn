@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6o63sseu3dgd"]
+
+[ext_resource type="Script" uid="uid://de3evkt1qhpb" path="res://scripts/lightning.gd" id="1_elv1f"]
+[ext_resource type="Texture2D" uid="uid://b2f1bexqdimnx" path="res://assets/sprites/lightning-pixel-style-free-png.png" id="2_2n7xc"]
+
+[node name="Lightning" type="Area2D"]
+script = ExtResource("1_elv1f")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_2n7xc")
+
+[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(214, -412)
+polygon = PackedVector2Array(-14, -5, 3, 204, -40, 440, -190, 624, -436, 785, -382, 552, -338, 328)

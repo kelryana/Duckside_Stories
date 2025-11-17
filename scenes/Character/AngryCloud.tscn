@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4awdjks2tdim"]
+
+[ext_resource type="Script" uid="uid://cfxyceakyu8dd" path="res://scripts/angry_cloud.gd" id="1_ea8wq"]
+[ext_resource type="Texture2D" uid="uid://cdsrohfkp5apc" path="res://assets/sprites/Character/NuvemRaivosaSprite.png" id="1_jmk8q"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ea8wq"]
+radius = 79.0
+height = 268.0
+
+[sub_resource type="Animation" id="Animation_ebcki"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_6cmfv"]
+resource_name = "idle_anim2"
+loop_mode = 1
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0v2gw"]
+_data = {
+&"RESET": SubResource("Animation_ebcki"),
+&"idle_anim2": SubResource("Animation_6cmfv")
+}
+
+[node name="NuvemRaivosa" type="CharacterBody2D"]
+position = Vector2(101, 55)
+script = ExtResource("1_ea8wq")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_jmk8q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, 9)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ea8wq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_0v2gw")
+}
+
+[node name="LightningSpawnPoint" type="Marker2D" parent="."]

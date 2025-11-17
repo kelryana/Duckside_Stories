@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cygro3n44lpgm"]
+
+[ext_resource type="Texture2D" uid="uid://dbl0ug5fqn3lv" path="res://assets/sprites/Character/SrBicoMolhadoSprite.png" id="2_ifbvy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
+
+[node name="SrBicoMolhado" type="CharacterBody2D"]
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(872, 299)
+scale = Vector2(0.3030407, 0.24733604)
+texture = ExtResource("2_ifbvy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(876, 302.00003)
+scale = Vector2(3.0154076, 2.8899262)
+shape = SubResource("CircleShape2D_0crsg")
