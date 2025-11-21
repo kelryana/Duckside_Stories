@@ -1,14 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://bso5na54ep3l8"]
 
-[ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="1_06t4h"]
+[ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="1_qbbxi"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_06t4h")
+script = ExtResource("1_qbbxi")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
+scale = Vector2(10.166, 2.304)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -24,10 +25,12 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+scale = Vector2(62.88325, 38.29447)
 
 [node name="JOGAR" type="Button" parent="."]
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
+scale = Vector2(132.66667, 54.333332)
 
 [connection signal="pressed" from="SAIR" to="." method="_on_button_pressed"]
