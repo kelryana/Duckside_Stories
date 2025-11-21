@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://431wun21v2wb"]
+[gd_scene load_steps=29 format=3 uid="uid://431wun21v2wb"]
 
 [ext_resource type="Texture2D" uid="uid://bffyt1186vbf8" path="res://assets/sprites/Scenario/Little Dreamyland - Free Pack/Little Dreamyland - Free Pack/Tileset/Object Animation/Boat.png" id="1_pfhxm"]
 [ext_resource type="Texture2D" uid="uid://c6vhb65sbt6f3" path="res://assets/sprites/Scenario/vacaroxa--generic-old-west-graphics--v.1.0/vacaroxa--generic-old-west-graphics--v.1.0/Generic Old West Graphicis/Buildings/buildings.png" id="2_2hh7m"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bx3varfdkeahw" path="res://scenes/Character/SleepwalkerDuck.tscn" id="15_bb450"]
 [ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="16_nfivy"]
 [ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="16_qobow"]
+[ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="18_bb450"]
 [ext_resource type="PackedScene" uid="uid://c2c81rt0vuqqs" path="res://scenes/Character/Patogonista.tscn" id="19_nfivy"]
 [ext_resource type="Texture2D" uid="uid://cmplgslksuy3p" path="res://assets/sprites/Arrow.png" id="20_0hui5"]
 
@@ -2871,4 +2872,33 @@ script = null
 scale = Vector2(0.99999994, 0.99999994)
 script = null
 
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("18_bb450")
+
+[node name="ColorRect" type="ColorRect" parent="MainMenu"]
+layout_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SAIR" type="Button" parent="MainMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="JOGAR" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+
 [connection signal="body_entered" from="PortaNuvemTrigger" to="Patogonista" method="_on_porta_nuvem_trigger_body_entered"]
+[connection signal="pressed" from="MainMenu/SAIR" to="MainMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="JOGAR" to="MainMenu" method="_on_jogar_pressed"]
