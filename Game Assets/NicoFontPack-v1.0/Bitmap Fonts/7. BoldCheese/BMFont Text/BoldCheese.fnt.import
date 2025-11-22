@@ -1,0 +1,16 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://07r5jtf5rifk"
+valid=false
+
+[deps]
+
+source_file="res://Game Assets/NicoFontPack-v1.0/Bitmap Fonts/7. BoldCheese/BMFont Text/BoldCheese.fnt"
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2

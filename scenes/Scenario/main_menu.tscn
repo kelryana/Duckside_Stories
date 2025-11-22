@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bso5na54ep3l8"]
+[gd_scene load_steps=3 format=3 uid="uid://bso5na54ep3l8"]
 
 [ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="1_qbbxi"]
+[ext_resource type="Texture2D" uid="uid://8b74pk0wenfk" path="res://assets/sprites/Gemini_Generated_Image_37qg6837qg6837qg.png" id="2_8wpsh"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -33,11 +34,32 @@ offset_top = -1.0
 offset_right = 7.0
 offset_bottom = 7.0
 scale = Vector2(62.88325, 38.29447)
+offset_left = 305.0
+offset_top = 44.0
+offset_right = 313.0
+offset_bottom = 52.0
+scale = Vector2(13.182014, 9.429555)
 
 [node name="JOGAR" type="Button" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-scale = Vector2(132.66667, 54.333332)
+offset_left = 302.99997
+offset_top = 130.0
+offset_right = 310.99997
+offset_bottom = 138.0
+scale = Vector2(16.185194, 9.053592)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 7.0
+offset_right = 2772.0
+offset_bottom = 1543.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4505848, 0.46212104)
+texture = ExtResource("2_8wpsh")
 
 [connection signal="pressed" from="SAIR" to="." method="_on_button_pressed"]
