@@ -9,7 +9,12 @@ script = ExtResource("1_qbbxi")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-scale = Vector2(10.166, 2.304)
+offset_left = nan
+offset_top = nan
+offset_right = nan
+offset_bottom = nan
+scale = Vector2(82.97379, inf)
+color = Color(0.32156864, 1, 1, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -23,8 +28,10 @@ grow_vertical = 2
 
 [node name="SAIR" type="Button" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 7.0
+offset_bottom = 7.0
 scale = Vector2(62.88325, 38.29447)
 
 [node name="JOGAR" type="Button" parent="."]
