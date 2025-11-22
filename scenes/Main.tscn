@@ -2864,7 +2864,8 @@ scale = Vector2(0.99999994, 0.99999994)
 script = null
 
 [node name="NuvemRaivosa" parent="." instance=ExtResource("16_nfivy")]
-position = Vector2(897.8935, 186.41159)
+position = Vector2(1080.9307, 337.9308)
+scale = Vector2(0.40298936, 0.5123698)
 script = null
 
 [node name="SapoRandom" parent="." instance=ExtResource("11_cvmbd")]

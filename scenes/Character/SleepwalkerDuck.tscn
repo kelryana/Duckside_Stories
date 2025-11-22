@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bx3varfdkeahw"]
 
-[ext_resource type="Script" path="res://pato_sonambulo.gd" id="1_te8c2"]
+[ext_resource type="Script" uid="uid://c4rff2g1gf22i" path="res://scripts/Character/pato_sonambulo.gd" id="1_yqjui"]
 [ext_resource type="Texture2D" uid="uid://bt2jvdvmusswi" path="res://assets/sprites/Character/PatoSonambuloSprite.png" id="2_0ek3v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
@@ -46,7 +46,7 @@ _data = {
 position = Vector2(510, 112)
 rotation = 0.027692242
 scale = Vector2(0.91357553, 0.8401534)
-script = ExtResource("1_te8c2")
+script = ExtResource("1_yqjui")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(872, 299)
