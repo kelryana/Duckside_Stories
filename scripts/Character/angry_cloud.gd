@@ -235,3 +235,17 @@ func _draw():
 	draw_line(spawn_pos, spawn_pos + Vector2(cos(left_angle), sin(left_angle)) * cone_length, Color.YELLOW, 2.0)
 	draw_line(spawn_pos, spawn_pos + Vector2(cos(right_angle), sin(right_angle)) * cone_length, Color.YELLOW, 2.0)
 	draw_circle(spawn_pos, 5, Color.RED)
+
+func force_path_change(target_index: int):
+	"""
+	Função pública para forçar a nuvem a ir para um Path específico.
+	Útil para o sistema de divisão distribuir as nuvens.
+	"""
+	if paths.is_empty():
+		return
+
+	# Garante que o índice existe usando o operador resto da divisão (%)
+	# Se tiver 3 paths e pedirmos o índice 5, ele escolhe o 2.
+	current_path_index = target_index % paths.size()
+	
+	_setup_path(current_path_index)

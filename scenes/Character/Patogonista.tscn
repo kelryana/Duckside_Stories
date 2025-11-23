@@ -1,17 +1,88 @@
-[gd_scene load_steps=4 format=3 uid="uid://c2c81rt0vuqqs"]
+[gd_scene load_steps=13 format=3 uid="uid://c2c81rt0vuqqs"]
 
 [ext_resource type="Script" uid="uid://vpgwt7evavk6" path="res://scripts/Character/patogonista.gd" id="1_4irq8"]
 [ext_resource type="Texture2D" uid="uid://cldbm5if5eiym" path="res://assets/sprites/Character/Patogonista_Sheet.png" id="2_l0h3y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l0h3y"]
-size = Vector2(640, 387)
+size = Vector2(513.57776, 219.2583)
 
-[node name="Patogonista" type="CharacterBody2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0h3y"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(0, 1, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5b32"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(23, 1, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s0p70"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(46, 1, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i7qe"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(69, 1, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6fqn"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(0, 33, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1l2f"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(23, 33, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu51c"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(46, 33, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njjd8"]
+atlas = ExtResource("2_l0h3y")
+region = Rect2(69, 33, 23, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aui1d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0h3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5b32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s0p70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0i7qe")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6fqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1l2f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xu51c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njjd8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Patogonista" type="CharacterBody2D" node_paths=PackedStringArray("anim")]
 scale = Vector2(1.5590132, 1.2782736)
 script = ExtResource("1_4irq8")
+anim = NodePath("AnimatedSprite2D")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(9, 6)
 scale = Vector2(15.5912075, 12.895786)
 texture = ExtResource("2_l0h3y")
@@ -19,9 +90,17 @@ region_enabled = true
 region_rect = Rect2(0, 0, 23.316013, 33.61291)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-8.338609, 4.6938305)
+position = Vector2(-2.2450192, 19.166471)
 rotation = 1.5707964
-scale = Vector2(0.866727, 1.3954445)
+scale = Vector2(0.8667269, 1.3954444)
 shape = SubResource("RectangleShape2D_l0h3y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-3.8485947, -5.354576)
+scale = Vector2(15.282799, 15.282801)
+sprite_frames = SubResource("SpriteFrames_aui1d")
+animation = &"walk"
+frame_progress = 0.99668664

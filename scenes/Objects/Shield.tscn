@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsyyp5seuw72c"]
+
+[ext_resource type="Script" uid="uid://dmm5kddewd372" path="res://scripts/Object/shield.gd" id="1_t6oyo"]
+[ext_resource type="Texture2D" uid="uid://cegkocxiyq7kc" path="res://assets/sprites/a_shield_winged.png" id="2_hbkcw"]
+
+[node name="Shield" type="Area2D"]
+script = ExtResource("1_t6oyo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_hbkcw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

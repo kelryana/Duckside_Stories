@@ -2774,7 +2774,7 @@ sources/3 = SubResource("TileSetAtlasSource_744hw")
 
 [node name="Node2D" type="Node2D"]
 texture_filter = 1
-position = Vector2(0, 125)
+position = Vector2(3960.0002, 3779)
 scale = Vector2(2.371105, 2.0921443)
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -2864,8 +2864,6 @@ scale = Vector2(0.99999994, 0.99999994)
 script = null
 
 [node name="NuvemRaivosa" parent="." instance=ExtResource("16_nfivy")]
-position = Vector2(897.8935, 186.41159)
-scale = Vector2(0.4184156, 0.43435732)
 position = Vector2(1080.9307, 337.9308)
 scale = Vector2(0.40298936, 0.5123698)
 script = null

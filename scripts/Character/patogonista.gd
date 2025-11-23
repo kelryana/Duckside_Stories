@@ -5,6 +5,9 @@ extends CharacterBody2D
 @export var JUMP_VELOCITY: float = -600.0
 @export var screen_margin: float = 20.0
 
+@export var anim: AnimatedSprite2D
+
+
 # Dash
 @export_group("Dash")
 @export var dash_speed: float = 900.0
@@ -22,13 +25,26 @@ extends CharacterBody2D
 @export var max_health: int = 5
 @export var invincibility_duration: float = 1.0
 
+@export_group("Bonus do Shield")
+@export var shield_speed_multiplier: float = 1.5  # 50% mais rápido
+@export var shield_jump_multiplier: float = 1.2   # 20% mais alto
+
+# Variáveis internas para guardar os valores originais
+var default_speed: float
+var default_jump: float
+
+@onready var shield_sprite: Node2D = $ShieldSprite if has_node("ShieldSprite") else null
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var camera: Camera2D = $Camera2D
+
 
 var is_angry_cloud_game: bool = false
 var current_health: int = 5
 var is_invincible: bool = false
 var invincibility_timer: float = 0.0
+
+var has_shield: bool = false
+var shield_timer: float = 0.0
 
 # Estados de movimento
 var is_dashing: bool = false
@@ -38,11 +54,18 @@ var dash_direction: Vector2 = Vector2.ZERO
 
 var is_gliding: bool = false
 
+
 signal health_changed(new_health, max_health)
 signal player_died
 
 func _ready():
 	add_to_group("player")
+	
+	default_speed = SPEED
+	default_jump = JUMP_VELOCITY
+	
+	if shield_sprite:
+		shield_sprite.visible = false
 	
 	if GameManager:
 		GameManager.restore_player_state(self)
@@ -59,6 +82,11 @@ func _physics_process(delta):
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 	
+	if has_shield:
+		shield_timer -= delta
+		if shield_timer <= 0:
+			deactivate_shield()
+	
 	# Escolhe modo de movimento
 	if is_dashing:
 		_dash_move(delta)
@@ -73,6 +101,7 @@ func _physics_process(delta):
 	
 	# Sistema de invencibilidade
 	_update_invincibility(delta)
+	animation_logic()
 
 func _normal_move(delta):
 	var direction := Vector2.ZERO
@@ -146,6 +175,16 @@ func _minigame_move(delta):
 	
 	move_and_slide()
 
+func animation_logic():
+	
+	if velocity != Vector2.ZERO:
+		anim.play("walk")
+	else:
+		anim.play("idle")
+		
+	if velocity.x != 0:
+		anim.flip_h = velocity.x > 0
+
 func _start_dash(direction: Vector2):
 	is_dashing = true
 	dash_timer = 0.0
@@ -201,6 +240,10 @@ func _update_invincibility(delta):
 			sprite.modulate.a = 1.0
 
 func take_damage(damage: int = 1):
+	if has_shield:
+		print("Player: Dano bloqueado pelo Escudo!")
+		return
+	
 	if is_invincible or is_dashing:  # Invencível durante dash
 		return
 	
@@ -249,6 +292,10 @@ func _on_death_animation_complete():
 func reset_health():
 	current_health = max_health
 	is_invincible = false
+	
+	if has_shield:
+		deactivate_shield()
+	
 	emit_signal("health_changed", current_health, max_health)
 
 func get_current_health() -> int:
@@ -261,3 +308,37 @@ func _on_porta_nuvem_trigger_body_entered(body):
 	if body == self:
 		GameManager.save_player_state(self)
 		GameManager.change_to_cloud_world()
+
+func activate_shield(duration: float):
+	has_shield = true
+	shield_timer = duration
+	
+	# Aplica Super Velocidade e Pulo
+	SPEED = default_speed * shield_speed_multiplier
+	JUMP_VELOCITY = default_jump * shield_jump_multiplier
+	
+	print("Shield ON! Speed: %.0f, Jump: %.0f" % [SPEED, JUMP_VELOCITY])
+	
+	# Ativa visual do escudo
+	if shield_sprite:
+		shield_sprite.visible = true
+	
+	# Opcional: Muda a cor do personagem para indicar poder (ex: azul claro)
+	if sprite:
+		sprite.modulate = Color(0.6, 1.0, 1.0) 
+
+func deactivate_shield():
+	has_shield = false
+	print("Shield OFF. Valores restaurados.")
+	
+	# Restaura os valores originais
+	SPEED = default_speed
+	JUMP_VELOCITY = default_jump
+	
+	# Desativa visual
+	if shield_sprite:
+		shield_sprite.visible = false
+	
+	# Restaura a cor original
+	if sprite:
+		sprite.modulate = Color.WHITE

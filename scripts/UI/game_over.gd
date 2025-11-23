@@ -39,13 +39,13 @@ func _on_player_died():
 
 func _on_restart_pressed():
 	get_tree().paused = false
-
+	
 	if GameManager:
 		GameManager.reset_game()
 		GameManager.change_to_cloud_world()
 	else:
 		get_tree().reload_current_scene()
-
+		
 
 func _on_quit_pressed():
 	get_tree().paused = false
