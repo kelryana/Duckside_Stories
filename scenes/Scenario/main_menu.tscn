@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bso5na54ep3l8"]
+[gd_scene load_steps=5 format=3 uid="uid://bso5na54ep3l8"]
 
 [ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="1_qbbxi"]
 [ext_resource type="Texture2D" uid="uid://8b74pk0wenfk" path="res://assets/sprites/Gemini_Generated_Image_37qg6837qg6837qg.png" id="2_8wpsh"]
+[ext_resource type="Texture2D" uid="uid://b22gwevydageg" path="res://Game Assets/butaos.png" id="3_760br"]
+[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="4_cdwnu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -27,22 +29,6 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SAIR" type="Button" parent="."]
-layout_mode = 0
-offset_left = -172.0
-offset_top = 181.99998
-offset_right = -164.0
-offset_bottom = 189.99998
-scale = Vector2(13.182014, 9.429555)
-
-[node name="JOGAR" type="Button" parent="."]
-layout_mode = 0
-offset_left = -187.00006
-offset_top = 90.0
-offset_right = -179.00006
-offset_bottom = 98.0
-scale = Vector2(16.185194, 9.053592)
-
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -56,5 +42,30 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.4505848, 0.46212104)
 texture = ExtResource("2_8wpsh")
+
+[node name="Butaos" type="Sprite2D" parent="."]
+position = Vector2(651, 405)
+scale = Vector2(0.4127219, 0.48644987)
+texture = ExtResource("3_760br")
+
+[node name="JOGAR" type="Button" parent="."]
+layout_mode = 0
+offset_left = 585.0
+offset_top = 340.0
+offset_right = 649.0
+offset_bottom = 371.0
+scale = Vector2(2.0549736, 1.7736744)
+theme_override_fonts/font = ExtResource("4_cdwnu")
+text = "JOGAR"
+
+[node name="SAIR" type="Button" parent="."]
+layout_mode = 0
+offset_left = 593.00006
+offset_top = 418.00003
+offset_right = 640.00006
+offset_bottom = 442.00003
+scale = Vector2(2.4677665, 2.122786)
+theme_override_fonts/font = ExtResource("4_cdwnu")
+text = "SAIR"
 
 [connection signal="pressed" from="SAIR" to="." method="_on_button_pressed"]
