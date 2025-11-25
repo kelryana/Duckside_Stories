@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b22gwevydageg"
-path="res://.godot/imported/butaos.png-239929c67d1fb85e0c61653584e1c088.ctex"
+uid="uid://cypldgbikfoen"
+path="res://.godot/imported/Duckside Stories(3).png-4466585b35f90af74dd6a6970f0a4129.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Game Assets/butaos.png"
-dest_files=["res://.godot/imported/butaos.png-239929c67d1fb85e0c61653584e1c088.ctex"]
+source_file="res://assets/sprites/Scenario/Duckside Stories(3).png"
+dest_files=["res://.godot/imported/Duckside Stories(3).png-4466585b35f90af74dd6a6970f0a4129.ctex"]
 
 [params]
 
