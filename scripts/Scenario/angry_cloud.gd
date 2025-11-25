@@ -2,19 +2,19 @@ extends Node2D
 
 # Configurações de divisão
 @export_group("Sistema de Divisão")
-@export var angry_cloud: CharacterBody2D  # Arraste AngryCloud aqui se não for detectada
+@export var angry_cloud: CharacterBody2D
 @export var enable_split_system: bool = true
-@export var split_interval: float = 30.0  # Divide a cada 20 segundos
-@export var split_duration: float = 15.0  # Fica dividida por 10 segundos
+@export var split_interval: float = 30.0
+@export var split_duration: float = 15.0
 @export var mini_cloud_count: int = 3
-@export var mini_cloud_scale: float = 0.5  # 50% do tamanho original
+@export var mini_cloud_scale: float = 0.5
 
 # Configurações de Shield
 @export_group("Sistema de Shield")
 @export var shield_powerup_scene: PackedScene
 @export var shield_spawn_interval: float = 60.0
-@export var shield_duration: float = 5.0
-@export var shield_spawn_positions: Array[Marker2D] = []  # Posições onde o shield pode aparecer
+@export var shield_lifetime: float = 15.0  # Quanto tempo o shield fica no mapa
+@export var shield_spawn_positions: Array[Marker2D] = []
 
 # Referências
 var split_timer: float = 0.0
@@ -26,28 +26,24 @@ var shield_timer: float = 0.0
 var current_shield: Node2D = null
 
 func _ready():
-
 	if not angry_cloud:
 		push_warning("MinigameManager: AngryCloud não encontrada! Sistema de divisão desativado.")
 		enable_split_system = false
 	else:
-		# Adiciona ao grupo para identificação
 		if not angry_cloud.is_in_group("angry_cloud"):
 			angry_cloud.add_to_group("angry_cloud")
 		print("✅ AngryCloud configurada: %s" % angry_cloud.get_path())
 	
-	# Inicia timers
 	split_cooldown = split_interval
 	shield_timer = shield_spawn_interval
 	
 	print("Configuração:")
 	print("  - Divisão ativa: %s (intervalo: %.1fs)" % [enable_split_system, split_interval])
 	print("  - Shield ativo: %s" % (shield_powerup_scene != null))
-	print("  - Split cooldown inicial: %.1fs" % split_cooldown)
+	print("  - Posições de spawn: %d" % shield_spawn_positions.size())
 	print("==================================")
 
 func _physics_process(delta):
-	# Debug periódico
 	if int(Time.get_ticks_msec() / 1000) % 5 == 0 and Engine.get_physics_frames() % 60 == 0:
 		print("Status: split_cooldown=%.1fs, is_split=%s" % [split_cooldown, is_split])
 	
@@ -91,7 +87,6 @@ func _split_angry_cloud():
 	is_split = true
 	split_timer = split_duration
 	
-	# Salva dados da nuvem principal
 	var original_position = angry_cloud.global_position
 	var original_scale = angry_cloud.scale
 	var init_lightning_scale = angry_cloud.lightning_scale
@@ -111,35 +106,25 @@ func _split_angry_cloud():
 	var total_paths = angry_cloud.paths.size()
 	
 	for i in range(mini_cloud_count):
-		# Duplica a AngryCloud
 		var mini_cloud: CharacterBody2D = angry_cloud.duplicate()
 		add_child(mini_cloud)
 		
 		print("    Mini nuvem %d duplicada" % (i + 1))
 		
-		# Configura escala menor
 		mini_cloud.scale = original_scale * mini_cloud_scale
 		mini_cloud.lightning_scale = init_lightning_scale * mini_cloud_scale
 		
-		# Posiciona em círculo
 		var angle = angle_step * i
 		var offset = Vector2(cos(angle), sin(angle)) * spawn_radius
 		mini_cloud.global_position = original_position + offset
 		
-		# Torna visível e ativa
 		mini_cloud.visible = true
 		mini_cloud.set_physics_process(true)
 		
-		# Se tivermos mais de 1 caminho, distribuímos
 		if total_paths > 1:
-			# Calcula um índice diferente para cada mini nuvem.
-			# (base + i + 1) garante que elas não peguem o mesmo da original de imediato
 			var new_path_index = (base_path_index + i + 1) % total_paths
-			
-			# Chama a função que criamos no Passo 1
 			mini_cloud.force_path_change(new_path_index)
-			
-			print("    Mini nuvem %d foi para o Path ID: %d" % [i, new_path_index])
+			print("    Mini nuvem %d foi para o Path ID: %d" % [i, new_path_index])
 		
 		print("    Posição: %s, Escala: %s" % [mini_cloud.global_position, mini_cloud.scale])
 		
@@ -180,6 +165,9 @@ func _merge_clouds():
 	is_split = false
 	print("Nuvem reunida!")
 
+# ========================================
+# SISTEMA DE SHIELD
+# ========================================
 func _update_shield_system(delta):
 	if not shield_powerup_scene:
 		return
@@ -192,57 +180,111 @@ func _update_shield_system(delta):
 
 func _spawn_shield():
 	if current_shield and is_instance_valid(current_shield):
+		print("⚠️ Shield já existe, ignorando spawn")
 		return
 	
+	print("\n=== SPAWNING SHIELD ===")
+	print("MinigameManager position: %s | global: %s" % [position, global_position])
+	print("Marker2D count: %d" % shield_spawn_positions.size())
+	
 	var spawn_pos = _get_random_shield_position()
+	print("Posição calculada: %s" % spawn_pos)
 	
 	current_shield = shield_powerup_scene.instantiate()
-	add_child(current_shield)
+	
+	# IMPORTANTE: Adiciona como filho da CENA RAIZ, não do MinigameManager
+	# Isso evita problemas de hierarquia de transformação
+	get_tree().current_scene.add_child(current_shield)
+	
+	print("Shield adicionado como filho de: %s" % get_tree().current_scene.name)
+	
+	# Define posição global diretamente
 	current_shield.global_position = spawn_pos
 	
-	# Configura duração do escudo
-	# (pressupõe que o script do shield tem a variável `shield_duration`)
-	current_shield.shield_duration = shield_duration
+	print("Shield posicionado em global_position: %s" % current_shield.global_position)
+	
+	# Configura tempo de vida no mapa
+	if "lifetime" in current_shield:
+		current_shield.lifetime = shield_lifetime
 	
 	# Conecta sinal de coleta
 	if current_shield.has_signal("collected"):
 		current_shield.collected.connect(_on_shield_collected)
 	
-	print("Shield spawnado em: %s" % spawn_pos)
+	print("======================\n")
 
 func _get_random_shield_position() -> Vector2:
-	#Se tem posições definidas, escolhe uma aleatória
+	print("\n--- CALCULANDO POSIÇÃO DO SHIELD ---")
+	
+	# PRIORIDADE 1: Se tem Marker2D's configurados, usa eles
 	if shield_spawn_positions.size() > 0:
 		var marker = shield_spawn_positions[randi() % shield_spawn_positions.size()]
-		return marker.global_position
+		var pos = marker.global_position
+		print("✅ Usando Marker2D: %s em %s" % [marker.name, pos])
+		return pos
+	else:
+		print("❌ Nenhum Marker2D configurado")
 	
-	# Senão, escolhe posição aleatória na tela
+	# PRIORIDADE 2: Tenta usar ScreenBoundsManager
 	if ScreenBoundsManager:
+		print("Verificando ScreenBoundsManager...")
 		var bounds = ScreenBoundsManager.get_screen_bounds()
-		var screen_height = bounds.end.y - bounds.position.y
+		print("  Bounds: position=%s, end=%s" % [bounds.position, bounds.end])
 		
-		# Define que o spawn só acontece nos 30% inferiores da tela
-		var min_y = bounds.end.y - (screen_height * 0.3) # Começa em 70% da altura
-		var max_y = bounds.end.y - 50                    # Termina 50px acima do chão (margem)
-		
-		return Vector2(
-			randf_range(bounds.position.x + 100, bounds.end.x - 100), # X (Horizontal) continua igual
-			randf_range(min_y, max_y)                                 # Y (Vertical) agora é só embaixo
-		)
+		if bounds.end.y > bounds.position.y:
+			# SPAWN BEM PRÓXIMO DO FUNDO DA TELA VISÍVEL
+			# Offset grande para garantir que fica BEM embaixo
+			var spawn_offset_from_bottom = randf_range(30, 80)  # Apenas 30-80px do fundo!
+			var y_pos = bounds.end.y - spawn_offset_from_bottom
+			
+			var pos = Vector2(
+				randf_range(bounds.position.x + 100, bounds.end.x - 100),
+				y_pos
+			)
+			
+			print("✅ Usando ScreenBoundsManager: %s" % pos)
+			print("  (offset do fundo: %.0fpx, y final: %.0f)" % [spawn_offset_from_bottom, y_pos])
+			return pos
+		else:
+			print("❌ Bounds inválidos")
+	else:
+		print("❌ ScreenBoundsManager não existe")
 	
-	# Fallback: posição aleatória próxima ao centro
-	return global_position + Vector2(
-		randf_range(-300, 300),
-		randf_range(-200, 200)
-	)
+	# PRIORIDADE 3: Fallback usando tamanho da viewport
+	var viewport = get_viewport()
+	if viewport:
+		print("Verificando Viewport...")
+		var viewport_rect = viewport.get_visible_rect()
+		var screen_width = viewport_rect.size.x
+		var screen_height = viewport_rect.size.y
+		
+		print("  Viewport size: %sx%s" % [screen_width, screen_height])
+		
+		# Spawn bem no fundo
+		var spawn_offset_from_bottom = randf_range(60, 120)
+		var y_pos = screen_height - spawn_offset_from_bottom
+		
+		var pos = Vector2(
+			randf_range(100, screen_width - 100),
+			y_pos
+		)
+		
+		print("✅ Usando Viewport: %s" % pos)
+		print("  (offset do fundo: %.0fpx)" % spawn_offset_from_bottom)
+		return pos
+	else:
+		print("❌ Viewport não disponível")
+	
+	# ÚLTIMO RECURSO: Posição fixa visível
+	print("⚠️⚠️⚠️ USANDO FALLBACK FINAL ⚠️⚠️⚠️")
+	print("Configure Marker2D's no Inspector!")
+	return Vector2(500, 400)
 
 func _on_shield_collected():
 	current_shield = null
 	print("Shield coletado!")
 
-# ========================================
 # FUNÇÕES PÚBLICAS
-# ========================================
 func force_split():
 	"""Força divisão imediatamente (para testes)"""
 	if not is_split:

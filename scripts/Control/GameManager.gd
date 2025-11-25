@@ -8,7 +8,7 @@ const CLOUD_WORLD = "res://scenes/Scenario/AngryCloud.tscn"
 var player_position: Vector2 = Vector2.ZERO
 var player_velocity: Vector2 = Vector2.ZERO
 var is_angry_cloud_game: bool = false
-var player_health: int = 100  # Exemplo de dado adicional
+var player_health: int = 5  # Exemplo de dado adicional
 
 func change_to_cloud_world():
 	"""Muda para o mundo das nuvens"""
@@ -45,27 +45,27 @@ func restore_player_state(player: CharacterBody2D):
 	"""Restaura todos os dados do player"""
 	if not player:
 		return
-	
-	# Só restaura se houver dados salvos (não é o primeiro spawn)
+		
+	player.is_angry_cloud_game = is_angry_cloud_game
+	print("GameManager: Aplicando modo de jogo no Player: %s" % is_angry_cloud_game)
+
+	# Restaura posição e velocidade APENAS se tivermos dados salvos válidos
 	if player_position != Vector2.ZERO:
 		player.global_position = player_position
 		player.velocity = player_velocity
-		player.is_angry_cloud_game = is_angry_cloud_game
-		
-		# Restaura dados adicionais
+	
+	# Restaura Vida
 	if player.has_method("get_current_health"):
 		player.current_health = player_health
 
 	if player.has_signal("health_changed"):
 		player.emit_signal("health_changed", player.current_health, player.max_health)
-		print("GameManager: Estado restaurado")
 		
 func reset_game():
 	"""Reseta o estado do jogo"""
 	player_position = Vector2.ZERO
 	player_velocity = Vector2.ZERO
-	is_angry_cloud_game = false
-	player_health = 100
+	player_health = 5
 
 func on_player_death():
 	"""Chamado quando o player morre"""

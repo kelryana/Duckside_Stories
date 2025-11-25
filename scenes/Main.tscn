@@ -2853,7 +2853,6 @@ shape = SubResource("RectangleShape2D_0hui5")
 [node name="Patogonista" parent="." instance=ExtResource("19_nfivy")]
 position = Vector2(847.70605, 439.74017)
 scale = Vector2(0.1, 0.1)
-SPEED = 400.0
 
 [node name="SrBicoMolhado" parent="." instance=ExtResource("14_ft6cd")]
 position = Vector2(1221, -43)

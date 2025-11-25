@@ -4,9 +4,7 @@ extends CharacterBody2D
 @export var SPEED: float = 300.0  
 @export var JUMP_VELOCITY: float = -600.0
 @export var screen_margin: float = 20.0
-
 @export var anim: AnimatedSprite2D
-
 
 # Dash
 @export_group("Dash")
@@ -25,68 +23,74 @@ extends CharacterBody2D
 @export var max_health: int = 5
 @export var invincibility_duration: float = 1.0
 
-@export_group("Bonus do Shield")
+# Sistema de Escudo (Consumível)
+@export_group("Escudo")
+@export var max_shields: int = 3          # Máximo que pode carregar
+@export var shield_buff_duration: float = 5.0
 @export var shield_speed_multiplier: float = 1.5  # 50% mais rápido
 @export var shield_jump_multiplier: float = 1.2   # 20% mais alto
-
-# Variáveis internas para guardar os valores originais
-var default_speed: float
-var default_jump: float
 
 @onready var shield_sprite: Node2D = $ShieldSprite if has_node("ShieldSprite") else null
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var camera: Camera2D = $Camera2D
 
+var default_speed: float
+var default_jump: float
 
+# Estados de Jogo
 var is_angry_cloud_game: bool = false
 var current_health: int = 5
 var is_invincible: bool = false
 var invincibility_timer: float = 0.0
 
-var has_shield: bool = false
-var shield_timer: float = 0.0
+# Estados de Inventário e Buff
+var shield_inventory: int = 0
+var shield_buff_active: bool = false
+var shield_buff_timer: float = 0.0
 
 # Estados de movimento
 var is_dashing: bool = false
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
 var dash_direction: Vector2 = Vector2.ZERO
-
 var is_gliding: bool = false
 
-
 signal health_changed(new_health, max_health)
+signal shield_inventory_changed(current_count)
 signal player_died
 
 func _ready():
 	add_to_group("player")
 	
+	# Salva valores originais de movimento
 	default_speed = SPEED
 	default_jump = JUMP_VELOCITY
 	
+	# Garante que o visual do escudo comece desligado
 	if shield_sprite:
 		shield_sprite.visible = false
 	
+	# Inicializa vida e inventário
+	current_health = max_health
+	emit_signal("health_changed", current_health, max_health)
+	emit_signal("shield_inventory_changed", shield_inventory)
+	
+	# Integrações externas
 	if GameManager:
 		GameManager.restore_player_state(self)
 	
 	if ScreenBoundsManager:
 		ScreenBoundsManager.set_margin(screen_margin)
-	
-	if is_angry_cloud_game:
-		current_health = max_health
-		emit_signal("health_changed", current_health, max_health)
-
 func _physics_process(delta):
 	# Atualiza cooldown do dash
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
-	
-	if has_shield:
-		shield_timer -= delta
-		if shield_timer <= 0:
-			deactivate_shield()
-	
+
+	# 3.Lógica do Buff do Escudo (Tempo de duração)
+	if shield_buff_active:
+		shield_buff_timer -= delta
+		if shield_buff_timer <= 0:
+			deactivate_shield_buff()
 	# Escolhe modo de movimento
 	if is_dashing:
 		_dash_move(delta)
@@ -130,6 +134,8 @@ func _normal_move(delta):
 func _minigame_move(delta):
 	var horizontal_input := Input.get_axis("LEFT", "RIGHT")
 	
+	if Input.is_action_just_pressed("USE_ITEM"):
+		consume_shield_item()
 	# Aplicar gravidade
 	if not is_on_floor():
 		# Verifica se está planando
@@ -223,28 +229,81 @@ func _end_dash():
 	
 	print("Dash finalizado!")
 
+# ==========================================
+# SISTEMA DE INVENTÁRIO DE ESCUDO (NOVO)
+# ==========================================
 
-func _update_invincibility(delta):
-	if not is_invincible:
-		return
+func collect_shield_item() -> bool:
+	"""Chamado pelo ShieldPowerUp quando colide."""
+	if shield_inventory < max_shields:
+		shield_inventory += 1
+		print("Item Shield coletado! Inventário: %d/%d" % [shield_inventory, max_shields])
+		emit_signal("shield_inventory_changed", shield_inventory)
+		return true # Retorna true para o item saber que pode sumir
+	else:
+		print("Inventário de Shields cheio!")
+		return false # Retorna false e o item fica no chão
+
+func consume_shield_item():
+	"""Chamado pelo Input do Jogador."""
+	if shield_inventory > 0:
+		# 1. Remove do inventário
+		shield_inventory -= 1
+		emit_signal("shield_inventory_changed", shield_inventory)
+		
+		print("Usou Shield! Restam: %d" % shield_inventory)
+		
+		# 2. Recupera 1 de Vida
+		heal(1)
+		
+		# 3. Ativa o Buff (Velocidade + Pulo)
+		activate_shield_buff(shield_buff_duration)
+	else:
+		print("Nenhum shield no inventário para usar.")
+
+func activate_shield_buff(duration: float):
+	shield_buff_active = true
+	shield_buff_timer = duration
 	
-	invincibility_timer -= delta
+	# Aplica multiplicadores (apenas se já não estiverem aplicados)
+	if SPEED == default_speed:
+		SPEED = default_speed * shield_speed_multiplier
+		JUMP_VELOCITY = default_jump * shield_jump_multiplier
 	
-	# Efeito de piscada
+	print("BUFF ATIVO! Vel e Pulo aumentados por %.1fs" % duration)
+	
+	# Feedback Visual
+	if shield_sprite:
+		shield_sprite.visible = true
 	if sprite:
-		sprite.modulate.a = 0.5 if int(invincibility_timer * 10) % 2 == 0 else 1.0
+		sprite.modulate = Color(0.6, 1.0, 1.0) # Ciano brilhante
+
+func deactivate_shield_buff():
+	shield_buff_active = false
+	print("BUFF TERMINOU. Status normal.")
 	
-	if invincibility_timer <= 0:
-		is_invincible = false
-		if sprite:
-			sprite.modulate.a = 1.0
+	# Reseta valores
+	SPEED = default_speed
+	JUMP_VELOCITY = default_jump
+	
+	# Desliga visual
+	if shield_sprite:
+		shield_sprite.visible = false
+	if sprite:
+		sprite.modulate = Color.WHITE
+
+# ==========================================
+# SISTEMA DE VIDA E DANO
+# ==========================================
 
 func take_damage(damage: int = 1):
-	if has_shield:
-		print("Player: Dano bloqueado pelo Escudo!")
+	# 1. Se o Buff do Escudo estiver ativo, bloqueia o dano
+	if shield_buff_active:
+		print("Player: Dano bloqueado pelo Buff do Escudo!")
 		return
 	
-	if is_invincible or is_dashing:  # Invencível durante dash
+	# 2. Se estiver invencível ou no dash, ignora
+	if is_invincible or is_dashing:
 		return
 	
 	current_health -= damage
@@ -262,16 +321,36 @@ func take_damage(damage: int = 1):
 		_die()
 
 func heal(amount: int = 1):
-	current_health = min(current_health + amount, max_health)
-	emit_signal("health_changed", current_health, max_health)
-	print("Player curado! Vida: %d/%d" % [current_health, max_health])
+	if current_health < max_health:
+		current_health = min(current_health + amount, max_health)
+		emit_signal("health_changed", current_health, max_health)
+		print("Player curado! Vida: %d/%d" % [current_health, max_health])
+	else:
+		print("Vida já está cheia.")
+
+func _update_invincibility(delta):
+	if not is_invincible:
+		return
+	
+	invincibility_timer -= delta
+	
+	# Efeito visual de piscar
+	if sprite:
+		sprite.modulate.a = 0.5 if int(invincibility_timer * 10) % 2 == 0 else 1.0
+	
+	if invincibility_timer <= 0:
+		is_invincible = false
+		if sprite:
+			sprite.modulate.a = 1.0
 
 func _play_hit_effect():
 	if sprite:
 		sprite.modulate = Color.RED
 		await get_tree().create_timer(0.1).timeout
-		if is_instance_valid(sprite):
+		if is_instance_valid(sprite) and not shield_buff_active:
 			sprite.modulate = Color.WHITE
+		elif is_instance_valid(sprite) and shield_buff_active:
+			sprite.modulate = Color(0.6, 1.0, 1.0) # Restaura a cor do buff se estiver ativo
 
 func _die():
 	print("Player morreu! Game Over")
@@ -293,9 +372,14 @@ func reset_health():
 	current_health = max_health
 	is_invincible = false
 	
-	if has_shield:
-		deactivate_shield()
+	# Reseta inventário ou mantém? Geralmente reseta em Game Over:
+	shield_inventory = 0
+	emit_signal("shield_inventory_changed", shield_inventory)
 	
+	# Desativa buff se estiver ativo
+	if shield_buff_active:
+		deactivate_shield_buff()
+		
 	emit_signal("health_changed", current_health, max_health)
 
 func get_current_health() -> int:
@@ -308,37 +392,3 @@ func _on_porta_nuvem_trigger_body_entered(body):
 	if body == self:
 		GameManager.save_player_state(self)
 		GameManager.change_to_cloud_world()
-
-func activate_shield(duration: float):
-	has_shield = true
-	shield_timer = duration
-	
-	# Aplica Super Velocidade e Pulo
-	SPEED = default_speed * shield_speed_multiplier
-	JUMP_VELOCITY = default_jump * shield_jump_multiplier
-	
-	print("Shield ON! Speed: %.0f, Jump: %.0f" % [SPEED, JUMP_VELOCITY])
-	
-	# Ativa visual do escudo
-	if shield_sprite:
-		shield_sprite.visible = true
-	
-	# Opcional: Muda a cor do personagem para indicar poder (ex: azul claro)
-	if sprite:
-		sprite.modulate = Color(0.6, 1.0, 1.0) 
-
-func deactivate_shield():
-	has_shield = false
-	print("Shield OFF. Valores restaurados.")
-	
-	# Restaura os valores originais
-	SPEED = default_speed
-	JUMP_VELOCITY = default_jump
-	
-	# Desativa visual
-	if shield_sprite:
-		shield_sprite.visible = false
-	
-	# Restaura a cor original
-	if sprite:
-		sprite.modulate = Color.WHITE

@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bsyyp5seuw72c"]
+[gd_scene load_steps=4 format=3 uid="uid://bsyyp5seuw72c"]
 
 [ext_resource type="Script" uid="uid://dmm5kddewd372" path="res://scripts/Object/shield.gd" id="1_t6oyo"]
-[ext_resource type="Texture2D" uid="uid://cegkocxiyq7kc" path="res://assets/sprites/a_shield_winged.png" id="2_hbkcw"]
+[ext_resource type="Texture2D" uid="uid://cegkocxiyq7kc" path="res://assets/sprites/Object/shield_full.png" id="2_hbkcw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t6oyo"]
+radius = 27.658634
 
 [node name="Shield" type="Area2D"]
 script = ExtResource("1_t6oyo")
@@ -10,3 +13,4 @@ script = ExtResource("1_t6oyo")
 texture = ExtResource("2_hbkcw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t6oyo")

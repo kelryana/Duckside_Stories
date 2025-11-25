@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://chk3eefj56ril"]
+[gd_scene load_steps=17 format=3 uid="uid://chk3eefj56ril"]
 
 [ext_resource type="Script" uid="uid://cfsru8ouidens" path="res://scripts/Scenario/angry_cloud.gd" id="1_jfe0p"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="1_jym6c"]
@@ -8,9 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://c8bng2e5vajs0" path="res://ui/GameOver.tscn" id="5_h2at5"]
 [ext_resource type="PackedScene" uid="uid://cpg8m3qdl3umx" path="res://ui/Health.tscn" id="6_n3goa"]
 [ext_resource type="PackedScene" uid="uid://bsyyp5seuw72c" path="res://scenes/Objects/Shield.tscn" id="8_jfe0p"]
+[ext_resource type="PackedScene" uid="uid://bxcua7bg4gpt2" path="res://ui/shield_ui.tscn" id="9_v22yg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6cmfv"]
-size = Vector2(1285, 2)
+size = Vector2(1586.5, 2)
 
 [sub_resource type="Curve2D" id="Curve2D_xp7y6"]
 _data = {
@@ -53,6 +54,8 @@ texture_filter = 1
 position = Vector2(246, 504)
 script = ExtResource("1_jfe0p")
 angry_cloud = NodePath("NuvemRaivosa2")
+shield_powerup_scene = ExtResource("8_jfe0p")
+shield_spawn_interval = 5.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -60,7 +63,7 @@ angry_cloud = NodePath("NuvemRaivosa2")
 position = Vector2(-912, 376)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(903.5, -17)
+position = Vector2(960.75, -16)
 shape = SubResource("RectangleShape2D_6cmfv")
 
 [node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
@@ -80,6 +83,9 @@ max_lightning_count = 10
 position = Vector2(-544, -200)
 scale = Vector2(0.2, 0.2)
 
+[node name="Shield" parent="." instance=ExtResource("8_jfe0p")]
+position = Vector2(-798, 199)
+
 [node name="HUD" parent="." instance=ExtResource("1_jym6c")]
 script = null
 
@@ -88,7 +94,7 @@ player = NodePath("../Patogonista")
 
 [node name="HealthUi" parent="." instance=ExtResource("6_n3goa")]
 
-[node name="Shield" parent="." instance=ExtResource("8_jfe0p")]
+[node name="ShieldUI" parent="." instance=ExtResource("9_v22yg")]
 
 [node name="CloudPath1" type="Path2D" parent="."]
 position = Vector2(-4, 64)

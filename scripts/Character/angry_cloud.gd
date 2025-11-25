@@ -172,7 +172,7 @@ func _spawn_lightning_wave():
 	# Determina quantidade de raios
 	var lightning_count = randi_range(min_lightning_count, max_lightning_count)
 	
-	print("AngryCloud: Spawnando %d raios de %s" % [lightning_count, lightning_spawn_point.global_position])
+	#print("AngryCloud: Spawnando %d raios de %s" % [lightning_count, lightning_spawn_point.global_position])
 	
 	# Spawna cada raio
 	for i in range(lightning_count):
@@ -186,7 +186,7 @@ func _spawn_single_lightning():
 	# Velocidade aleatória
 	var random_speed = randf_range(min_lightning_speed, max_lightning_speed)
 	
-	print("  DEBUG: angle_degrees=%.1f, angle_radians=%.3f, speed=%.1f" % [angle_degrees, angle_radians, random_speed])
+	#print("  DEBUG: angle_degrees=%.1f, angle_radians=%.3f, speed=%.1f" % [angle_degrees, angle_radians, random_speed])
 	
 	# Instancia o raio
 	var lightning = lightning_scene.instantiate()
@@ -209,12 +209,12 @@ func _spawn_single_lightning():
 	if lightning.has_method("add_collision_exception_with"):
 		lightning.add_collision_exception_with(self)
 	
-	print("  Raio configurado: pos=%s, dir=%s, speed=%.1f, angle=%.1f°" % [
-		lightning.global_position, 
-		direction, 
-		lightning.speed,
-		angle_degrees
-	])
+	#print("  Raio configurado: pos=%s, dir=%s, speed=%.1f, angle=%.1f°" % [
+		#lightning.global_position, 
+		#direction, 
+		#lightning.speed,
+		#angle_degrees
+	#])
 
 func add_path(path: Path2D):
 	if path and not paths.has(path):

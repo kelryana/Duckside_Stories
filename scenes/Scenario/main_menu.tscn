@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bso5na54ep3l8"]
 
-[ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scenes/main_menu.gd" id="1_qbbxi"]
+[ext_resource type="Script" uid="uid://kj0ldibn8v7r" path="res://scripts/Scenario/main_menu.gd" id="1_qbbxi"]
 [ext_resource type="Texture2D" uid="uid://cypldgbikfoen" path="res://assets/sprites/Scenario/Duckside Stories(3).png" id="2_760br"]
 [ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="4_cdwnu"]
 [ext_resource type="Texture2D" uid="uid://chaa2py6sjwec" path="res://Game Assets/image_1_-removebg-preview.png" id="4_hjbcr"]

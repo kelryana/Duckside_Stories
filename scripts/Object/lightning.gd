@@ -11,7 +11,7 @@ var lifetime: float = 3.0
 var time_alive: float = 0.0
 
 func _ready():
-	print("Lightning _ready(): speed=%.1f, direction=%s, pos=%s" % [speed, direction, global_position])
+	#print("Lightning _ready(): speed=%.1f, direction=%s, pos=%s" % [speed, direction, global_position])
 	
 	# Conecta sinal de colisão
 	body_entered.connect(_on_body_entered)
@@ -42,39 +42,39 @@ func _physics_process(delta):
 	
 	# Destroi após lifetime (como segurança)
 	if time_alive >= lifetime:
-		print("Lightning destruído por timeout após %.1fs" % time_alive)
+		#print("Lightning destruído por timeout após %.1fs" % time_alive)
 		queue_free()
 		return
 	
 	# Destroi se sair da tela
 	if ScreenBoundsManager and not ScreenBoundsManager.is_inside_screen(global_position):
-		print("Lightning destruído por sair da tela em %s" % global_position)
+		#print("Lightning destruído por sair da tela em %s" % global_position)
 		queue_free()
 
 func _on_body_entered(body):
 	"""Detecta colisão com o player ou outros objetos"""
-	print("Lightning colidiu com: %s (grupos: %s)" % [body.name, body.get_groups()])
+	#print("Lightning colidiu com: %s (grupos: %s)" % [body.name, body.get_groups()])
 	
 	# IGNORA colisão com a própria AngryCloud
 	if body.is_in_group("bounded_objects"):
-		print("Lightning ignorou colisão com bounded_object")
+		#print("Lightning ignorou colisão com bounded_object")
 		return
 	
 	if body.is_in_group("player"):
 		# Causa dano ao player
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
-		print("Lightning atingiu player!")
+		#print("Lightning atingiu player!")
 		queue_free()
 		return
 	
 	# Destrói ao colidir com superfícies físicas
 	if body is TileMap or body is StaticBody2D or body.is_in_group("terrain"):
-		print("Lightning atingiu terreno: %s" % body.name)
+		#print("Lightning atingiu terreno: %s" % body.name)
 		queue_free()
 		return
 	
 	# Também destrói ao colidir com qualquer corpo físico (exceto CharacterBody2D que pode ser AngryCloud)
 	if body is PhysicsBody2D and not body is CharacterBody2D:
-		print("Lightning atingiu PhysicsBody2D: %s" % body.name)
+		#print("Lightning atingiu PhysicsBody2D: %s" % body.name)
 		queue_free()
