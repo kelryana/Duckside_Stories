@@ -1,14 +1,16 @@
-[gd_scene load_steps=17 format=3 uid="uid://chk3eefj56ril"]
+[gd_scene load_steps=19 format=3 uid="uid://chk3eefj56ril"]
 
 [ext_resource type="Script" uid="uid://cfsru8ouidens" path="res://scripts/Scenario/angry_cloud.gd" id="1_jfe0p"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="1_jym6c"]
 [ext_resource type="PackedScene" uid="uid://c2c81rt0vuqqs" path="res://scenes/Character/Patogonista.tscn" id="2_umy4o"]
 [ext_resource type="PackedScene" uid="uid://c4awdjks2tdim" path="res://scenes/Character/AngryCloud.tscn" id="2_xp7y6"]
+[ext_resource type="PackedScene" uid="uid://b1o0iu3idutay" path="res://scenes/Objects/Shield.tscn" id="3_xlu6u"]
+[ext_resource type="Script" uid="uid://e0o0aam2dvpg" path="res://scripts/Tiles/dynamic_floor.gd" id="4_eqe5e"]
 [ext_resource type="PackedScene" uid="uid://c6o63sseu3dgd" path="res://scenes/Objects/Lightning.tscn" id="4_xp7y6"]
 [ext_resource type="PackedScene" uid="uid://c8bng2e5vajs0" path="res://ui/GameOver.tscn" id="5_h2at5"]
 [ext_resource type="PackedScene" uid="uid://cpg8m3qdl3umx" path="res://ui/Health.tscn" id="6_n3goa"]
-[ext_resource type="PackedScene" uid="uid://bsyyp5seuw72c" path="res://scenes/Objects/Shield.tscn" id="8_jfe0p"]
-[ext_resource type="PackedScene" uid="uid://bxcua7bg4gpt2" path="res://ui/shield_ui.tscn" id="9_v22yg"]
+[ext_resource type="PackedScene" uid="uid://bsyyp5seuw72c" path="res://scenes/Objects/Consumable.tscn" id="8_jfe0p"]
+[ext_resource type="PackedScene" uid="uid://bxcua7bg4gpt2" path="res://ui/Consumable.tscn" id="9_v22yg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6cmfv"]
 size = Vector2(1586.5, 2)
@@ -54,13 +56,18 @@ texture_filter = 1
 position = Vector2(246, 504)
 script = ExtResource("1_jfe0p")
 angry_cloud = NodePath("NuvemRaivosa2")
-shield_powerup_scene = ExtResource("8_jfe0p")
-shield_spawn_interval = 5.0
+split_interval = 20.0
+split_duration = 10.0
+consumable_powerup_scene = ExtResource("8_jfe0p")
+shield_item_scene = ExtResource("3_xlu6u")
+consumable_spawn_interval = 45.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(-912, 376)
+script = ExtResource("4_eqe5e")
+floor_thickness = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(960.75, -16)
@@ -83,9 +90,6 @@ max_lightning_count = 10
 position = Vector2(-544, -200)
 scale = Vector2(0.2, 0.2)
 
-[node name="Shield" parent="." instance=ExtResource("8_jfe0p")]
-position = Vector2(-798, 199)
-
 [node name="HUD" parent="." instance=ExtResource("1_jym6c")]
 script = null
 
@@ -94,7 +98,7 @@ player = NodePath("../Patogonista")
 
 [node name="HealthUi" parent="." instance=ExtResource("6_n3goa")]
 
-[node name="ShieldUI" parent="." instance=ExtResource("9_v22yg")]
+[node name="ConsumableUI" parent="." instance=ExtResource("9_v22yg")]
 
 [node name="CloudPath1" type="Path2D" parent="."]
 position = Vector2(-4, 64)

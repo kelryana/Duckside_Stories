@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxcua7bg4gpt2"]
+
+[ext_resource type="Script" uid="uid://fnukkxkvyies" path="res://scripts/UI/consumable.gd" id="1_ovwb0"]
+[ext_resource type="Texture2D" uid="uid://da88wcvbhx4j6" path="res://assets/sprites/Object/toast_full.webp" id="2_0xv7r"]
+[ext_resource type="Texture2D" uid="uid://kqtenm4yd6af" path="res://assets/sprites/Object/toast_empty.webp" id="3_3pl6h"]
+
+[node name="ConsumableUI" type="CanvasLayer"]
+script = ExtResource("1_ovwb0")
+texture_full = ExtResource("2_0xv7r")
+texture_empty = ExtResource("3_3pl6h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="ConsumableIcon1" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ConsumableIcon2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="ConsumableIcon3" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2

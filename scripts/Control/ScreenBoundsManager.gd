@@ -57,7 +57,6 @@ func set_debug_mode(active: bool):
 	debug_mode = active
 
 
-# 🔥 ESSENCIAL:
 # Recalcula os limites somente depois da cena realmente carregar.
 func update_bounds_after_scene_change():
 	await get_tree().process_frame
