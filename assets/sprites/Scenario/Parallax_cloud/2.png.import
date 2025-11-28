@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cinuk6anjnqln"
-path="res://.godot/imported/BG_Parallax_Clouds(3).png-06efac6117055505a6741fcf51007e3b.ctex"
+uid="uid://b105quvmjppk4"
+path="res://.godot/imported/2.png-13b91d725eb69802b0dcf6c780c7e8c3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Scenario/Parallax_cloud/BG_Parallax_Clouds(3).png"
-dest_files=["res://.godot/imported/BG_Parallax_Clouds(3).png-06efac6117055505a6741fcf51007e3b.ctex"]
+source_file="res://assets/sprites/Scenario/Parallax_cloud/2.png"
+dest_files=["res://.godot/imported/2.png-13b91d725eb69802b0dcf6c780c7e8c3.ctex"]
 
 [params]
 

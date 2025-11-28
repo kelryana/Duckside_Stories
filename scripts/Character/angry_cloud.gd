@@ -81,8 +81,8 @@ func _physics_process(delta):
 	if constrain_to_screen:
 		if scene_bounds != Rect2():
 			global_position = global_position.clamp(scene_bounds.position, scene_bounds.end)
-		elif ScreenBoundsManager:
-			global_position = ScreenBoundsManager.clamp_position(global_position)
+		elif ScreenUtils:
+			global_position = ScreenUtils.clamp_position(global_position)
 	
 	# Verifica fim da path
 	if path_follow.progress_ratio >= 1.0:

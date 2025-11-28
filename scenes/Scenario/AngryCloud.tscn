@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://chk3eefj56ril"]
+[gd_scene load_steps=22 format=3 uid="uid://chk3eefj56ril"]
 
 [ext_resource type="Script" uid="uid://cfsru8ouidens" path="res://scripts/Scenario/angry_cloud.gd" id="1_jfe0p"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="1_jym6c"]
@@ -8,7 +8,10 @@
 [ext_resource type="Script" uid="uid://e0o0aam2dvpg" path="res://scripts/Tiles/dynamic_floor.gd" id="4_eqe5e"]
 [ext_resource type="PackedScene" uid="uid://c6o63sseu3dgd" path="res://scenes/Objects/Lightning.tscn" id="4_xp7y6"]
 [ext_resource type="PackedScene" uid="uid://c8bng2e5vajs0" path="res://ui/GameOver.tscn" id="5_h2at5"]
+[ext_resource type="Texture2D" uid="uid://cnf6nwbwlbycu" path="res://assets/sprites/Scenario/Parallax_cloud/1.png" id="5_np20c"]
+[ext_resource type="Texture2D" uid="uid://b105quvmjppk4" path="res://assets/sprites/Scenario/Parallax_cloud/2.png" id="6_g8nq2"]
 [ext_resource type="PackedScene" uid="uid://cpg8m3qdl3umx" path="res://ui/Health.tscn" id="6_n3goa"]
+[ext_resource type="Texture2D" uid="uid://csrq0q6phorm0" path="res://assets/sprites/Scenario/Parallax_cloud/orig.png" id="7_4mhrm"]
 [ext_resource type="PackedScene" uid="uid://bsyyp5seuw72c" path="res://scenes/Objects/Consumable.tscn" id="8_jfe0p"]
 [ext_resource type="PackedScene" uid="uid://bxcua7bg4gpt2" path="res://ui/Consumable.tscn" id="9_v22yg"]
 
@@ -53,7 +56,6 @@ point_count = 10
 
 [node name="NuvemMinigme" type="Node2D" node_paths=PackedStringArray("angry_cloud")]
 texture_filter = 1
-position = Vector2(246, 504)
 script = ExtResource("1_jfe0p")
 angry_cloud = NodePath("NuvemRaivosa2")
 split_interval = 20.0
@@ -61,6 +63,8 @@ split_duration = 10.0
 consumable_powerup_scene = ExtResource("8_jfe0p")
 shield_item_scene = ExtResource("3_xlu6u")
 consumable_spawn_interval = 45.0
+consumable_item_scale = Vector2(0.1, 0.1)
+shield_item_scale = Vector2(0.1, 0.1)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -72,6 +76,30 @@ floor_thickness = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(960.75, -16)
 shape = SubResource("RectangleShape2D_6cmfv")
+
+[node name="ParallaxCloud" type="Node2D" parent="."]
+visible = false
+position = Vector2(-350, -192)
+
+[node name="Parallax2D" type="Parallax2D" parent="ParallaxCloud"]
+scroll_offset = Vector2(0, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D"]
+texture = ExtResource("5_np20c")
+
+[node name="Parallax2D2" type="Parallax2D" parent="ParallaxCloud"]
+scroll_offset = Vector2(0.2, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D2"]
+texture = ExtResource("6_g8nq2")
+
+[node name="Parallax2D3" type="Parallax2D" parent="ParallaxCloud"]
+scroll_offset = Vector2(0.3, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D3"]
+position = Vector2(356, 195)
+scale = Vector2(2.2361112, 2.2037036)
+texture = ExtResource("7_4mhrm")
 
 [node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
 position = Vector2(2, 320)

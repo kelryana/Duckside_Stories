@@ -33,7 +33,7 @@ func _physics_process(delta):
 	if time_alive >= lifetime:
 		queue_free()
 	
-	if ScreenBoundsManager and not ScreenBoundsManager.is_inside_screen(global_position):
+	if ScreenUtils and not ScreenUtils.is_inside_screen(global_position):
 		queue_free()
 
 func _on_body_entered(body):

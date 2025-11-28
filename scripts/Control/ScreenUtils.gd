@@ -8,7 +8,7 @@ func get_screen_bounds() -> Rect2:
 	var viewport := get_viewport()
 	if not viewport:
 		if debug_mode:
-			print("ScreenBoundsManager: Viewport não encontrado!")
+			print("ScreenUtils: Viewport não encontrado!")
 		return Rect2()
 
 	var camera := viewport.get_camera_2d()

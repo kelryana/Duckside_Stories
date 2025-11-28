@@ -24,7 +24,7 @@ func _adjust_floor():
 		push_warning("ChaoAdaptativo: Shape incorreto!")
 		return
 	
-	# 1. Obtém dados da Viewport e Câmera DIRETAMENTE (Ignorando ScreenBoundsManager)
+	# 1. Obtém dados da Viewport e Câmera DIRETAMENTE (Ignorando ScreenUtils)
 	var viewport = get_viewport()
 	var visible_rect = viewport.get_visible_rect()
 	var camera = viewport.get_camera_2d()
