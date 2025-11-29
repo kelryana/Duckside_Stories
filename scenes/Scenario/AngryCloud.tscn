@@ -58,11 +58,8 @@ point_count = 10
 texture_filter = 1
 script = ExtResource("1_jfe0p")
 angry_cloud = NodePath("NuvemRaivosa2")
-split_interval = 20.0
-split_duration = 10.0
 consumable_powerup_scene = ExtResource("8_jfe0p")
 shield_item_scene = ExtResource("3_xlu6u")
-consumable_spawn_interval = 45.0
 consumable_item_scale = Vector2(0.1, 0.1)
 shield_item_scale = Vector2(0.1, 0.1)
 parallax_layers = [NodePath("Céu"), NodePath("NuvensClaras"), NodePath("NuvensEscuras")]
@@ -71,6 +68,7 @@ parallax_layers = [NodePath("Céu"), NodePath("NuvensClaras"), NodePath("NuvensE
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(-912, 376)
+collision_mask = 0
 script = ExtResource("4_eqe5e")
 floor_thickness = 1.0
 
@@ -81,6 +79,7 @@ shape = SubResource("RectangleShape2D_6cmfv")
 [node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
 position = Vector2(2, 320)
 scale = Vector2(0.15, 0.15)
+collision_layer = 2
 platform_on_leave = 1
 
 [node name="NuvemRaivosa2" parent="." node_paths=PackedStringArray("paths") instance=ExtResource("2_xp7y6")]

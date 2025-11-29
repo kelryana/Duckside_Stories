@@ -10,12 +10,12 @@ extends Node2D
 @export var split_duration: float = 15.0 
 @export var mini_cloud_count: int = 5    
 @export var mini_cloud_scale: float = 0.5
-@export var mini_cloud_hits_to_die: int = 10
+@export var mini_cloud_hits_to_die: int = 5
 
 @export_group("Itens e PowerUps")
 @export var consumable_powerup_scene: PackedScene
 @export var shield_item_scene: PackedScene
-@export var consumable_spawn_interval: float = 60.0
+@export var consumable_spawn_interval: float = 45.0
 @export var consumable_lifetime: float = 15.0
 @export var consumable_item_scale: Vector2 = Vector2(1.0, 1.0)
 @export var shield_item_scale: Vector2 = Vector2(1.0, 1.0)
@@ -129,7 +129,7 @@ func _split_angry_cloud():
 	var clouds_spawned = 0
 	
 	for i in range(mini_cloud_count):
-		if clouds_spawned >= clouds_needed: break
+		# Remova o break do clouds_needed se quiser sempre 5
 			
 		var mini = angry_cloud.duplicate()
 		add_child(mini)
@@ -144,17 +144,31 @@ func _split_angry_cloud():
 		mini.scale = original_scale * mini_cloud_scale
 		mini.lightning_scale = lightning_scale * mini_cloud_scale
 		
-		# Distribuição circular
+		# --- CORREÇÃO DE POSICIONAMENTO ---
+		
+		# 1. Ajuste de Path (Distribuindo para não encavalar)
+		if angry_cloud.paths.size() > 0:
+			# Escolhe o path ciclicamente
+			mini.force_path_change((angry_cloud.current_path_index + i + 1) % angry_cloud.paths.size())
+			
+			# O PULO DO GATO: Se tivermos path_follow, alteramos o progresso inicial!
+			if mini.path_follow:
+				# Opção A: Aleatório (elas nascem em pontos random do trilho)
+				# mini.path_follow.progress_ratio = randf() 
+				
+				# Opção B: Distribuição baseada no índice (mais organizado)
+				# Isso espalha as nuvens ao longo do caminho
+				var spread_offset = (i * 100.0) # 100 pixels de distância entre cada uma no mesmo trilho
+				mini.path_follow.progress += spread_offset
+				
+		# Nota: Se a nuvem usa Path, o 'global_position' abaixo será sobrescrito no próximo frame.
+		
 		var angle = angle_step * i
 		var offset = Vector2(cos(angle), sin(angle)) * 150.0
 		mini.global_position = original_pos + offset
 		
 		mini.visible = true
 		mini.set_physics_process(true)
-		
-		# Ajuste path
-		if angry_cloud.paths.size() > 1:
-			mini.force_path_change((angry_cloud.current_path_index + i + 1) % angry_cloud.paths.size())
 		
 		mini_clouds.append(mini)
 		clouds_spawned += 1
@@ -270,94 +284,92 @@ func _spawn_next_shield():
 # ========================================
 # DEBUG E VISUALIZAÇÃO
 # ========================================
-func _process(delta):
-	if OS.has_feature("editor"):
-		queue_redraw()
-
-func _draw():
-	if OS.has_feature("editor"):
-		# Usamos to_local para garantir que o desenho alinhe com o Node atual
-		var global_bounds = _get_active_camera_rect()
-		var local_pos = to_local(global_bounds.position)
-		var draw_bounds = Rect2(local_pos, global_bounds.size)
-		
-		# 1. Vermelho: Câmera Real
-		draw_rect(draw_bounds, Color(1, 0, 0), false, 4.0)
-		
-		# 2. Verde: Zona Segura de Pulo (Visualização Ideal)
-		# Essa área representa onde o item DEVE ficar após o clamp
-		var max_h = _get_player_jump_height()
-		var min_spawn_h = max_h * jump_percent_min
-		var max_spawn_h = max_h * jump_percent_max
-		
-		var safe_rect = draw_bounds
-		safe_rect.position.x += 80
-		safe_rect.size.x -= 160
-		
-		# A zona verde começa do fundo da tela subindo
-		# Nota: Isso é visual. Se tiver um buraco, o item não nasce aí, mas a altura será respeitada.
-		safe_rect.position.y = draw_bounds.end.y - max_spawn_h - 50 # 50 de margem do chão
-		safe_rect.size.y = (max_spawn_h - min_spawn_h)
-		
-		draw_rect(safe_rect, Color(0, 1, 0, 0.5), true)
+#func _process(delta):
+	#if OS.has_feature("editor"):
+		#queue_redraw()
+#
+#func _draw():
+	#if OS.has_feature("editor"):
+		## Usamos to_local para garantir que o desenho alinhe com o Node atual
+		#var global_bounds = _get_active_camera_rect()
+		#var local_pos = to_local(global_bounds.position)
+		#var draw_bounds = Rect2(local_pos, global_bounds.size)
+		#
+		## 1. Vermelho: Câmera Real
+		#draw_rect(draw_bounds, Color(1, 0, 0), false, 4.0)
+		#
+		## 2. Verde: Zona Segura de Pulo (Visualização Ideal)
+		## Essa área representa onde o item DEVE ficar após o clamp
+		#var max_h = _get_player_jump_height()
+		#var min_spawn_h = max_h * jump_percent_min
+		#var max_spawn_h = max_h * jump_percent_max
+		#
+		#var safe_rect = draw_bounds
+		#safe_rect.position.x += 80
+		#safe_rect.size.x -= 160
+		#
+		## A zona verde começa do fundo da tela subindo
+		## Nota: Isso é visual. Se tiver um buraco, o item não nasce aí, mas a altura será respeitada.
+		#safe_rect.position.y = draw_bounds.end.y - max_spawn_h - 50 # 50 de margem do chão
+		#safe_rect.size.y = (max_spawn_h - min_spawn_h)
+		#
+		#draw_rect(safe_rect, Color(0, 1, 0, 0.5), true)
 
 # ========================================
-# CÁLCULO DE POSIÇÃO (CORRIGIDO)
+# CÁLCULO DE POSIÇÃO 
 # ========================================
 func _calculate_reachable_position() -> Vector2:
 	var bounds = _get_active_camera_rect()
-	
+
 	# TRAVA DE SEGURANÇA 1: Se a tela ainda não carregou (size pequeno), aborta para evitar X=28
 	if bounds.size.x < 200:
 		return Vector2.ZERO 
-
 	# 1. X (Horizontal)
 	var margin_x = 80.0
 	var min_x = bounds.position.x + margin_x
 	var max_x = bounds.end.x - margin_x
-	
+
 	# Se a tela for muito estreita, centraliza
 	if min_x >= max_x:
 		min_x = bounds.position.x + (bounds.size.x * 0.5)
 		max_x = min_x
-		
+
 	var x_pos = randf_range(min_x, max_x)
-	
+
 	# 2. Y (Vertical) - Buscando o Chão Físico
 	var space_state = get_world_2d().direct_space_state
-	
+
 	# Lança o raio de cima para baixo
 	var query = PhysicsRayQueryParameters2D.create(
-		Vector2(x_pos, bounds.position.y), 
-		Vector2(x_pos, bounds.end.y + 200) # Busca até um pouco abaixo da tela
+	Vector2(x_pos, bounds.position.y), 
+	Vector2(x_pos, bounds.end.y + 200) # Busca até um pouco abaixo da tela
 	)
 	query.collision_mask = floor_collision_mask # Importante: Só colide com o chão!
-	
+
 	var result = space_state.intersect_ray(query)
-	
+
 	var floor_y_real = bounds.end.y # Fallback: Se não achar chão, usa o fundo da tela
 	if result:
 		floor_y_real = result.position.y
-		
+
 	# 3. Calcula Altura do Pulo
 	var max_jump_h = _get_player_jump_height()
 	var jump_percent = randf_range(jump_percent_min, jump_percent_max)
 	var spawn_height = max_jump_h * jump_percent
-	
+
 	var y_pos = floor_y_real - spawn_height
-	
+
 	# 4. CLAMP RIGOROSO (O Segredo para consertar o Y=723)
 	# Forçamos o item a ficar DENTRO da zona verde visualizada, não importa o que o Raycast diga.
-	
+
 	var screen_bottom_limit = bounds.end.y - 50.0 # Nunca nasce colado no fundo (HUD/Chão)
 	var screen_top_limit = bounds.position.y + (bounds.size.y * 0.15) # Nunca nasce no teto absoluto
-	
+
 	# Se o Raycast achou um buraco fundo, o item vai tentar nascer lá embaixo.
 	# O Clamp vai puxá-lo de volta para a tela visível.
 	y_pos = clamp(y_pos, screen_top_limit, screen_bottom_limit)
-
 	return Vector2(x_pos, y_pos)
-
+	
 # Função Auxiliar de Câmera (Mantida igual pois funcionou bem)
 func _get_active_camera_rect() -> Rect2:
 	var viewport_rect = get_viewport_rect()
@@ -367,34 +379,14 @@ func _get_active_camera_rect() -> Rect2:
 	return Rect2(top_left, bottom_right - top_left)
 
 func _get_player_jump_height() -> float:
-	var player = get_tree().get_first_node_in_group("player")
-	if not player:
-		return 0.0
-
+	var jump_vel = 600.0
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-	# Se o player tiver gravidade customizada, usamos ela
-	if "gravity" in player:
-		gravity = player.gravity
-	
-	if gravity == 0:
-		return 0.0
-	
-	# 1. Obtemos a Velocidade de Pulo definida no script do Player
-	var raw_jump_vel = 600.0 # Valor default de segurança
-	if "JUMP_VELOCITY" in player:
-		raw_jump_vel = abs(player.JUMP_VELOCITY)
-	
-	# 2. LIMPEZA DE BUFFS (A lógica crítica para o Spawn)
-	
-	if "consumable_jump_multiplier" in player and player.consumable_jump_multiplier > 0.0:
-		raw_jump_vel = raw_jump_vel / player.consumable_jump_multiplier
-		pass 
+	var player = get_tree().get_first_node_in_group("player")
 
-	# 3. Cálculo da Altura Escalar Padrão (Física: h = v² / 2g)
-	# Isso retorna a distância em pixels que o player consegue subir sem buffs.
-	var clean_jump_height = (raw_jump_vel * raw_jump_vel) / (2.0 * gravity)
-	
-	return clean_jump_height
+	if player and "default_jump" in player:
+		jump_vel = abs(player.default_jump)
+		
+	return (jump_vel * jump_vel) / (2.0 * gravity)
 
 func _setup_parallax_dimensions():
 	if parallax_layers.is_empty() or not is_inside_tree(): return
