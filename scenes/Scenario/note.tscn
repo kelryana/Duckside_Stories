@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh0fiqufddonn"]
+
+[ext_resource type="Script" uid="uid://vwcg844vx7xx" path="res://scenes/Scenario/note.gd" id="1_hx2hy"]
+
+[node name="Note" type="Node2D"]
+script = ExtResource("1_hx2hy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
