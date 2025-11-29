@@ -103,4 +103,3 @@ position = Vector2(-3.8485947, -5.354576)
 scale = Vector2(15.282799, 15.282801)
 sprite_frames = SubResource("SpriteFrames_aui1d")
 animation = &"walk"
-frame_progress = 0.99668664
