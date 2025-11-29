@@ -10,7 +10,7 @@ extends Node2D
 @export var split_duration: float = 15.0 
 @export var mini_cloud_count: int = 5    
 @export var mini_cloud_scale: float = 0.5
-@export var mini_cloud_hits_to_die: int = 3
+@export var mini_cloud_hits_to_die: int = 10
 
 @export_group("Itens e PowerUps")
 @export var consumable_powerup_scene: PackedScene
@@ -19,6 +19,12 @@ extends Node2D
 @export var consumable_lifetime: float = 15.0
 @export var consumable_item_scale: Vector2 = Vector2(1.0, 1.0)
 @export var shield_item_scale: Vector2 = Vector2(1.0, 1.0)
+
+@export_group("Respawn de Escudos")
+@export var min_shields_per_round: int = 1
+@export var max_shields_per_round: int = 3
+@export var shield_respawn_delay: float = 3.0 # Tempo que demora pro próximo aparecer
+
 
 # Configuração de Altura baseada no Pulo do Player
 @export_group("Física de Spawn")
@@ -41,6 +47,11 @@ var current_shield_item: Node2D = null
 var total_clouds_to_win: int = 5
 var clouds_defeated_count: int = 0
 var player_ref: CharacterBody2D = null
+
+# Variáveis de Controle Interno
+var current_shields_spawned: int = 0
+var max_shields_this_round: int = 0
+var shield_respawn_timer: float = 0.0
 
 func _ready():
 	# Busca referência do player para cálculos de física
@@ -70,6 +81,7 @@ func _physics_process(delta):
 			
 	elif is_split:
 		split_timer -= delta
+		_update_shield_respawn_logic(delta)
 		if split_timer <= 0:
 			_merge_clouds()
 	
@@ -93,7 +105,11 @@ func _split_angry_cloud():
 	angry_cloud.visible = false
 	angry_cloud.set_physics_process(false)
 	
-	_spawn_item(shield_item_scene, shield_item_scale, true) # Spawna Escudo
+	# --- CONFIGURAÇÃO DO RESPAWN ---
+	current_shields_spawned = 0
+	max_shields_this_round = randi_range(min_shields_per_round, max_shields_per_round)
+	shield_respawn_timer = 0.0 # O primeiro spawna instantâneo
+	print("Esta rodada terá %d escudos!" % max_shields_this_round)
 	
 	# Spawna Mini Nuvens
 	var clouds_needed = total_clouds_to_win - clouds_defeated_count
@@ -214,6 +230,35 @@ func _spawn_item(scene: PackedScene, scale_vec: Vector2, is_shield: bool):
 			
 	print("Item spawnado em: %s (Is Shield: %s)" % [pos, is_shield])
 
+func _update_shield_respawn_logic(delta):
+	# 1. Verifica se já atingimos o limite de escudos desta rodada
+	if current_shields_spawned >= max_shields_this_round:
+		return
+
+	# 2. Verifica se JÁ existe um item de escudo no chão (não spawna outro)
+	if is_instance_valid(current_shield_item):
+		return
+		
+	# 3. Verifica se o PLAYER já está com o buff ativo (não spawna se ele já tem)
+	if player_ref and player_ref.has_method("has_shield_active"):
+		if player_ref.has_shield_active():
+			# Reseta o timer para garantir que haja um delay APÓS perder o escudo
+			shield_respawn_timer = shield_respawn_delay 
+			return
+
+	# 4. Contagem regressiva para spawnar
+	shield_respawn_timer -= delta
+	
+	if shield_respawn_timer <= 0:
+		_spawn_next_shield()
+
+func _spawn_next_shield():
+	_spawn_item(shield_item_scene, shield_item_scale, true)
+	current_shields_spawned += 1
+	print("🛡️ Escudo %d/%d spawnado!" % [current_shields_spawned, max_shields_this_round])
+	
+	# Reseta timer para o próximo
+	shield_respawn_timer = shield_respawn_delay
 # ========================================
 # DEBUG E VISUALIZAÇÃO
 # ========================================
@@ -314,9 +359,31 @@ func _get_active_camera_rect() -> Rect2:
 	return Rect2(top_left, bottom_right - top_left)
 
 func _get_player_jump_height() -> float:
-	var jump_vel = 600.0
-	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	var player = get_tree().get_first_node_in_group("player")
-	if player and "JUMP_VELOCITY" in player:
-		jump_vel = abs(player.JUMP_VELOCITY)
-	return (jump_vel * jump_vel) / (2.0 * gravity)
+	if not player:
+		return 0.0
+
+	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+	# Se o player tiver gravidade customizada, usamos ela
+	if "gravity" in player:
+		gravity = player.gravity
+	
+	if gravity == 0:
+		return 0.0
+	
+	# 1. Obtemos a Velocidade de Pulo definida no script do Player
+	var raw_jump_vel = 600.0 # Valor default de segurança
+	if "JUMP_VELOCITY" in player:
+		raw_jump_vel = abs(player.JUMP_VELOCITY)
+	
+	# 2. LIMPEZA DE BUFFS (A lógica crítica para o Spawn)
+	
+	if "consumable_jump_multiplier" in player and player.consumable_jump_multiplier > 0.0:
+		raw_jump_vel = raw_jump_vel / player.consumable_jump_multiplier
+		pass 
+
+	# 3. Cálculo da Altura Escalar Padrão (Física: h = v² / 2g)
+	# Isso retorna a distância em pixels que o player consegue subir sem buffs.
+	var clean_jump_height = (raw_jump_vel * raw_jump_vel) / (2.0 * gravity)
+	
+	return clean_jump_height

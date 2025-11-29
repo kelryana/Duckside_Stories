@@ -54,6 +54,12 @@ func _ready():
 	add_to_group("bounded_objects")
 	add_to_group("angry_cloud") # Garante que está no grupo para o Raio detectar
 	
+	# Define que este objeto pertence à Layer 2 (Inimigos)
+	set_collision_layer_value(2, true) 
+	
+	# Opcional: Se a nuvem precisar colidir com o Player (Layer 1)
+	set_collision_mask_value(1, true)
+	
 	# Busca bounds da cena
 	var bounds_limiter = get_tree().get_first_node_in_group("scene_bounds")
 	if bounds_limiter and bounds_limiter.has_method("get_bounds"):
