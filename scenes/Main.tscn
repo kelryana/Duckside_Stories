@@ -2867,7 +2867,7 @@ position = Vector2(847.70605, 439.74017)
 scale = Vector2(0.1, 0.1)
 
 [node name="SrBicoMolhado" parent="." instance=ExtResource("14_ft6cd")]
-position = Vector2(-82.240234, -51.14393)
+position = Vector2(194.8458, 299.21432)
 scale = Vector2(0.99999994, 0.99999994)
 
 [node name="PatoSonambulo" parent="." instance=ExtResource("15_bb450")]

@@ -1,18 +1,98 @@
-[gd_scene load_steps=3 format=3 uid="uid://cygro3n44lpgm"]
+[gd_scene load_steps=12 format=3 uid="uid://cygro3n44lpgm"]
 
-[ext_resource type="Texture2D" uid="uid://dbl0ug5fqn3lv" path="res://assets/sprites/Character/SrBicoMolhadoSprite.png" id="2_ifbvy"]
+[ext_resource type="Texture2D" uid="uid://clfjanw2qqb6p" path="res://assets/sprites/Character/SrBicoMolhado_Sheet.png" id="1_gx4hu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrjw2"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(0, 0, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8gp1"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(23, 0, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1rij"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(46, 0, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2khx"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(69, 0, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eumg3"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(0, 32, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iht0k"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(23, 32, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6jsb"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(46, 32, 23, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0wpx"]
+atlas = ExtResource("1_gx4hu")
+region = Rect2(69, 32, 23, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_apmpk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrjw2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8gp1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1rij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2khx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eumg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iht0k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6jsb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0wpx")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
 [node name="SrBicoMolhado" type="CharacterBody2D"]
+position = Vector2(314, 79)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(872, 299)
-scale = Vector2(0.3030407, 0.24733604)
-texture = ExtResource("2_ifbvy")
+texture_filter = 1
+position = Vector2(241, 163)
+scale = Vector2(2.0207493, 1.938546)
+texture = ExtResource("1_gx4hu")
+region_enabled = true
+region_rect = Rect2(0.22890282, -0.2567821, 20.215528, 32.70159)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(876, 302.00003)
-scale = Vector2(3.0154076, 2.8899262)
+position = Vector2(240, 167)
+scale = Vector2(2.5054932, 4.028852)
 shape = SubResource("CircleShape2D_0crsg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(243, 162)
+scale = Vector2(2.0389273, 1.9663743)
+sprite_frames = SubResource("SpriteFrames_apmpk")
+animation = &"idle"
