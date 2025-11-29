@@ -25,13 +25,18 @@ extends Node2D
 @export var max_shields_per_round: int = 3
 @export var shield_respawn_delay: float = 3.0 # Tempo que demora pro próximo aparecer
 
-
 # Configuração de Altura baseada no Pulo do Player
 @export_group("Física de Spawn")
 #Defina isso no Inspector para a Layer do seu Chão (geralmente Layer 1)
 @export_flags_2d_physics var floor_collision_mask: int = 1 
 @export_range(0.70, 0.90) var jump_percent_min: float = 0.85
 @export_range(0.90, 1.0) var jump_percent_max: float = 0.95
+
+# --- CONFIGURAÇÃO DO PARALLAX (GODOT 4.3) ---
+@export_group("Parallax Atmosférico")
+@export var parallax_layers: Array[Parallax2D] 
+@export var wind_velocity: Vector2 = Vector2(-50, 0)
+@export var parallax_global_scale: Vector2 = Vector2(2.0, 2.0) # Ajuste aqui se as imagens ficarem pequenas
 # ========================================
 # VARIÁVEIS INTERNAS
 # ========================================
@@ -67,6 +72,9 @@ func _ready():
 	total_clouds_to_win = mini_cloud_count
 	split_cooldown = split_interval
 	consumable_timer = consumable_spawn_interval
+	
+	_setup_parallax_dimensions()
+	_set_parallax_movement(true)
 
 func _physics_process(delta):
 	# Debug simplificado (roda a cada 3s aprox)
@@ -387,3 +395,102 @@ func _get_player_jump_height() -> float:
 	var clean_jump_height = (raw_jump_vel * raw_jump_vel) / (2.0 * gravity)
 	
 	return clean_jump_height
+
+func _setup_parallax_dimensions():
+	if parallax_layers.is_empty() or not is_inside_tree(): return
+	
+	await get_tree().process_frame
+	
+	var viewport = get_viewport()
+	if not viewport: return
+	var visible_rect = viewport.get_visible_rect()
+	var camera = viewport.get_camera_2d()
+	
+	var zoom = Vector2.ONE
+	if camera:
+		zoom = camera.zoom
+	
+	# Evita crash com zoom 0
+	if zoom.x == 0: zoom.x = 1.0
+	if zoom.y == 0: zoom.y = 1.0
+		
+	var visible_world_size = visible_rect.size / zoom
+	
+	print("--- DEBUG AJUSTE FINAL ---")
+	
+	for i in range(parallax_layers.size()):
+		var layer = parallax_layers[i]
+		if not is_instance_valid(layer): continue
+		
+		# 1. Z-INDEX: Garante fundo
+		layer.z_index = -200 + i 
+		layer.screen_offset = Vector2.ZERO 
+		layer.clip_children = CanvasItem.CLIP_CHILDREN_DISABLED
+		
+		var sprite: Sprite2D = null
+		for child in layer.get_children():
+			if child is Sprite2D:
+				sprite = child
+				break
+		
+		if sprite and sprite.texture:
+			var tex_w = sprite.texture.get_width()
+			var tex_h = sprite.texture.get_height()
+			
+			# IMPORTANTE: Força o pivot para o centro
+			sprite.centered = true
+			sprite.position = Vector2.ZERO
+			
+			if i == 0:
+				# === CAMADA 0: CÉU (SOLUÇÃO NUCLEAR) ===
+				# Trava o movimento. O céu vira um fundo estático colado na câmera.
+				# Assim ele nunca vai "subir" e revelar o fundo cinza.
+				layer.scroll_scale = Vector2.ZERO
+				layer.repeat_times = 1 # Não precisa repetir se a escala for gigante e estática
+				
+				# Escala Absurda: Garante que cubra tudo.
+				sprite.scale = Vector2(50, 50)
+				
+				# Remove o autoscroll do céu se houver (o vento só afeta nuvens)
+				layer.autoscroll = Vector2.ZERO
+				
+				print("LAYER 0 (CÉU): Travado na câmera com escala 50x.")
+
+			else:
+				# === CAMADAS > 0: NUVENS ===
+				# Mantém o movimento normal (parallax)
+				# Se você tiver configurado scroll_scale no editor (ex: 0.5), mantenha.
+				# Se estiver (1,1), elas vão mover junto com o chão.
+				
+				# Escala: Altura da tela + 50% de sobra
+				var scale_factor = (visible_world_size.y / tex_h) * 1.5
+				sprite.scale = Vector2(scale_factor, scale_factor)
+				
+				# POSICIONAMENTO:
+				# Empurra para baixo para garantir o chão.
+				# Screen Bottom (considerando centro 0,0) é visible_world_size.y / 2
+				var screen_bottom = visible_world_size.y / 2.0
+				
+				# Empurramos a imagem para baixo para que o centro dela fique abaixo do centro da tela
+				# Ajuste este "0.3" se achar que as nuvens estão muito altas ou baixas
+				var vertical_shift = visible_world_size.y * 0.3
+				
+				sprite.position.y = vertical_shift
+				
+				# Repetição Horizontal
+				var scaled_width = tex_w * scale_factor
+				layer.repeat_size = Vector2(scaled_width, 0)
+				layer.repeat_times = max(ceil(visible_world_size.x / scaled_width) + 2, 3)
+				
+				print("LAYER %d (NUVEM): Ajustada com shift vertical." % i)
+func _set_parallax_movement(moving: bool):
+	if parallax_layers.is_empty(): return
+	
+	for layer in parallax_layers:
+		if is_instance_valid(layer) and layer is Parallax2D:
+			if moving:
+				# Mantém a velocidade Y original da layer se houver, aplica vento apenas no X
+				var current_scroll = layer.autoscroll
+				layer.autoscroll = Vector2(wind_velocity.x, current_scroll.y)
+			else:
+				layer.autoscroll = Vector2.ZERO

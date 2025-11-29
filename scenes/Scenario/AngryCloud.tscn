@@ -11,9 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://cnf6nwbwlbycu" path="res://assets/sprites/Scenario/Parallax_cloud/1.png" id="5_np20c"]
 [ext_resource type="Texture2D" uid="uid://b105quvmjppk4" path="res://assets/sprites/Scenario/Parallax_cloud/2.png" id="6_g8nq2"]
 [ext_resource type="PackedScene" uid="uid://cpg8m3qdl3umx" path="res://ui/Health.tscn" id="6_n3goa"]
-[ext_resource type="Texture2D" uid="uid://csrq0q6phorm0" path="res://assets/sprites/Scenario/Parallax_cloud/orig.png" id="7_4mhrm"]
 [ext_resource type="PackedScene" uid="uid://bsyyp5seuw72c" path="res://scenes/Objects/Consumable.tscn" id="8_jfe0p"]
 [ext_resource type="PackedScene" uid="uid://bxcua7bg4gpt2" path="res://ui/Consumable.tscn" id="9_v22yg"]
+[ext_resource type="Texture2D" uid="uid://dh443swqs4qma" path="res://assets/sprites/Scenario/Parallax_cloud/3.png" id="14_np20c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6cmfv"]
 size = Vector2(1586.5, 2)
@@ -54,7 +54,7 @@ _data = {
 }
 point_count = 10
 
-[node name="NuvemMinigme" type="Node2D" node_paths=PackedStringArray("angry_cloud")]
+[node name="NuvemMinigme" type="Node2D" node_paths=PackedStringArray("angry_cloud", "parallax_layers")]
 texture_filter = 1
 script = ExtResource("1_jfe0p")
 angry_cloud = NodePath("NuvemRaivosa2")
@@ -65,6 +65,7 @@ shield_item_scene = ExtResource("3_xlu6u")
 consumable_spawn_interval = 45.0
 consumable_item_scale = Vector2(0.1, 0.1)
 shield_item_scale = Vector2(0.1, 0.1)
+parallax_layers = [NodePath("Céu"), NodePath("NuvensClaras"), NodePath("NuvensEscuras")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -76,29 +77,6 @@ floor_thickness = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(960.75, -16)
 shape = SubResource("RectangleShape2D_6cmfv")
-
-[node name="ParallaxCloud" type="Node2D" parent="."]
-position = Vector2(-350, -192)
-
-[node name="Parallax2D" type="Parallax2D" parent="ParallaxCloud"]
-scroll_offset = Vector2(0, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D"]
-texture = ExtResource("5_np20c")
-
-[node name="Parallax2D2" type="Parallax2D" parent="ParallaxCloud"]
-scroll_offset = Vector2(0.2, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D2"]
-texture = ExtResource("6_g8nq2")
-
-[node name="Parallax2D3" type="Parallax2D" parent="ParallaxCloud"]
-scroll_offset = Vector2(0.3, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxCloud/Parallax2D3"]
-position = Vector2(356, 195)
-scale = Vector2(2.2361112, 2.2037036)
-texture = ExtResource("7_4mhrm")
 
 [node name="Patogonista" parent="." instance=ExtResource("2_umy4o")]
 position = Vector2(2, 320)
@@ -151,3 +129,21 @@ curve = SubResource("Curve2D_v22yg")
 [node name="CloudPath6" type="Path2D" parent="."]
 position = Vector2(10, 16)
 curve = SubResource("Curve2D_xlu6u")
+
+[node name="Céu" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Céu"]
+texture = ExtResource("5_np20c")
+
+[node name="NuvensClaras" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="NuvensClaras"]
+texture = ExtResource("6_g8nq2")
+
+[node name="NuvensEscuras" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.8, 0.8)
+
+[node name="Sprite2D" type="Sprite2D" parent="NuvensEscuras"]
+texture = ExtResource("14_np20c")
