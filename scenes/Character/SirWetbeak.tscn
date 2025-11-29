@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://cygro3n44lpgm"]
+[gd_scene load_steps=13 format=3 uid="uid://cygro3n44lpgm"]
 
 [ext_resource type="Texture2D" uid="uid://clfjanw2qqb6p" path="res://assets/sprites/Character/SrBicoMolhado_Sheet.png" id="1_gx4hu"]
+[ext_resource type="Script" uid="uid://c4vrdl7rlg01x" path="res://scenes/Character/sir_wetbeak.gd" id="1_lrjw2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0crsg"]
 
@@ -75,9 +76,11 @@ animations = [{
 
 [node name="SrBicoMolhado" type="CharacterBody2D"]
 position = Vector2(314, 79)
+script = ExtResource("1_lrjw2")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture_filter = 1
 position = Vector2(241, 163)
 scale = Vector2(2.0207493, 1.938546)
@@ -95,4 +98,4 @@ texture_filter = 1
 position = Vector2(243, 162)
 scale = Vector2(2.0389273, 1.9663743)
 sprite_frames = SubResource("SpriteFrames_apmpk")
-animation = &"idle"
+animation = &"walk"
