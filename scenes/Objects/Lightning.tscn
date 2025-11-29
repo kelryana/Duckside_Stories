@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://b2f1bexqdimnx" path="res://assets/sprites/lightning-pixel-style-free-png.png" id="2_2n7xc"]
 
 [node name="Lightning" type="Area2D"]
+collision_layer = 8
+collision_mask = 6
 script = ExtResource("1_elv1f")
 metadata/_edit_group_ = true
 
