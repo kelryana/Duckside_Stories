@@ -1,51 +1,145 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3sr2xk16wy0d"]
+[gd_scene load_steps=19 format=3 uid="uid://d3sr2xk16wy0d"]
 
 [ext_resource type="Script" uid="uid://b8ghkk3av1rvi" path="res://scenes/Scenario/sapo_rhythm.gd" id="1_i3gl7"]
 [ext_resource type="Script" uid="uid://bi3ly5ca470xg" path="res://scenes/Scenario/conductor.gd" id="2_hqv6m"]
 [ext_resource type="Texture2D" uid="uid://cn48qrfal7dmj" path="res://assets/sprites/Scenario/fundo_orquestra.png" id="2_pa062"]
+[ext_resource type="AudioStream" uid="uid://b3sasgigryl0u" path="res://soundtrack/2016_ Clement Panchout_ Life is full of Joy.wav" id="3_8yjuy"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="3_oknyj"]
-[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="4_0mobq"]
-[ext_resource type="Texture2D" uid="uid://d2ducu232c4am" path="res://assets/sprites/Character/SapoRandomSprite.png" id="4_ebnho"]
+[ext_resource type="Texture2D" uid="uid://do0frx3dwgtwb" path="res://assets/sprites/Character/saposheet-sheet-sheet.png" id="4_pa062"]
+[ext_resource type="Texture2D" uid="uid://uthnp8eh1oyq" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c1_processed_by_imagy.png" id="7_yub87"]
+[ext_resource type="Texture2D" uid="uid://der3477xe0udl" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c2_processed_by_imagy.png" id="8_lxqon"]
+[ext_resource type="Texture2D" uid="uid://b5e88lw3uchud" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c3_processed_by_imagy.png" id="9_q1w35"]
+[ext_resource type="Texture2D" uid="uid://c1rrqdu5rl1gu" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c4_processed_by_imagy.png" id="10_2hwka"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owxkr"]
+atlas = ExtResource("4_pa062")
+region = Rect2(0, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2el2o"]
+atlas = ExtResource("4_pa062")
+region = Rect2(23, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f56ur"]
+atlas = ExtResource("4_pa062")
+region = Rect2(69, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rerqo"]
+atlas = ExtResource("4_pa062")
+region = Rect2(92, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yu5c"]
+atlas = ExtResource("4_pa062")
+region = Rect2(115, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bmmiu"]
+atlas = ExtResource("4_pa062")
+region = Rect2(138, 0, 23, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsjj2"]
+atlas = ExtResource("4_pa062")
+region = Rect2(161, 0, 23, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ebnho"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_owxkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2el2o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f56ur")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.9
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rerqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yu5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bmmiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsjj2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [node name="SapoRhythm" type="Node2D"]
 script = ExtResource("1_i3gl7")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1281.0
+offset_bottom = 716.0
 texture = ExtResource("2_pa062")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8yjuy")
 
-[node name="Conductor" type="Node" parent="."]
+[node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("music_player")]
 script = ExtResource("2_hqv6m")
+music_player = NodePath("../AudioStreamPlayer")
 
 [node name="Pista" type="Node2D" parent="."]
 
-[node name="SpawnPoint" type="Marker2D" parent="Pista"]
+[node name="SpawnPos1" type="Marker2D" parent="Pista"]
+position = Vector2(449, 101)
+
+[node name="SpawnPos2" type="Marker2D" parent="Pista"]
+position = Vector2(589, 104)
+
+[node name="SpawnPos3" type="Marker2D" parent="Pista"]
+position = Vector2(712, 107)
+
+[node name="SpawnPos4" type="Marker2D" parent="Pista"]
+position = Vector2(841, 104)
 
 [node name="ZonadeAcerto" type="Area2D" parent="Pista"]
 
 [node name="NotasContainer" type="Node2D" parent="Pista"]
 
-[node name="SapoPlayer" type="Sprite2D" parent="."]
-position = Vector2(621, 431)
-scale = Vector2(0.7630271, 0.64728045)
-texture = ExtResource("4_ebnho")
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Pista"]
+texture_filter = 1
+position = Vector2(623.0825, 454.39813)
+scale = Vector2(5.297169, 4.3482656)
+sprite_frames = SubResource("SpriteFrames_ebnho")
+animation = &"walk"
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HUD2" parent="." instance=ExtResource("3_oknyj")]
 script = null
 
-[node name="Label" type="Label" parent="HUD2"]
-offset_left = 6077.0654
-offset_top = 275.81323
-offset_right = 6238.0654
-offset_bottom = 298.81323
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 4
-theme_override_fonts/font = ExtResource("4_0mobq")
-theme_override_font_sizes/font_size = 15
-text = "Casa do Dorminhoco"
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(448, 632.99994)
+scale = Vector2(5.271013, 3.7109387)
+texture = ExtResource("7_yub87")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(582, 630)
+scale = Vector2(5.316885, 3.9425473)
+texture = ExtResource("8_lxqon")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(712.00006, 629)
+scale = Vector2(5.1879354, 4.2531033)
+texture = ExtResource("9_q1w35")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(842, 627)
+scale = Vector2(5.4779997, 4.011011)
+texture = ExtResource("10_2hwka")

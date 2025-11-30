@@ -1,10 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh0fiqufddonn"]
+[gd_scene load_steps=4 format=3 uid="uid://dh0fiqufddonn"]
 
 [ext_resource type="Script" uid="uid://vwcg844vx7xx" path="res://scenes/Scenario/note.gd" id="1_hx2hy"]
+[ext_resource type="Texture2D" uid="uid://ckktkyq8p6vdt" path="res://assets/sprites/Character/mosquinhas/Gemini_Generated_Image_6zlz4z6zlz4z6zlz-removebg-preview_r1_c1_processed_by_imagy.png" id="2_muyqj"]
 
-[node name="Note" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hdmlm"]
+
+[node name="Note" type="Area2D"]
 script = ExtResource("1_hx2hy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(318, 110)
+scale = Vector2(0.83210033, 0.5972222)
+texture = ExtResource("2_muyqj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(339, 113)
+scale = Vector2(-3.5354762, 3.8601947)
+shape = SubResource("CircleShape2D_hdmlm")
