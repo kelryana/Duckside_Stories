@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdmlm"]
 
 [node name="Note" type="Area2D"]
+position = Vector2(-1, 0)
 script = ExtResource("1_hx2hy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

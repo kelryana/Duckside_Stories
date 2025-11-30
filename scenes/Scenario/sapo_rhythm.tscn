@@ -80,20 +80,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "spawn_positions", "hit_positions")]
+[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "hit_positions")]
+position = Vector2(-712, 4)
 scale = Vector2(1.1, 1.1)
 script = ExtResource("1_i3gl7")
 nota_scene = ExtResource("2_yub87")
 conductor = NodePath("Conductor")
 texturas_moscas = Array[Texture2D]([ExtResource("7_yub87"), ExtResource("8_lxqon"), ExtResource("9_q1w35"), ExtResource("10_2hwka")])
-spawn_positions = [NodePath("SpawnPos1"), NodePath("SpawnPos2"), NodePath("SpawnPos3"), NodePath("SpawnPos4")]
 hit_positions = [NodePath("ZonadeAcerto"), NodePath("ZonadeAcerto2"), NodePath("ZonadeAcerto3"), NodePath("ZonadeAcerto4")]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 59.999996
-offset_top = 29.999998
-offset_right = 1340.0
-offset_bottom = 744.0
+offset_left = 646.36365
+offset_top = -2.727273
+offset_right = 1926.3636
+offset_bottom = 711.2727
 scale = Vector2(0.9073542, 0.91720974)
 texture = ExtResource("2_pa062")
 
@@ -106,70 +106,66 @@ script = ExtResource("2_hqv6m")
 music_player = NodePath("../AudioStreamPlayer")
 
 [node name="SpawnPos1" type="Marker2D" parent="."]
-position = Vector2(474.36368, -46.363636)
+position = Vector2(1060.7278, 48.181824)
 
 [node name="SpawnPos2" type="Marker2D" parent="."]
-position = Vector2(608.36365, -46.363636)
+position = Vector2(1194.7268, 48.181824)
 
 [node name="SpawnPos3" type="Marker2D" parent="."]
-position = Vector2(738.36365, -46.363636)
+position = Vector2(1324.7268, 48.181824)
 
 [node name="SpawnPos4" type="Marker2D" parent="."]
-position = Vector2(868.3636, -46.363636)
+position = Vector2(1454.7268, 48.181824)
 
 [node name="ZonadeAcerto" type="Area2D" parent="."]
-position = Vector2(474.36368, 642.63635)
+position = Vector2(1060.7273, 609.9091)
 scale = Vector2(2.514207, 1.4734313)
 
 [node name="ZonadeAcerto2" type="Area2D" parent="."]
-position = Vector2(608.36365, 642.63635)
+position = Vector2(1194.7273, 609.9091)
 scale = Vector2(6.321236, 2.171)
 
 [node name="ZonadeAcerto3" type="Area2D" parent="."]
-position = Vector2(738.36365, 643.63635)
+position = Vector2(1324.7273, 610.9091)
 scale = Vector2(39.958027, 4.713241)
 
 [node name="ZonadeAcerto4" type="Area2D" parent="."]
-position = Vector2(868.3636, 640.63635)
+position = Vector2(1454.7273, 607.9091)
 scale = Vector2(1596.6439, 22.214642)
 
 [node name="moska1" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(474.36368, 633.00037)
-scale = Vector2(5.4823685, 4.264447)
+position = Vector2(1060.7273, 600.27313)
+scale = Vector2(5.872723, 4.756853)
 texture = ExtResource("12_8076y")
 
 [node name="moska2" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(608.36365, 630.00037)
+position = Vector2(1194.7273, 597.27313)
 scale = Vector2(5.316885, 3.942547)
 texture = ExtResource("13_s7o41")
 
 [node name="moska3" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(738.36365, 629.00037)
+position = Vector2(1324.7273, 596.27313)
 scale = Vector2(5.1879354, 4.2531033)
 texture = ExtResource("14_if8vk")
 
 [node name="moska 4" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(868.3636, 627.00037)
+position = Vector2(1454.7273, 594.27313)
 scale = Vector2(5.4779997, 4.011011)
 texture = ExtResource("11_8076y")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-position = Vector2(649.4462, 458.0345)
+position = Vector2(1235.8098, 425.30722)
 scale = Vector2(5.2971687, 4.3482656)
 sprite_frames = SubResource("SpriteFrames_ebnho")
 animation = &"walk"
 frame = 2
 frame_progress = 0.5904087
 script = ExtResource("11_s7o41")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(994.5454, 329.0909)
-scale = Vector2(1.1995934, 1.0401975)
 
 [node name="HUD" parent="." instance=ExtResource("3_oknyj")]
 visible = false
@@ -186,3 +182,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("17_if8vk")
 theme_override_font_sizes/font_size = 15
 text = "Casa do Dorminhoco"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(1233.6364, 325.45453)
+scale = Vector2(1.0762885, 1.3879405)
