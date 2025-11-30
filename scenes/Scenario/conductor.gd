@@ -1,21 +1,26 @@
 extends Node
 
-@export var bpm: int = 120 # Batidas por minuto da sua música
+# CONFIGURAÇÕES
+@export var bpm: int = 124
 @export var music_player: AudioStreamPlayer
 
-var crotchet: float # Duração de uma batida em segundos (60 / bpm)
-var song_position: float = 0.0
-var offset: float = 0.0 # Ajuste se a música demorar pra começar
+# SINAL IMPORTANTE (O erro é porque isso aqui sumiu!)
+signal beat(position)
 
-signal beat_signal(beat_number) # Avisa o jogo a cada batida
+# VARIÁVEIS
+var sec_per_beat: float = 0.0
+var song_position: float = 0.0
+var song_position_in_beats: int = 0
+var last_reported_beat: int = 0
 
 func _ready():
-	crotchet = 60.0 / bpm
+	sec_per_beat = 60.0 / bpm
 
 func _process(delta):
-	if music_player.playing:
+	if music_player and music_player.playing:
 		song_position = music_player.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency()
+		song_position_in_beats = int(song_position / sec_per_beat)
 		
-		# Calcula em qual batida estamos
-		var current_beat = int(song_position / crotchet)
-		emit_signal("beat_signal", current_beat)
+		if song_position_in_beats > last_reported_beat:
+			last_reported_beat = song_position_in_beats
+			emit_signal("beat", last_reported_beat)
