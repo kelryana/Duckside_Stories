@@ -79,10 +79,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor")]
+[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "spawn_positions", "hit_positions")]
+position = Vector2(-4, 1)
 script = ExtResource("1_i3gl7")
 nota_scene = ExtResource("2_yub87")
 conductor = NodePath("Conductor")
+spawn_positions = [NodePath("Pista/SpawnPos1"), NodePath("Pista/SpawnPos2"), NodePath("Pista/SpawnPos3"), NodePath("Pista/SpawnPos4")]
+hit_positions = [NodePath("Pista/ZonadeAcerto"), NodePath("Pista/ZonadeAcerto2"), NodePath("Pista/ZonadeAcerto3"), NodePath("Pista/ZonadeAcerto4")]
 texturas_moscas = Array[Texture2D]([ExtResource("7_yub87"), ExtResource("8_lxqon"), ExtResource("9_q1w35"), ExtResource("10_2hwka")])
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -94,6 +97,7 @@ texture = ExtResource("2_pa062")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8yjuy")
+autoplay = true
 
 [node name="Conductor" type="Node" parent="." node_paths=PackedStringArray("music_player")]
 script = ExtResource("2_hqv6m")
@@ -102,18 +106,32 @@ music_player = NodePath("../AudioStreamPlayer")
 [node name="Pista" type="Node2D" parent="."]
 
 [node name="SpawnPos1" type="Marker2D" parent="Pista"]
-position = Vector2(449, 101)
+position = Vector2(448, 101)
 
 [node name="SpawnPos2" type="Marker2D" parent="Pista"]
-position = Vector2(589, 104)
+position = Vector2(582, 104)
 
 [node name="SpawnPos3" type="Marker2D" parent="Pista"]
 position = Vector2(712, 107)
 
 [node name="SpawnPos4" type="Marker2D" parent="Pista"]
-position = Vector2(841, 104)
+position = Vector2(842, 104)
+
+[node name="ZonadeAcerto4" type="Area2D" parent="Pista"]
+position = Vector2(842, 637)
+scale = Vector2(1596.6439, 22.214642)
+
+[node name="ZonadeAcerto3" type="Area2D" parent="Pista"]
+position = Vector2(712, 640)
+scale = Vector2(39.958027, 4.713241)
+
+[node name="ZonadeAcerto2" type="Area2D" parent="Pista"]
+position = Vector2(582, 639)
+scale = Vector2(6.321236, 2.171)
 
 [node name="ZonadeAcerto" type="Area2D" parent="Pista"]
+position = Vector2(448, 639)
+scale = Vector2(2.514207, 1.4734313)
 
 [node name="NotasContainer" type="Node2D" parent="Pista"]
 
