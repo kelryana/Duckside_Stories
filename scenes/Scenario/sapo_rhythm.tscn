@@ -1,15 +1,16 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3sr2xk16wy0d"]
+[gd_scene load_steps=20 format=3 uid="uid://d3sr2xk16wy0d"]
 
 [ext_resource type="Script" uid="uid://b8ghkk3av1rvi" path="res://scenes/Scenario/sapo_rhythm.gd" id="1_i3gl7"]
 [ext_resource type="Script" uid="uid://bi3ly5ca470xg" path="res://scenes/Scenario/conductor.gd" id="2_hqv6m"]
 [ext_resource type="Texture2D" uid="uid://cn48qrfal7dmj" path="res://assets/sprites/Scenario/fundo_orquestra.png" id="2_pa062"]
+[ext_resource type="PackedScene" uid="uid://dh0fiqufddonn" path="res://scenes/Scenario/note.tscn" id="2_yub87"]
 [ext_resource type="AudioStream" uid="uid://b3sasgigryl0u" path="res://soundtrack/2016_ Clement Panchout_ Life is full of Joy.wav" id="3_8yjuy"]
 [ext_resource type="PackedScene" uid="uid://b2m7u4l15k06d" path="res://ui/hud.tscn" id="3_oknyj"]
 [ext_resource type="Texture2D" uid="uid://do0frx3dwgtwb" path="res://assets/sprites/Character/saposheet-sheet-sheet.png" id="4_pa062"]
-[ext_resource type="Texture2D" uid="uid://uthnp8eh1oyq" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c1_processed_by_imagy.png" id="7_yub87"]
-[ext_resource type="Texture2D" uid="uid://der3477xe0udl" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c2_processed_by_imagy.png" id="8_lxqon"]
-[ext_resource type="Texture2D" uid="uid://b5e88lw3uchud" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c3_processed_by_imagy.png" id="9_q1w35"]
-[ext_resource type="Texture2D" uid="uid://c1rrqdu5rl1gu" path="res://assets/sprites/Character/moskinhas/moskinhas_r1_c4_processed_by_imagy.png" id="10_2hwka"]
+[ext_resource type="Texture2D" uid="uid://bi5td2edia1h2" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c1_processed_by_imagy.png" id="8_lxqon"]
+[ext_resource type="Texture2D" uid="uid://b0cf563y12ttd" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c2_processed_by_imagy.png" id="9_q1w35"]
+[ext_resource type="Texture2D" uid="uid://3vc8n4wldmmf" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c3_processed_by_imagy.png" id="10_2hwka"]
+[ext_resource type="Texture2D" uid="uid://f6jm38j04dof" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c4_processed_by_imagy.png" id="11_8076y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owxkr"]
 atlas = ExtResource("4_pa062")
@@ -73,8 +74,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SapoRhythm" type="Node2D"]
+[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor")]
 script = ExtResource("1_i3gl7")
+nota_scene = ExtResource("2_yub87")
+conductor = NodePath("Conductor")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = 1.0
@@ -120,26 +123,26 @@ animation = &"walk"
 [node name="HUD2" parent="." instance=ExtResource("3_oknyj")]
 script = null
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="moska1" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(448, 632.99994)
-scale = Vector2(5.271013, 3.7109387)
-texture = ExtResource("7_yub87")
+scale = Vector2(5.482369, 4.264447)
+texture = ExtResource("8_lxqon")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="moska2" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(582, 630)
 scale = Vector2(5.316885, 3.9425473)
-texture = ExtResource("8_lxqon")
+texture = ExtResource("9_q1w35")
 
-[node name="Sprite2D3" type="Sprite2D" parent="."]
+[node name="moska3" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(712.00006, 629)
 scale = Vector2(5.1879354, 4.2531033)
-texture = ExtResource("9_q1w35")
+texture = ExtResource("10_2hwka")
 
-[node name="Sprite2D4" type="Sprite2D" parent="."]
+[node name="moska 4" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(842, 627)
 scale = Vector2(5.4779997, 4.011011)
-texture = ExtResource("10_2hwka")
+texture = ExtResource("11_8076y")
