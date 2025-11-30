@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d3sr2xk16wy0d"]
+[gd_scene load_steps=26 format=3 uid="uid://d3sr2xk16wy0d"]
 
 [ext_resource type="Script" uid="uid://b8ghkk3av1rvi" path="res://scenes/Scenario/sapo_rhythm.gd" id="1_i3gl7"]
 [ext_resource type="Script" uid="uid://bi3ly5ca470xg" path="res://scenes/Scenario/conductor.gd" id="2_hqv6m"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bi5td2edia1h2" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c1_processed_by_imagy.png" id="12_8076y"]
 [ext_resource type="Texture2D" uid="uid://b0cf563y12ttd" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c2_processed_by_imagy.png" id="13_s7o41"]
 [ext_resource type="Texture2D" uid="uid://3vc8n4wldmmf" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c3_processed_by_imagy.png" id="14_if8vk"]
+[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="17_if8vk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owxkr"]
 atlas = ExtResource("4_pa062")
@@ -80,19 +81,20 @@ animations = [{
 }]
 
 [node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "spawn_positions", "hit_positions")]
-position = Vector2(-4, 1)
+scale = Vector2(1.1, 1.1)
 script = ExtResource("1_i3gl7")
 nota_scene = ExtResource("2_yub87")
 conductor = NodePath("Conductor")
-spawn_positions = [NodePath("Pista/SpawnPos1"), NodePath("Pista/SpawnPos2"), NodePath("Pista/SpawnPos3"), NodePath("Pista/SpawnPos4")]
-hit_positions = [NodePath("Pista/ZonadeAcerto"), NodePath("Pista/ZonadeAcerto2"), NodePath("Pista/ZonadeAcerto3"), NodePath("Pista/ZonadeAcerto4")]
 texturas_moscas = Array[Texture2D]([ExtResource("7_yub87"), ExtResource("8_lxqon"), ExtResource("9_q1w35"), ExtResource("10_2hwka")])
+spawn_positions = [NodePath("SpawnPos1"), NodePath("SpawnPos2"), NodePath("SpawnPos3"), NodePath("SpawnPos4")]
+hit_positions = [NodePath("ZonadeAcerto"), NodePath("ZonadeAcerto2"), NodePath("ZonadeAcerto3"), NodePath("ZonadeAcerto4")]
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 1.0
-offset_top = 2.0
-offset_right = 1281.0
-offset_bottom = 716.0
+offset_left = 59.999996
+offset_top = 29.999998
+offset_right = 1340.0
+offset_bottom = 744.0
+scale = Vector2(0.9073542, 0.91720974)
 texture = ExtResource("2_pa062")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -103,73 +105,84 @@ autoplay = true
 script = ExtResource("2_hqv6m")
 music_player = NodePath("../AudioStreamPlayer")
 
-[node name="Pista" type="Node2D" parent="."]
+[node name="SpawnPos1" type="Marker2D" parent="."]
+position = Vector2(474.36368, -46.363636)
 
-[node name="SpawnPos1" type="Marker2D" parent="Pista"]
-position = Vector2(448, 101)
+[node name="SpawnPos2" type="Marker2D" parent="."]
+position = Vector2(608.36365, -46.363636)
 
-[node name="SpawnPos2" type="Marker2D" parent="Pista"]
-position = Vector2(582, 104)
+[node name="SpawnPos3" type="Marker2D" parent="."]
+position = Vector2(738.36365, -46.363636)
 
-[node name="SpawnPos3" type="Marker2D" parent="Pista"]
-position = Vector2(712, 107)
+[node name="SpawnPos4" type="Marker2D" parent="."]
+position = Vector2(868.3636, -46.363636)
 
-[node name="SpawnPos4" type="Marker2D" parent="Pista"]
-position = Vector2(842, 104)
-
-[node name="ZonadeAcerto4" type="Area2D" parent="Pista"]
-position = Vector2(842, 637)
-scale = Vector2(1596.6439, 22.214642)
-
-[node name="ZonadeAcerto3" type="Area2D" parent="Pista"]
-position = Vector2(712, 640)
-scale = Vector2(39.958027, 4.713241)
-
-[node name="ZonadeAcerto2" type="Area2D" parent="Pista"]
-position = Vector2(582, 639)
-scale = Vector2(6.321236, 2.171)
-
-[node name="ZonadeAcerto" type="Area2D" parent="Pista"]
-position = Vector2(448, 639)
+[node name="ZonadeAcerto" type="Area2D" parent="."]
+position = Vector2(474.36368, 642.63635)
 scale = Vector2(2.514207, 1.4734313)
 
-[node name="NotasContainer" type="Node2D" parent="Pista"]
+[node name="ZonadeAcerto2" type="Area2D" parent="."]
+position = Vector2(608.36365, 642.63635)
+scale = Vector2(6.321236, 2.171)
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Pista"]
+[node name="ZonadeAcerto3" type="Area2D" parent="."]
+position = Vector2(738.36365, 643.63635)
+scale = Vector2(39.958027, 4.713241)
+
+[node name="ZonadeAcerto4" type="Area2D" parent="."]
+position = Vector2(868.3636, 640.63635)
+scale = Vector2(1596.6439, 22.214642)
+
+[node name="moska1" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(623.0825, 454.39813)
-scale = Vector2(5.297169, 4.3482656)
+position = Vector2(474.36368, 633.00037)
+scale = Vector2(5.4823685, 4.264447)
+texture = ExtResource("12_8076y")
+
+[node name="moska2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(608.36365, 630.00037)
+scale = Vector2(5.316885, 3.942547)
+texture = ExtResource("13_s7o41")
+
+[node name="moska3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(738.36365, 629.00037)
+scale = Vector2(5.1879354, 4.2531033)
+texture = ExtResource("14_if8vk")
+
+[node name="moska 4" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(868.3636, 627.00037)
+scale = Vector2(5.4779997, 4.011011)
+texture = ExtResource("11_8076y")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(649.4462, 458.0345)
+scale = Vector2(5.2971687, 4.3482656)
 sprite_frames = SubResource("SpriteFrames_ebnho")
 animation = &"walk"
 frame = 2
 frame_progress = 0.5904087
 script = ExtResource("11_s7o41")
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(994.5454, 329.0909)
+scale = Vector2(1.1995934, 1.0401975)
 
-[node name="HUD2" parent="." instance=ExtResource("3_oknyj")]
+[node name="HUD" parent="." instance=ExtResource("3_oknyj")]
+visible = false
 script = null
 
-[node name="moska1" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(448, 632.99994)
-scale = Vector2(5.482369, 4.264447)
-texture = ExtResource("12_8076y")
-
-[node name="moska2" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(582, 630)
-scale = Vector2(5.316885, 3.9425473)
-texture = ExtResource("13_s7o41")
-
-[node name="moska3" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(712.00006, 629)
-scale = Vector2(5.1879354, 4.2531033)
-texture = ExtResource("14_if8vk")
-
-[node name="moska 4" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(842, 627)
-scale = Vector2(5.4779997, 4.011011)
-texture = ExtResource("11_8076y")
+[node name="Label" type="Label" parent="HUD"]
+offset_left = 6077.0654
+offset_top = 275.81323
+offset_right = 6238.0654
+offset_bottom = 298.81323
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("17_if8vk")
+theme_override_font_sizes/font_size = 15
+text = "Casa do Dorminhoco"
