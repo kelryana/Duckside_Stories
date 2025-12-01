@@ -1,26 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://wkoqfeoelule"]
+[gd_scene load_steps=6 format=3 uid="uid://wkoqfeoelule"]
 
 [ext_resource type="Script" uid="uid://c6s6hotl5mbvv" path="res://ui/tela_vitoria.gd" id="1_ytvlr"]
+[ext_resource type="Texture2D" uid="uid://x783ltl4whyj" path="res://assets/sprites/Scenario/fundo demo.png" id="2_8ylw5"]
+[ext_resource type="FontFile" uid="uid://c3q70qo3x0mxj" path="res://Game Assets/NicoBold/NicoBold-Regular.woff" id="3_6acr2"]
+[ext_resource type="FontFile" uid="uid://d0lanw3hx5pav" path="res://Game Assets/NicoBold/NicoBold-Monospaced.ttf" id="4_2avqq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_outca"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.32318765, 0.6638941, 0.6693384, 1)
 
 [node name="TelaVitoria" type="Node2D"]
 script = ExtResource("1_ytvlr")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
 offset_right = 40.0
 offset_bottom = 40.0
+scale = Vector2(2.7978487, 2.8074632)
+texture = ExtResource("2_8ylw5")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 505.00003
-offset_top = 203.0
-offset_right = 568.0
-offset_bottom = 226.0
-scale = Vector2(3.2270155, 2.8889947)
+texture_filter = 1
+offset_left = 468.99997
+offset_top = 187.00002
+offset_right = 551.0
+offset_bottom = 213.00002
+scale = Vector2(3.7096198, 4.0940003)
+theme_override_constants/line_spacing = 1
+theme_override_constants/paragraph_spacing = 1
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("3_6acr2")
+theme_override_styles/normal = SubResource("StyleBoxFlat_outca")
 text = "VITÓRIA"
 
 [node name="BotaoContinuar" type="Button" parent="."]
-offset_left = 521.0
-offset_top = 296.0
-offset_right = 624.0
-offset_bottom = 327.0
+offset_left = 482.0
+offset_top = 307.0
+offset_right = 645.0
+offset_bottom = 339.0
 scale = Vector2(1.745186, 1.7178504)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_2avqq")
+theme_override_font_sizes/font_size = 23
 text = "CONTINUAR"
+
+[connection signal="pressed" from="BotaoContinuar" to="." method="_on_botao_continuar_pressed"]

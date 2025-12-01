@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bq6lm81p3tb7v"]
+[gd_scene load_steps=5 format=3 uid="uid://bq6lm81p3tb7v"]
 
 [ext_resource type="Script" uid="uid://dnfh72bxuh4le" path="res://ui/tela_final.gd" id="1_u1w4i"]
+[ext_resource type="FontFile" uid="uid://c8ktjokqcx0ka" path="res://Game Assets/NicoBold/NicoBold-Regular.woff2" id="2_uj2pr"]
+[ext_resource type="Texture2D" uid="uid://do0frx3dwgtwb" path="res://assets/sprites/Character/saposheet-sheet-sheet.png" id="3_hr855"]
+[ext_resource type="Texture2D" uid="uid://cldbm5if5eiym" path="res://assets/sprites/Character/Patogonista_Sheet.png" id="4_06ml2"]
 
 [node name="TelaFinal" type="Node2D"]
 script = ExtResource("1_u1w4i")
@@ -23,11 +26,14 @@ text = "JOGAR DENOVO"
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
-offset_left = 428.0
-offset_top = 247.0
-offset_right = 552.0
-offset_bottom = 296.0
+offset_left = 436.0
+offset_top = 268.0
+offset_right = 578.0
+offset_bottom = 317.0
 scale = Vector2(3.6758437, 2.9777539)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_uj2pr")
 text = "OBRIGADA POR 
 JOGAR A DEMO!"
 
@@ -40,6 +46,22 @@ offset_bottom = 450.0
 scale = Vector2(2.889677, 2.675403)
 text = "SAIR
 "
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(176, 609)
+scale = Vector2(6.962311, 6.080144)
+texture = ExtResource("3_hr855")
+region_enabled = true
+region_rect = Rect2(46.805428, 0, 25.936554, 30.924572)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1068, 625)
+scale = Vector2(6.8688154, 5.5804863)
+texture = ExtResource("4_06ml2")
+region_enabled = true
+region_rect = Rect2(1.1376953, 33.02586, 21.380127, 32.24544)
 
 [connection signal="pressed" from="BotaoContinuar" to="." method="_on_botao_continuar_pressed"]
 [connection signal="pressed" from="SAIRjogo" to="." method="_on_sai_rjogo_pressed"]
