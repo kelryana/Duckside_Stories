@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name AngryCloud
+
 # ==========================================
 # MOVIMENTO E PATH 
 # ==========================================
@@ -46,6 +48,7 @@ var path_follow: PathFollow2D
 var lightning_timer: float = 0.0
 var visited_paths: Array[int] = []
 var scene_bounds: Rect2
+var is_mini: bool = false
 
 func _ready():
 	# Inicializa a vida

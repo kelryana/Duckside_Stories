@@ -8,10 +8,6 @@ func exibir_game_over():
 	visible = true
 	get_tree().paused = true 
 
-# --- AQUI ESTÁ A CORREÇÃO ---
-# O Godot conectou a estas funções com "button" no nome.
-# Movi o código para cá.
-
 func _on_restart_button_pressed() -> void:
 	get_tree().paused = false 
 	get_tree().reload_current_scene() 

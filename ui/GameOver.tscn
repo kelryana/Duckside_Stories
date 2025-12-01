@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b83pml30tmfjy" path="res://scripts/UI/game_over.gd" id="1_cvna2"]
 
-[node name="GameOver" type="CanvasLayer"]
+[node name="GameOver" type="CanvasLayer" groups=["GameOver"]]
 process_mode = 3
 script = ExtResource("1_cvna2")
 

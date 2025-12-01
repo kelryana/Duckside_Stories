@@ -5,10 +5,29 @@
 [ext_resource type="Texture2D" uid="uid://do0frx3dwgtwb" path="res://assets/sprites/Character/saposheet-sheet-sheet.png" id="3_hr855"]
 [ext_resource type="Texture2D" uid="uid://cldbm5if5eiym" path="res://assets/sprites/Character/Patogonista_Sheet.png" id="4_06ml2"]
 
-[node name="TelaFinal" type="Node2D"]
+[node name="TelaFinal" type="Control" node_paths=PackedStringArray("background_color", "titulo_label", "botao_continuar", "botao_sair", "decoracao_esq", "decoracao_dir")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = -640.0
+offset_bottom = -360.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_u1w4i")
+background_color = NodePath("ColorRect")
+titulo_label = NodePath("Label")
+botao_continuar = NodePath("BotaoContinuar")
+botao_sair = NodePath("SAIRjogo")
+decoracao_esq = NodePath("Sprite2D")
+decoracao_dir = NodePath("Sprite2D2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = -1.9999999
 offset_right = 38.0
 offset_bottom = 40.0
@@ -17,6 +36,7 @@ color = Color(0.3391428, 0.43204007, 0.44606858, 1)
 
 [node name="BotaoContinuar" type="Button" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_left = 484.00003
 offset_top = 524.0
 offset_right = 615.0
@@ -26,6 +46,7 @@ text = "JOGAR DENOVO"
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_left = 436.0
 offset_top = 268.0
 offset_right = 578.0
@@ -39,6 +60,7 @@ JOGAR A DEMO!"
 
 [node name="SAIRjogo" type="Button" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_left = 517.00006
 offset_top = 419.0
 offset_right = 620.00006

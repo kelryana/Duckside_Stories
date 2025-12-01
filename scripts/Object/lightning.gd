@@ -14,14 +14,17 @@ var lifetime: float = 5.0
 var time_alive: float = 0.0
 
 var is_reflected: bool = false
-var hit_shield_count: int
 
 # ============================================================
-# GERENCIAMENTO DE SIMULTANEIDADE (STATIC)
+# GERENCIAMENTO DE SIMULTANEIDADE + CONTADOR DE ESCUDO
 # ============================================================
-# Estas variáveis são compartilhadas por TODOS os raios no jogo
 static var is_parry_event_active: bool = false
-static var pending_projectiles: Array = [] 
+static var pending_projectiles: Array = []
+
+# NOVO: Sistema de contagem de reflexões por escudo
+static var shield_reflection_count: int = 0
+static var max_reflections_before_break: int = 3
+static var current_shield_owner = null # Referência ao player com escudo ativo
 
 func _ready():
 	body_entered.connect(_on_body_entered)
@@ -35,7 +38,6 @@ func _ready():
 			collision_shape.disabled = false
 
 func _physics_process(delta):
-	# Se estivermos em evento de parry, ninguém se mexe
 	if is_parry_event_active: return
 
 	global_position += direction * speed * delta
@@ -54,7 +56,7 @@ func _on_area_entered(area):
 	_handle_collision(area)
 
 func _handle_collision(target):
-	# Se já fui refletido, ajo como projétil do player
+	# Raios refletidos atacam nuvens
 	if is_reflected:
 		if target.has_method("take_damage") and target.is_in_group("angry_cloud"):
 			target.take_damage(1)
@@ -64,15 +66,13 @@ func _handle_collision(target):
 
 	# Colisão com PLAYER
 	if target.is_in_group("player"):
-		# 1. Se o player tem escudo, entramos na lógica de Parry
 		if target.has_method("has_shield_active") and target.has_shield_active():
 			_register_for_parry(target)
 		else:
-			# Sem escudo = Dano
 			_deal_damage_and_destroy(target)
 		return
 	
-	# Paredes/Chão
+	# Terreno
 	if target is TileMap or target.is_in_group("terrain"):
 		create_hit_effect()
 		queue_free()
@@ -82,118 +82,144 @@ func _handle_collision(target):
 # ============================================================
 
 func _register_for_parry(player_ref):
-	# Adiciona este raio atual à lista de espera
+	# Adiciona à fila
 	if not self in pending_projectiles:
 		pending_projectiles.append(self)
 	
-	# Se JÁ existe um evento de parry rolando (iniciado por outro raio milissegundos antes),
-	# eu não faço nada. Apenas fico na lista esperando o Líder resolver.
+	# NOVO: Registra o dono do escudo se ainda não foi feito
+	if current_shield_owner == null:
+		current_shield_owner = player_ref
+	
+	# Se já existe evento rodando, apenas espera
 	if is_parry_event_active:
 		return
 
-	# Se não existe evento, EU sou o Líder. Eu inicio o loop.
+	# Sou o líder, inicio o evento
 	_start_parry_leader_logic(player_ref)
 
 func _start_parry_leader_logic(player_ref):
 	is_parry_event_active = true
 	
-	var window_duration_ms = 300 # Aumentei um pouco para ser justo com múltiplos raios
+	var window_duration_ms = 300
 	var perfect_threshold_ms = 120
 	var reaction_success = false
 	var is_perfect = false
 	
-	# Congela o Jogo
-	var old_scale = Engine.time_scale
+	# Congela o jogo
 	Engine.time_scale = 0.05
 	
-	# Feedback Visual em TODOS os raios que estão batendo agora
+	# Feedback visual em TODOS os raios pendentes
 	for p in pending_projectiles:
 		if is_instance_valid(p) and p.sprite:
-			p.sprite.modulate = Color(3, 3, 3) # Todos piscam branco
+			p.sprite.modulate = Color(3, 3, 3)
 	
 	var start_time = Time.get_ticks_msec()
 	
-	# Loop de Input
+	# Loop de input
 	while Time.get_ticks_msec() - start_time < window_duration_ms:
 		if Input.is_action_just_pressed("PARRY"):
 			reaction_success = true
-			if Time.get_ticks_msec() - start_time <= perfect_threshold_ms:
+			var reaction_time = Time.get_ticks_msec() - start_time
+			if reaction_time <= perfect_threshold_ms:
 				is_perfect = true
+			print("⚡ PARRY! Tempo: %dms | Perfeito: %s | Raios: %d" % 
+				[reaction_time, is_perfect, pending_projectiles.size()])
 			break
 		
 		await get_tree().process_frame
 	
-	# Restaura o Jogo
-	Engine.time_scale = 1.0 # Força 1.0 sempre
-	is_parry_event_active = false # Libera a trava para futuros eventos
+	# Restaura o tempo
+	Engine.time_scale = 1.0
+	is_parry_event_active = false
 	
-	# Resolve o destino de TODOS os raios na lista
+	# Resolve TODOS os raios de uma vez
 	_resolve_all_pending_projectiles(player_ref, reaction_success, is_perfect)
 
 func _resolve_all_pending_projectiles(player_ref, success: bool, perfect: bool):
-	var hit_count = 0
+	var reflected_count = 0
 	
-	for bolt in pending_projectiles:
-		if is_instance_valid(bolt):
-			if success:
-				bolt._execute_reflection(player_ref, perfect)
-				hit_count += 1
-			else:
-				bolt._deal_damage_and_destroy(player_ref)
+	# IMPORTANTE: Faz uma cópia da lista antes de iterar
+	# porque _execute_reflection pode modificar a lista original
+	var projectiles_copy = pending_projectiles.duplicate()
+	
+	for bolt in projectiles_copy:
+		if not is_instance_valid(bolt):
+			continue
+			
+		if success:
+			bolt._execute_reflection(player_ref, perfect)
+			reflected_count += 1
+		else:
+			# CORREÇÃO: Projétil não refletido causa dano e é destruído
+			bolt._deal_damage_and_destroy(player_ref)
 	
 	pending_projectiles.clear()
 	
-	# === LÓGICA DE QUEBRA DE ESCUDO ===
-	# Se refletiu pelo menos 1 raio, o escudo sobrecarrega e quebra
-	if success and hit_count > 0:
-		print("🛡️ Escudo sobrecarregou e quebrou!")
-		hit_shield_count -= 1
+	# ============================================================
+	# SISTEMA DE QUEBRA DE ESCUDO (CORRIGIDO)
+	# ============================================================
+	if success and reflected_count > 0:
+		shield_reflection_count += 1
 		
-		if hit_shield_count == 0:
+		print("🛡️ Reflexões: %d/%d | Raios refletidos neste turno: %d" % 
+			[shield_reflection_count, max_reflections_before_break, reflected_count])
+		
+		# QUEBRA APÓS 3 REFLEXÕES BEM-SUCEDIDAS
+		if shield_reflection_count >= max_reflections_before_break:
+			print("💥 ESCUDO QUEBROU!")
 			
-			if player_ref and player_ref.has_method("deactivate_shield_buff"):
-				player_ref.deactivate_shield_buff()
-				
-			# Feedback Visual Opcional: Tocar som de vidro quebrando
-			# if AudioSystem: AudioSystem.play("shield_break")
+			if is_instance_valid(current_shield_owner):
+				if current_shield_owner.has_method("deactivate_shield_buff"):
+					current_shield_owner.deactivate_shield_buff()
+			
+			# Reseta contadores
+			shield_reflection_count = 0
+			current_shield_owner = null
+			
+			# Opcional: Efeito visual/sonoro de quebra
+			# AudioManager.play("shield_break")
+
 # ============================================================
-# EXECUÇÃO INDIVIDUAL (Chamada pelo Líder)
+# FUNÇÃO PÚBLICA: Reseta contador ao ativar novo escudo
+# ============================================================
+# Chame isso do seu script de Player quando pegar um novo item de escudo
+static func reset_shield_durability(new_owner):
+	shield_reflection_count = 0
+	current_shield_owner = new_owner
+	print("🆕 Novo escudo ativado! Durabilidade resetada.")
+
+# ============================================================
+# EXECUÇÃO INDIVIDUAL
 # ============================================================
 
 func _execute_reflection(player_ref, is_perfect: bool):
 	is_reflected = true
 	
-	# Só aplica Screen Shake uma vez (opcional, para não tremer demais se forem 5 raios)
-	# Mas se quiser caos, deixe o shake aqui mesmo.
-	
 	var mouse_pos = get_global_mouse_position()
-	# Pequena variação para eles não ficarem 100% sobrepostos visualmente
 	var random_offset = Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	direction = (mouse_pos - (global_position + random_offset)).normalized()
 	rotation = direction.angle() + PI/2
 	
+	# Muda camadas de colisão
 	set_collision_mask_value(1, false) 
 	set_collision_mask_value(2, true)
 	time_alive = 0.0
 	
 	if is_perfect:
 		speed *= 2.5
+		damage = 2 # Dano bônus em perfect parry
 		if sprite: 
-			sprite.modulate = Color(2, 1.5, 0) # Dourado
+			sprite.modulate = Color(2, 1.5, 0)
 			sprite.scale = Vector2(2.0, 2.0)
 			create_tween().tween_property(sprite, "scale", Vector2(1.2, 1.2), 0.3)
 	else:
 		speed *= 1.5
 		if sprite:
-			sprite.modulate = Color(0, 1, 1) # Ciano
+			sprite.modulate = Color(0, 1, 1)
 			sprite.scale = Vector2(1.5, 1.5)
 			create_tween().tween_property(sprite, "scale", Vector2(1.0, 1.0), 0.2)
-			create_tween().tween_property(sprite, "modulate", Color(0, 1, 1), 0.2)
 
 func _deal_damage_and_destroy(target):
-	# Para evitar que x raios dêem x de dano instantâneo (Hitkill injusto),
-	# verificamos se o player já está invencível.
-	# Seu script de Player já tem lógica de invencibilidade, então isso aqui é seguro:
 	if target.has_method("take_damage"):
 		target.take_damage(damage)
 	

@@ -12,17 +12,17 @@ content_margin_right = 5.0
 content_margin_bottom = 5.0
 bg_color = Color(0.32318765, 0.6638941, 0.6693384, 1)
 
-[node name="TelaVitoria" type="Control"]
+[node name="TelaVitoria" type="Control" node_paths=PackedStringArray("background_texture")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ytvlr")
+background_texture = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 texture_filter = 1
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(2.7978487, 2.8074632)
+offset_right = 458.0
+offset_bottom = 256.0
 texture = ExtResource("2_8ylw5")
 
 [node name="Label" type="Label" parent="."]

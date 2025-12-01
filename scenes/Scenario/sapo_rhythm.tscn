@@ -85,10 +85,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "spawn_positions", "hit_positions")]
-position = Vector2(-712, 4)
+[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("background_texture", "lane_labels", "conductor", "spawn_positions", "hit_positions")]
 scale = Vector2(1.1, 1.1)
 script = ExtResource("1_i3gl7")
+background_texture = NodePath("TextureRect")
+lane_labels = [NodePath("TextureRect/Label"), NodePath("TextureRect/Label2"), NodePath("TextureRect/Label3"), NodePath("TextureRect/Label4")]
+label_y_offset = 80.0
 nota_scene = ExtResource("2_yub87")
 conductor = NodePath("Conductor")
 texturas_moscas = Array[Texture2D]([ExtResource("7_yub87"), ExtResource("8_lxqon"), ExtResource("9_q1w35"), ExtResource("10_2hwka")])
@@ -102,6 +104,40 @@ offset_right = 1926.3636
 offset_bottom = 711.2727
 scale = Vector2(0.9073542, 0.91720974)
 texture = ExtResource("2_pa062")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 467.89386
+offset_top = 562.9723
+offset_right = 483.89386
+offset_bottom = 585.9723
+text = "W"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 597.14075
+offset_top = 573.8749
+offset_right = 637.14075
+offset_bottom = 596.8749
+text = "S"
+
+[node name="Label3" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 726.3877
+offset_top = 573.87494
+offset_right = 766.3877
+offset_bottom = 596.87494
+text = "A"
+
+[node name="Label4" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 851.627
+offset_top = 569.91034
+offset_right = 891.627
+offset_bottom = 592.91034
+text = "D"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8yjuy")
@@ -217,31 +253,3 @@ scale = Vector2(1.0762885, 1.3879405)
 
 [node name="GameOver" parent="." instance=ExtResource("18_4kx0c")]
 visible = false
-
-[node name="Label" type="Label" parent="."]
-offset_left = 1068.1818
-offset_top = 510.90906
-offset_right = 1108.1818
-offset_bottom = 533.90906
-text = "W"
-
-[node name="Label2" type="Label" parent="."]
-offset_left = 1192.7273
-offset_top = 510.9091
-offset_right = 1232.7273
-offset_bottom = 533.90906
-text = "S"
-
-[node name="Label3" type="Label" parent="."]
-offset_left = 1311.8181
-offset_top = 512.72723
-offset_right = 1351.8181
-offset_bottom = 535.72723
-text = "A"
-
-[node name="Label4" type="Label" parent="."]
-offset_left = 1442.7272
-offset_top = 513.63635
-offset_right = 1482.7272
-offset_bottom = 536.63635
-text = "D"

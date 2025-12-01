@@ -47,6 +47,7 @@ var split_timer: float = 0.0
 var split_cooldown: float = 0.0
 var is_split: bool = false
 var mini_clouds: Array[CharacterBody2D] = []
+var is_merging: bool = false
 
 var consumable_timer: float = 0.0
 var current_consumable: Node2D = null
@@ -88,7 +89,9 @@ func _ready():
 func _physics_process(delta):
 	# Debug simplificado (roda a cada 3s aprox)
 	if Engine.get_physics_frames() % 180 == 0:
-		print("MiniGame Status: Split=%s | Defeated=%d/%d" % [is_split, clouds_defeated_count, total_clouds_to_win])
+		var boss_status = "ATIVO" if (is_instance_valid(angry_cloud) and angry_cloud.visible) else "INATIVO"
+		print("Status: Split=%s | Defeated=%d/%d | Merging=%s | Boss=%s | MiniClouds=%d" % 
+			[is_split, clouds_defeated_count, total_clouds_to_win, is_merging, boss_status, mini_clouds.size()])
 	
 	if not is_split and enable_split_system:
 		split_cooldown -= delta
@@ -99,7 +102,8 @@ func _physics_process(delta):
 	elif is_split:
 		split_timer -= delta
 		_update_shield_respawn_logic(delta)
-		if split_timer <= 0:
+		# CORREÇÃO PRINCIPAL: Só chama merge UMA VEZ
+		if split_timer <= 0 and not is_merging:
 			_merge_clouds()
 	
 	_update_consumable_system(delta)
@@ -108,41 +112,50 @@ func _physics_process(delta):
 # LÓGICA DE DIVISÃO (BOSS)
 # ========================================
 func _split_angry_cloud():
-	if not is_instance_valid(angry_cloud) or is_split: return
+	if not is_instance_valid(angry_cloud) or is_split: 
+		return
 	
 	print("=== DIVISÃO INICIADA ===")
 	is_split = true
 	split_timer = split_duration
 	
-	# Esconde Boss
+	# Salva estado do Boss
 	var original_pos = angry_cloud.global_position
 	var original_scale = angry_cloud.scale
 	var lightning_scale = angry_cloud.lightning_scale
 	
+	# CORREÇÃO 1: Não destrói o boss, apenas esconde
 	angry_cloud.visible = false
 	angry_cloud.set_physics_process(false)
 	
-	# --- CONFIGURAÇÃO DO RESPAWN ---
+	# PROTEÇÃO EXTRA: Desabilita colisão para evitar dano acidental
+	if angry_cloud.has_node("CollisionShape2D"):
+		angry_cloud.get_node("CollisionShape2D").set_deferred("disabled", true)
+	
+	# Configuração do Respawn de Escudos
 	current_shields_spawned = 0
 	max_shields_this_round = randi_range(min_shields_per_round, max_shields_per_round)
-	shield_respawn_timer = 0.0 # O primeiro spawna instantâneo
+	shield_respawn_timer = 0.0
 	print("Esta rodada terá %d escudos!" % max_shields_this_round)
 	
-	# Spawna Mini Nuvens
+	# CORREÇÃO 2: Calcula quantas nuvens REALMENTE precisam spawnar
 	var clouds_needed = total_clouds_to_win - clouds_defeated_count
+	
 	if clouds_needed <= 0:
+		print("⚠️ Todas as nuvens já foram derrotadas! Vitória!")
 		_game_win()
 		return
-		
-	var angle_step = TAU / mini_cloud_count
-	var clouds_spawned = 0
 	
-	for i in range(mini_cloud_count):
-		# Remova o break do clouds_needed se quiser sempre 5
-			
+	print("Spawnando %d mini nuvens (Derrotadas: %d/%d)" % [clouds_needed, clouds_defeated_count, total_clouds_to_win])
+	
+	var angle_step = TAU / clouds_needed  # <-- USA clouds_needed, não mini_cloud_count
+	
+	# CORREÇÃO 3: Loop baseado em clouds_needed
+	for i in range(clouds_needed):
 		var mini = angry_cloud.duplicate()
 		add_child(mini)
 		
+		# Configuração da mini nuvem
 		mini.max_health = mini_cloud_hits_to_die
 		mini.current_health = mini_cloud_hits_to_die
 		
@@ -153,24 +166,13 @@ func _split_angry_cloud():
 		mini.scale = original_scale * mini_cloud_scale
 		mini.lightning_scale = lightning_scale * mini_cloud_scale
 		
-		# --- CORREÇÃO DE POSICIONAMENTO ---
-		
-		# 1. Ajuste de Path (Distribuindo para não encavalar)
+		# Posicionamento (seu código de path já está bom)
 		if angry_cloud.paths.size() > 0:
-			# Escolhe o path ciclicamente
 			mini.force_path_change((angry_cloud.current_path_index + i + 1) % angry_cloud.paths.size())
 			
-			# O PULO DO GATO: Se tivermos path_follow, alteramos o progresso inicial!
 			if mini.path_follow:
-				# Opção A: Aleatório (elas nascem em pontos random do trilho)
-				# mini.path_follow.progress_ratio = randf() 
-				
-				# Opção B: Distribuição baseada no índice (mais organizado)
-				# Isso espalha as nuvens ao longo do caminho
-				var spread_offset = (i * 100.0) # 100 pixels de distância entre cada uma no mesmo trilho
+				var spread_offset = (i * 100.0)
 				mini.path_follow.progress += spread_offset
-				
-		# Nota: Se a nuvem usa Path, o 'global_position' abaixo será sobrescrito no próximo frame.
 		
 		var angle = angle_step * i
 		var offset = Vector2(cos(angle), sin(angle)) * 150.0
@@ -180,47 +182,70 @@ func _split_angry_cloud():
 		mini.set_physics_process(true)
 		
 		mini_clouds.append(mini)
-		clouds_spawned += 1
+	
+	print("✅ %d mini nuvens spawnadas com sucesso!" % mini_clouds.size())
 
 func _merge_clouds():
-	if not is_split: return
-	print("=== FIM DA DIVISÃO ===")
+	if not is_split or is_merging: 
+		return
 	
+	print("=== FIM DA DIVISÃO ===")
+	is_merging = true
+	
+	# Limpa mini nuvens
 	for mini in mini_clouds:
-		if is_instance_valid(mini): mini.queue_free()
+		if is_instance_valid(mini): 
+			mini.queue_free()
 	mini_clouds.clear()
 	
+	# Remove escudo se houver
 	if is_instance_valid(current_shield_item):
 		current_shield_item.queue_free()
 	
+	# Desativa buff do player
 	if player_ref and player_ref.has_method("deactivate_shield_buff"):
 		player_ref.deactivate_shield_buff()
 	
+	# Pequena pausa
 	await get_tree().create_timer(1.0).timeout
 	
-	#if is_instance_valid(angry_cloud):
+	# CORREÇÃO 4: Verifica se o boss ainda existe antes de reativar
+	if not is_instance_valid(angry_cloud):
+		push_error("❌ BOSS FOI DESTRUÍDO! Não é possível reativar.")
+		is_split = false
+		is_merging = false
+		return
+	
+	# Reativa o boss
 	angry_cloud.visible = true
 	angry_cloud.set_physics_process(true)
-		
-
-		
-		#var tw = create_tween()
-		#tw.tween_property(angry_cloud, "scale", angry_cloud.scale * 1.2, 0.3)
-		#tw.tween_property(angry_cloud, "scale", angry_cloud.scale, 0.2)
-	#
+	
+	# REATIVA COLISÃO
+	if angry_cloud.has_node("CollisionShape2D"):
+		angry_cloud.get_node("CollisionShape2D").set_deferred("disabled", false)
+	
 	is_split = false
+	is_merging = false
+	
+	print("✅ Merge completo. Boss reativado em: %s" % angry_cloud.global_position)
 
 func _on_mini_cloud_defeated(dead_cloud):
+	print("💀 Mini nuvem derrotada! Restantes: %d" % (mini_clouds.size() - 1))
+	
 	mini_clouds.erase(dead_cloud)
 	clouds_defeated_count += 1
 	
+	print("Progresso Total: %d/%d nuvens derrotadas" % [clouds_defeated_count, total_clouds_to_win])
+	
 	if clouds_defeated_count >= total_clouds_to_win:
+		print("🎯 Todas as nuvens derrotadas!")
 		_game_win()
 	else:
+		# Aumenta dificuldade das sobreviventes
 		for cloud in mini_clouds:
 			if is_instance_valid(cloud) and cloud.has_method("increase_difficulty"):
 				cloud.increase_difficulty(1)
-
+				
 func _game_win():
 	print("🏆 VITÓRIA NA NUVEM!")
 	is_split = false
