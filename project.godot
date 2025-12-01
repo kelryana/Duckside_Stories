@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 ScreenUtils="*res://scripts/Control/ScreenUtils.gd"
 GameManager="*res://scripts/Control/GameManager.gd"
+Global="*res://scripts/Global.gd"
 
 [display]
 

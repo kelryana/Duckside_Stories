@@ -83,4 +83,5 @@ flat = true
 autowrap_mode = 1
 icon_alignment = 1
 
-[connection signal="pressed" from="SAIR" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="JOGAR" to="." method="_on_jogar_pressed"]
+[connection signal="pressed" from="SAIR" to="." method="_on_sair_pressed"]
