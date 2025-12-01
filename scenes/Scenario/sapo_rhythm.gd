@@ -7,6 +7,10 @@ extends Node2D
 @export var spawn_positions: Array[Node2D] 
 @export var hit_positions: Array[Area2D] 
 
+# --- ADIÇÃO 1: Referência ao AudioPlayer ---
+# (Certifique-se que o nome do nó na cena é exatamente AudioStreamPlayer)
+@onready var audio_player = $AudioStreamPlayer
+
 # --- AQUI ESTÁ A ATUALIZAÇÃO ---
 # Mapeamento exato com o print que você mandou
 # Ordem: 0=Cima, 1=Baixo, 2=Esquerda, 3=Direita
@@ -15,6 +19,11 @@ var input_map = ["UP", "DOWN", "LEFT", "RIGHT"]
 func _ready():
 	if conductor:
 		conductor.beat.connect(_on_conductor_beat)
+		
+	# --- ADIÇÃO 2: Conectar o sinal de fim ---
+	# Quando o áudio terminar de tocar, ele chama a função _on_fim_da_musica
+	if audio_player:
+		audio_player.finished.connect(_on_fim_da_musica)
 	
 
 func _on_conductor_beat(beat_number):
@@ -67,3 +76,20 @@ func checar_acerto(indice_pista: int):
 	else:
 		# --- ERROU! (Apertou sem nota) ---
 		print("ERROU! (Apertou à toa): ", input_map[indice_pista])
+		
+# --- ADIÇÃO 3: O que acontece quando acaba? ---
+func _on_fim_da_musica():
+	print("Música acabou! Finalizando fase...")
+	
+	# É bom esperar uns 2 ou 3 segundos para as últimas notas caírem
+	# 'await' pausa essa função por X segundos sem travar o jogo
+	await get_tree().create_timer(3.0).timeout
+	
+	print("Fim de Jogo Real!")
+	# AQUI VOCÊ ESCOLHE O QUE FAZER:
+	
+	# Opção A: Voltar para o menu / Mundo
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	
+	# Opção B: Mostrar uma tela de pontuação (se você tiver uma cena de UI)
+	# get_tree().change_scene_to_file("res://tela_pontuacao.tscn")
