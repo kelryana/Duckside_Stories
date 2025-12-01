@@ -1,12 +1,15 @@
 extends Node2D
 
 @export var nota_scene: PackedScene 
-@export var conductor: Node         
+@export var conductor: Node          
 @export var texturas_moscas: Array[Texture2D] 
 
-# --- A GENTE SÓ PRECISA SABER ONDE ESTÃO AS DE BAIXO ---
+# --- AQUI ESTÁ A MUDANÇA ---
+# Vamos usar essa lista agora! Arraste os SpawnPos para cá no Inspetor.
+@export var spawn_positions: Array[Node2D] 
+
+# As zonas de acerto continuam servindo para saber onde a nota MORRE (o alvo)
 @export var hit_positions: Array[Node2D] 
-# (O spawn_positions a gente ignora pq ele ta bugado)
 
 func _ready():
 	if conductor:
@@ -19,24 +22,26 @@ func _on_conductor_beat(beat_number):
 func spawnar_nota(indice_pista: int):
 	if not nota_scene: return
 	
-	# 1. Cria a nota
+	# Verificação de segurança: Precisamos ter certeza que configuramos o Inspetor
+	if spawn_positions.size() <= indice_pista or hit_positions.size() <= indice_pista:
+		print("ERRO: Faltou configurar os SpawnPos ou HitPositions no Inspetor!")
+		return
+
 	var nova_nota = nota_scene.instantiate()
-	# Adiciona NA RAIZ DO JOGO (Isso impede que ela nasça torta por causa da câmera)
-	get_tree().current_scene.add_child(nova_nota)
 	
-	# 2. ALINHAMENTO MAGNÉTICO (A Correção)
-	# Se a lista de moscas de baixo estiver certa...
-	if hit_positions.size() > indice_pista and hit_positions[indice_pista]:
-		# Pega o X da mosca de baixo
-		var x_alvo = hit_positions[indice_pista].global_position.x
-		
-		# Força a nota a nascer NESSE X, mas lá no alto (Y = -50)
-		nova_nota.global_position = Vector2(x_alvo, -50)
-		
-		# Define o alvo pra ela saber quando morre
-		nova_nota.target_y = hit_positions[indice_pista].global_position.y
+	# IMPORTANTE: Adiciona como filho DESTE script (SapoRhythm) para manter coordenadas locais
+	add_child(nova_nota) 
 	
-	# 3. Configurações visuais
+	# --- DEFININDO A POSIÇÃO DE NASCIMENTO (START) ---
+	# Agora a nota nasce EXATAMENTE onde você colocou o nó SpawnPos correspondente
+	nova_nota.position = spawn_positions[indice_pista].position
+	
+	# --- DEFININDO O ALVO (END) ---
+	# A nota sabe que deve cair até o Y da zona de acerto
+	# (Ela vai viajar da posição do SpawnPos até o Y do HitPos)
+	nova_nota.target_y = hit_positions[indice_pista].position.y
+	
+	# Configurações visuais e de lógica
 	if "lane_id" in nova_nota:
 		nova_nota.lane_id = indice_pista
 		

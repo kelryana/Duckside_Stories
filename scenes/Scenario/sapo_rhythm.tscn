@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://d3sr2xk16wy0d"]
+[gd_scene load_steps=28 format=3 uid="uid://d3sr2xk16wy0d"]
 
 [ext_resource type="Script" uid="uid://b8ghkk3av1rvi" path="res://scenes/Scenario/sapo_rhythm.gd" id="1_i3gl7"]
 [ext_resource type="Script" uid="uid://bi3ly5ca470xg" path="res://scenes/Scenario/conductor.gd" id="2_hqv6m"]
@@ -17,6 +17,10 @@
 [ext_resource type="Texture2D" uid="uid://b0cf563y12ttd" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c2_processed_by_imagy.png" id="13_s7o41"]
 [ext_resource type="Texture2D" uid="uid://3vc8n4wldmmf" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c3_processed_by_imagy.png" id="14_if8vk"]
 [ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="17_if8vk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_if8vk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4kx0c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owxkr"]
 atlas = ExtResource("4_pa062")
@@ -80,13 +84,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "hit_positions")]
+[node name="SapoRhythm" type="Node2D" node_paths=PackedStringArray("conductor", "spawn_positions", "hit_positions")]
 position = Vector2(-712, 4)
 scale = Vector2(1.1, 1.1)
 script = ExtResource("1_i3gl7")
 nota_scene = ExtResource("2_yub87")
 conductor = NodePath("Conductor")
 texturas_moscas = Array[Texture2D]([ExtResource("7_yub87"), ExtResource("8_lxqon"), ExtResource("9_q1w35"), ExtResource("10_2hwka")])
+spawn_positions = [NodePath("SpawnPos1"), NodePath("SpawnPos2"), NodePath("SpawnPos3"), NodePath("SpawnPos4")]
 hit_positions = [NodePath("ZonadeAcerto"), NodePath("ZonadeAcerto2"), NodePath("ZonadeAcerto3"), NodePath("ZonadeAcerto4")]
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -106,55 +111,76 @@ script = ExtResource("2_hqv6m")
 music_player = NodePath("../AudioStreamPlayer")
 
 [node name="SpawnPos1" type="Marker2D" parent="."]
-position = Vector2(1060.7278, 48.181824)
+position = Vector2(755.4545, 11.818182)
 
 [node name="SpawnPos2" type="Marker2D" parent="."]
-position = Vector2(1194.7268, 48.181824)
+position = Vector2(868.18176, 22.727272)
 
 [node name="SpawnPos3" type="Marker2D" parent="."]
-position = Vector2(1324.7268, 48.181824)
+position = Vector2(999.09094, 23.636364)
 
 [node name="SpawnPos4" type="Marker2D" parent="."]
-position = Vector2(1454.7268, 48.181824)
+position = Vector2(1137.2727, 20)
 
 [node name="ZonadeAcerto" type="Area2D" parent="."]
-position = Vector2(1060.7273, 609.9091)
-scale = Vector2(2.514207, 1.4734313)
+position = Vector2(1065.4545, 602.7273)
+scale = Vector2(9.329929, 6.520978)
+linear_damp = 0.0
+angular_damp = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonadeAcerto"]
+position = Vector2(0.097437456, -0.55764234)
+scale = Vector2(0.5642634, 0.72734374)
+shape = SubResource("CircleShape2D_if8vk")
+
+[node name="moska1" type="Sprite2D" parent="ZonadeAcerto"]
+texture_filter = 1
+scale = Vector2(0.62944996, 0.72946936)
+texture = ExtResource("12_8076y")
 
 [node name="ZonadeAcerto2" type="Area2D" parent="."]
 position = Vector2(1194.7273, 609.9091)
 scale = Vector2(6.321236, 2.171)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonadeAcerto2"]
+position = Vector2(1.2655686, -4.1455564)
+scale = Vector2(0.8207468, 2.2224393)
+shape = SubResource("CircleShape2D_if8vk")
+
+[node name="moska2" type="Sprite2D" parent="ZonadeAcerto2"]
+texture_filter = 1
+position = Vector2(0, -5.820343)
+scale = Vector2(0.84111476, 1.8160051)
+texture = ExtResource("13_s7o41")
+
 [node name="ZonadeAcerto3" type="Area2D" parent="."]
 position = Vector2(1324.7273, 610.9091)
 scale = Vector2(39.958027, 4.713241)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonadeAcerto3"]
+position = Vector2(-0.0273031, -2.507452)
+scale = Vector2(0.1369907, 1.0828413)
+shape = SubResource("CircleShape2D_if8vk")
+
+[node name="moska3" type="Sprite2D" parent="ZonadeAcerto3"]
+texture_filter = 1
+position = Vector2(0, -3.1052856)
+scale = Vector2(0.12983462, 0.9023733)
+texture = ExtResource("14_if8vk")
 
 [node name="ZonadeAcerto4" type="Area2D" parent="."]
 position = Vector2(1454.7273, 607.9091)
 scale = Vector2(1596.6439, 22.214642)
 
-[node name="moska1" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(1060.7273, 600.27313)
-scale = Vector2(5.872723, 4.756853)
-texture = ExtResource("12_8076y")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonadeAcerto4"]
+position = Vector2(-0.0058076777, -0.39695656)
+scale = Vector2(0.0034188558, -0.23432624)
+shape = SubResource("CircleShape2D_4kx0c")
 
-[node name="moska2" type="Sprite2D" parent="."]
+[node name="moska 4" type="Sprite2D" parent="ZonadeAcerto4"]
 texture_filter = 1
-position = Vector2(1194.7273, 597.27313)
-scale = Vector2(5.316885, 3.942547)
-texture = ExtResource("13_s7o41")
-
-[node name="moska3" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(1324.7273, 596.27313)
-scale = Vector2(5.1879354, 4.2531033)
-texture = ExtResource("14_if8vk")
-
-[node name="moska 4" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(1454.7273, 594.27313)
-scale = Vector2(5.4779997, 4.011011)
+position = Vector2(0, -0.61383057)
+scale = Vector2(0.0034309465, 0.1805571)
 texture = ExtResource("11_8076y")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
