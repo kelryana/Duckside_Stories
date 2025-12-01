@@ -14,6 +14,7 @@ var lifetime: float = 5.0
 var time_alive: float = 0.0
 
 var is_reflected: bool = false
+var hit_shield_count: int
 
 # ============================================================
 # GERENCIAMENTO DE SIMULTANEIDADE (STATIC)
@@ -146,10 +147,13 @@ func _resolve_all_pending_projectiles(player_ref, success: bool, perfect: bool):
 	# Se refletiu pelo menos 1 raio, o escudo sobrecarrega e quebra
 	if success and hit_count > 0:
 		print("🛡️ Escudo sobrecarregou e quebrou!")
+		hit_shield_count -= 1
 		
-		if player_ref and player_ref.has_method("deactivate_shield_buff"):
-			player_ref.deactivate_shield_buff()
+		if hit_shield_count == 0:
 			
+			if player_ref and player_ref.has_method("deactivate_shield_buff"):
+				player_ref.deactivate_shield_buff()
+				
 			# Feedback Visual Opcional: Tocar som de vidro quebrando
 			# if AudioSystem: AudioSystem.play("shield_break")
 # ============================================================

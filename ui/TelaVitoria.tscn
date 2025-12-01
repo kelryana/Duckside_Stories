@@ -12,11 +12,14 @@ content_margin_right = 5.0
 content_margin_bottom = 5.0
 bg_color = Color(0.32318765, 0.6638941, 0.6693384, 1)
 
-[node name="TelaVitoria" type="Node2D"]
+[node name="TelaVitoria" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_ytvlr")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 scale = Vector2(2.7978487, 2.8074632)
@@ -24,6 +27,7 @@ texture = ExtResource("2_8ylw5")
 
 [node name="Label" type="Label" parent="."]
 texture_filter = 1
+layout_mode = 0
 offset_left = 468.99997
 offset_top = 187.00002
 offset_right = 551.0
@@ -38,6 +42,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_outca")
 text = "VITÓRIA"
 
 [node name="BotaoContinuar" type="Button" parent="."]
+layout_mode = 0
 offset_left = 482.0
 offset_top = 307.0
 offset_right = 645.0

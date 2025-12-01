@@ -196,14 +196,18 @@ func _merge_clouds():
 	if player_ref and player_ref.has_method("deactivate_shield_buff"):
 		player_ref.deactivate_shield_buff()
 	
-	if is_instance_valid(angry_cloud):
-		angry_cloud.visible = true
-		angry_cloud.set_physics_process(true)
-		
-		var tw = create_tween()
-		tw.tween_property(angry_cloud, "scale", angry_cloud.scale * 1.2, 0.3)
-		tw.tween_property(angry_cloud, "scale", angry_cloud.scale, 0.2)
+	await get_tree().create_timer(1.0).timeout
 	
+	#if is_instance_valid(angry_cloud):
+	angry_cloud.visible = true
+	angry_cloud.set_physics_process(true)
+		
+
+		
+		#var tw = create_tween()
+		#tw.tween_property(angry_cloud, "scale", angry_cloud.scale * 1.2, 0.3)
+		#tw.tween_property(angry_cloud, "scale", angry_cloud.scale, 0.2)
+	#
 	is_split = false
 
 func _on_mini_cloud_defeated(dead_cloud):

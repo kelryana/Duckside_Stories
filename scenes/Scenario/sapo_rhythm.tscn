@@ -217,3 +217,31 @@ scale = Vector2(1.0762885, 1.3879405)
 
 [node name="GameOver" parent="." instance=ExtResource("18_4kx0c")]
 visible = false
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1068.1818
+offset_top = 510.90906
+offset_right = 1108.1818
+offset_bottom = 533.90906
+text = "W"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 1192.7273
+offset_top = 510.9091
+offset_right = 1232.7273
+offset_bottom = 533.90906
+text = "S"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 1311.8181
+offset_top = 512.72723
+offset_right = 1351.8181
+offset_bottom = 535.72723
+text = "A"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 1442.7272
+offset_top = 513.63635
+offset_right = 1482.7272
+offset_bottom = 536.63635
+text = "D"
