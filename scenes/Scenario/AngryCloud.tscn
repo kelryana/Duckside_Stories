@@ -97,8 +97,7 @@ scale = Vector2(0.2, 0.2)
 [node name="HUD" parent="." instance=ExtResource("1_jym6c")]
 script = null
 
-[node name="GameOver" parent="." node_paths=PackedStringArray("player") instance=ExtResource("5_h2at5")]
-player = NodePath("../Patogonista")
+[node name="GameOver" parent="." instance=ExtResource("5_h2at5")]
 
 [node name="HealthUi" parent="." instance=ExtResource("6_n3goa")]
 

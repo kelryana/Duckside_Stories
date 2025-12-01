@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq6lm81p3tb7v"]
+
+[ext_resource type="Script" uid="uid://dnfh72bxuh4le" path="res://ui/tela_final.gd" id="1_u1w4i"]
+
+[node name="TelaFinal" type="Node2D"]
+script = ExtResource("1_u1w4i")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -1.9999999
+offset_right = 38.0
+offset_bottom = 40.0
+scale = Vector2(32.137604, 18.01939)
+color = Color(0.3391428, 0.43204007, 0.44606858, 1)
+
+[node name="BotaoContinuar" type="Button" parent="."]
+texture_filter = 1
+offset_left = 484.00003
+offset_top = 524.0
+offset_right = 615.0
+offset_bottom = 555.0
+scale = Vector2(2.889677, 2.675403)
+text = "JOGAR DENOVO"
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_left = 428.0
+offset_top = 247.0
+offset_right = 552.0
+offset_bottom = 296.0
+scale = Vector2(3.6758437, 2.9777539)
+text = "OBRIGADA POR 
+JOGAR A DEMO!"
+
+[node name="SAIRjogo" type="Button" parent="."]
+texture_filter = 1
+offset_left = 517.00006
+offset_top = 419.0
+offset_right = 620.00006
+offset_bottom = 450.0
+scale = Vector2(2.889677, 2.675403)
+text = "SAIR
+"
+
+[connection signal="pressed" from="BotaoContinuar" to="." method="_on_botao_continuar_pressed"]
+[connection signal="pressed" from="SAIRjogo" to="." method="_on_sai_rjogo_pressed"]

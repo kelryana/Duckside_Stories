@@ -218,16 +218,26 @@ func _on_mini_cloud_defeated(dead_cloud):
 				cloud.increase_difficulty(1)
 
 func _game_win():
-	print("🏆 VITÓRIA!")
+	print("🏆 VITÓRIA NA NUVEM!")
 	is_split = false
 	enable_split_system = false
 	
+	# Limpa as nuvens e itens
 	for c in mini_clouds: if is_instance_valid(c): c.queue_free()
 	if is_instance_valid(angry_cloud): angry_cloud.queue_free()
 	if is_instance_valid(current_shield_item): current_shield_item.queue_free()
-		
-	if GameManager and GameManager.has_method("level_complete"):
-		GameManager.level_complete()
+	
+	# --- AQUI ESTÁ A MÁGICA ---
+	
+	# 1. Avisa o Global que este minigame está vencido
+	if Global:
+		Global.registrar_vitoria_nuvem()
+	
+	# 2. Pequena pausa dramática (2 segundos)
+	await get_tree().create_timer(2.0).timeout
+	
+	# 3. Vai para a Tela de Vitória (que vai decidir se volta pra Vila ou acaba o jogo)
+	get_tree().change_scene_to_file("res://ui/TelaVitoria.tscn")
 
 # ========================================
 # SISTEMA DE ITENS GENÉRICO

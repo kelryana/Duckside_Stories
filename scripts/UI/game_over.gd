@@ -1,19 +1,22 @@
 extends CanvasLayer
 
 func _ready():
-	visible = false # Começa escondido
-	process_mode = Node.PROCESS_MODE_ALWAYS # IMPORTANTE: Funciona mesmo com o jogo pausado
+	visible = false 
+	process_mode = Node.PROCESS_MODE_ALWAYS 
 
-# Função que alguém de fora vai chamar para mostrar a tela
 func exibir_game_over():
 	visible = true
-	get_tree().paused = true # Congela o jogo
+	get_tree().paused = true 
 
-func _on_restart_pressed():
-	get_tree().paused = false # Despausa
-	get_tree().reload_current_scene() # Reinicia a fase
+# --- AQUI ESTÁ A CORREÇÃO ---
+# O Godot conectou a estas funções com "button" no nome.
+# Movi o código para cá.
 
-func _on_quit_pressed():
-	get_tree().paused = false # Despausa
-	# VERIFICA SE O CAMINHO DO MENU ESTÁ CERTO
-	get_tree().change_scene_to_file("res://scenes/Scenario/main_menu.tscn")
+func _on_restart_button_pressed() -> void:
+	get_tree().paused = false 
+	get_tree().reload_current_scene() 
+
+func _on_quit_button_pressed() -> void:
+	get_tree().paused = false 
+	# Mudei de main_menu.tscn para Main.tscn (que é a sua Vila)
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")

@@ -82,4 +82,4 @@ func _on_fim_da_musica():
 	# Se a música acabou e não atingiu o limite de erros, Ganhou!
 	if erros_atuais < maximo_erros_permitidos and jogo_ativo:
 		Global.registrar_vitoria_sapo()
-		get_tree().change_scene_to_file("res://scenes/UI/TelaVitoria.tscn")
+		get_tree().change_scene_to_file("res://ui/TelaVitoria.tscn")

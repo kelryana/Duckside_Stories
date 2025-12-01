@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://wkoqfeoelule"]
+
+[ext_resource type="Script" uid="uid://c6s6hotl5mbvv" path="res://ui/tela_vitoria.gd" id="1_ytvlr"]
+
+[node name="TelaVitoria" type="Node2D"]
+script = ExtResource("1_ytvlr")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 505.00003
+offset_top = 203.0
+offset_right = 568.0
+offset_bottom = 226.0
+scale = Vector2(3.2270155, 2.8889947)
+text = "VITÓRIA"
+
+[node name="BotaoContinuar" type="Button" parent="."]
+offset_left = 521.0
+offset_top = 296.0
+offset_right = 624.0
+offset_bottom = 327.0
+scale = Vector2(1.745186, 1.7178504)
+text = "CONTINUAR"
