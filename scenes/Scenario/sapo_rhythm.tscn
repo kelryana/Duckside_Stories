@@ -111,19 +111,19 @@ script = ExtResource("2_hqv6m")
 music_player = NodePath("../AudioStreamPlayer")
 
 [node name="SpawnPos1" type="Marker2D" parent="."]
-position = Vector2(755.4545, 11.818182)
+position = Vector2(1072.7273, 37.272728)
 
 [node name="SpawnPos2" type="Marker2D" parent="."]
-position = Vector2(868.18176, 22.727272)
+position = Vector2(1215.4545, 34.545456)
 
 [node name="SpawnPos3" type="Marker2D" parent="."]
-position = Vector2(999.09094, 23.636364)
+position = Vector2(1344.5454, 41.81818)
 
 [node name="SpawnPos4" type="Marker2D" parent="."]
-position = Vector2(1137.2727, 20)
+position = Vector2(1458.1818, 35.454544)
 
 [node name="ZonadeAcerto" type="Area2D" parent="."]
-position = Vector2(1065.4545, 602.7273)
+position = Vector2(1078.1818, 599.0909)
 scale = Vector2(9.329929, 6.520978)
 linear_damp = 0.0
 angular_damp = 0.0
@@ -135,6 +135,7 @@ shape = SubResource("CircleShape2D_if8vk")
 
 [node name="moska1" type="Sprite2D" parent="ZonadeAcerto"]
 texture_filter = 1
+position = Vector2(-1.4615482, -0.1394102)
 scale = Vector2(0.62944996, 0.72946936)
 texture = ExtResource("12_8076y")
 
