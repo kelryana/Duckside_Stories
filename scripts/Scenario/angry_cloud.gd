@@ -3,6 +3,9 @@ extends Node2D
 # ========================================
 # CONFIGURAÇÕES
 # ========================================
+
+@onready var game_over_ui = $GameOver  # Garante que o nó chama-se GameOver na cena
+
 @export_group("Sistema de Divisão")
 @export var angry_cloud: CharacterBody2D
 @export var enable_split_system: bool = true
@@ -75,6 +78,12 @@ func _ready():
 	
 	_setup_parallax_dimensions()
 	_set_parallax_movement(true)
+	
+	# ADICIONA ISTO AQUI:
+	if player_ref:
+		# Conecta o sinal de morte do pato à nossa função de game over
+		if not player_ref.player_died.is_connected(_on_player_died_game_over):
+			player_ref.player_died.connect(_on_player_died_game_over)
 
 func _physics_process(delta):
 	# Debug simplificado (roda a cada 3s aprox)
@@ -486,3 +495,8 @@ func _set_parallax_movement(moving: bool):
 				layer.autoscroll = Vector2(wind_velocity.x, current_scroll.y)
 			else:
 				layer.autoscroll = Vector2.ZERO
+				
+func _on_player_died_game_over():
+	print("Recebi sinal de morte do pato!")
+	if game_over_ui:
+		game_over_ui.exibir_game_over()

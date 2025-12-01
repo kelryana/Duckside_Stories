@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d3sr2xk16wy0d"]
+[gd_scene load_steps=29 format=3 uid="uid://d3sr2xk16wy0d"]
 
 [ext_resource type="Script" uid="uid://b8ghkk3av1rvi" path="res://scenes/Scenario/sapo_rhythm.gd" id="1_i3gl7"]
 [ext_resource type="Script" uid="uid://bi3ly5ca470xg" path="res://scenes/Scenario/conductor.gd" id="2_hqv6m"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b0cf563y12ttd" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c2_processed_by_imagy.png" id="13_s7o41"]
 [ext_resource type="Texture2D" uid="uid://3vc8n4wldmmf" path="res://assets/sprites/Character/moskinhascinzas/Design_sem_nome-removebg-preview_r1_c3_processed_by_imagy.png" id="14_if8vk"]
 [ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="17_if8vk"]
+[ext_resource type="PackedScene" uid="uid://c8bng2e5vajs0" path="res://ui/GameOver.tscn" id="18_4kx0c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_if8vk"]
 
@@ -213,3 +214,6 @@ text = "Casa do Dorminhoco"
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(1233.6364, 325.45453)
 scale = Vector2(1.0762885, 1.3879405)
+
+[node name="GameOver" parent="." instance=ExtResource("18_4kx0c")]
+visible = false

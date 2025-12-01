@@ -69,11 +69,6 @@ func reset_game():
 
 func on_player_death():
 	"""Chamado quando o player morre"""
-	print("GameManager: Player morreu! Reiniciando minigame...")
-	
-	# Aguarda um pouco antes de reiniciar
-	await get_tree().create_timer(2.0).timeout
-	
-	# Reseta estado e volta para o minigame
-	reset_game()
-	change_to_cloud_world()
+	print("GameManager: Player morreu! A aguardar ação da UI...")
+	# REMOVEMOS O RESTO. Quem vai reiniciar o jogo é o botão da TELA DE GAME OVER.
+	# Não chames reset_game() nem change_to_cloud_world() aqui automaticamente.
