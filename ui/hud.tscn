@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2m7u4l15k06d"]
 
-[ext_resource type="Script" uid="uid://bm7vr2v2ageae" path="res://hud.gd" id="1_64ctp"]
-[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://Minecraft.ttf" id="2_8sq4i"]
+[ext_resource type="Script" uid="uid://bm7vr2v2ageae" path="res://scripts/UI/hud.gd" id="1_64ctp"]
+[ext_resource type="FontFile" uid="uid://bs613ude8vtgu" path="res://assets/fonts/Minecraft.ttf" id="2_8sq4i"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_64ctp")
@@ -35,61 +35,5 @@ text = "AO VIVO"
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true
-
-[node name="MedidorAud" type="MarginContainer" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -86.00006
-offset_right = 177.0
-offset_bottom = -46.00006
-grow_vertical = 0
-scale = Vector2(1.4646467, 1.1266712)
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MedidorAud"]
-custom_minimum_size = Vector2(10, 10)
-layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="MedidorAud/HBoxContainer"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-color = Color(0.5720138, 0.105644055, 0.743747, 1)
-
-[node name="Label" type="Label" parent="MedidorAud/HBoxContainer/ColorRect"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_fonts/font = ExtResource("2_8sq4i")
-text = "Medidor de Audiencia"
-vertical_alignment = 2
-
-[node name="Barra" type="MarginContainer" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -1.0
-offset_top = -53.0
-offset_right = 175.0
-offset_bottom = -13.0
-grow_vertical = 0
-scale = Vector2(1.4646467, 1.1266712)
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Barra"]
-custom_minimum_size = Vector2(10, 10)
-layout_mode = 2
-
-[node name="ColorRect" type="ColorRect" parent="Barra/HBoxContainer"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-color = Color(0.9653917, 0.9122152, 0.9944522, 1)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
